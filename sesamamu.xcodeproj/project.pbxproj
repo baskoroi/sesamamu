@@ -29,6 +29,8 @@
 		ADC6347124CE838900B1D624 /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC6345E24CE838800B1D624 /* Montserrat-SemiBoldItalic.ttf */; };
 		ADC6347224CE838900B1D624 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC6345F24CE838800B1D624 /* Montserrat-Thin.ttf */; };
 		ADC6347424CE838900B1D624 /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC6346124CE838900B1D624 /* Montserrat-ThinItalic.ttf */; };
+		ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC6347624CE850B00B1D624 /* RoomPlayer.swift */; };
+		ADC6347924CE851D00B1D624 /* FinalStage-1.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC6347824CE851D00B1D624 /* FinalStage-1.swift */; };
 		CCA00F5A24C6DD3C00FCD3C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA00F5924C6DD3C00FCD3C9 /* AppDelegate.swift */; };
 		CCA00F5C24C6DD3C00FCD3C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA00F5B24C6DD3C00FCD3C9 /* SceneDelegate.swift */; };
 		CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA00F5D24C6DD3C00FCD3C9 /* ContentView.swift */; };
@@ -79,6 +81,8 @@
 		ADC6345E24CE838800B1D624 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		ADC6345F24CE838800B1D624 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 		ADC6346124CE838900B1D624 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
+		ADC6347624CE850B00B1D624 /* RoomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPlayer.swift; sourceTree = "<group>"; };
+		ADC6347824CE851D00B1D624 /* FinalStage-1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FinalStage-1.swift"; sourceTree = "<group>"; };
 		CCA00F5624C6DD3C00FCD3C9 /* sesamamu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sesamamu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA00F5924C6DD3C00FCD3C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CCA00F5B24C6DD3C00FCD3C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -177,6 +181,8 @@
 				CCA00F6724C6DD3D00FCD3C9 /* Info.plist */,
 				CCA00F6124C6DD3D00FCD3C9 /* Preview Content */,
 				5384FF8C24CE745400091F70 /* HomeView.swift */,
+				ADC6347824CE851D00B1D624 /* FinalStage-1.swift */,
+				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
 				5384FF8E24CE747400091F70 /* AvatarView.swift */,
 				5384FF9024CE751200091F70 /* CustomTextField.swift */,
 				5384FF9224CE754800091F70 /* KeyboardResponder.swift */,
@@ -359,11 +365,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADC6347924CE851D00B1D624 /* FinalStage-1.swift in Sources */,
 				CCA00F5A24C6DD3C00FCD3C9 /* AppDelegate.swift in Sources */,
 				5384FF8D24CE745400091F70 /* HomeView.swift in Sources */,
 				5384FF9324CE754800091F70 /* KeyboardResponder.swift in Sources */,
 				5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */,
 				CCA00F5C24C6DD3C00FCD3C9 /* SceneDelegate.swift in Sources */,
+				ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */,
 				5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */,
 				CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */,
 			);
