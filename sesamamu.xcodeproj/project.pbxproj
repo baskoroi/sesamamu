@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28C4789624CE89200026FE0E /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789524CE89200026FE0E /* Question.swift */; };
+		28C4789824CE89680026FE0E /* Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789724CE89680026FE0E /* Explanation.swift */; };
+		28C4789A24CE89810026FE0E /* QuestionFinal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789924CE89810026FE0E /* QuestionFinal.swift */; };
+		28C4789C24CE89900026FE0E /* QuestionFinalVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789B24CE89900026FE0E /* QuestionFinalVote.swift */; };
+		28C4789E24CE89B90026FE0E /* TextViewMultiLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789D24CE89B90026FE0E /* TextViewMultiLine.swift */; };
 		5384FF8D24CE745400091F70 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8C24CE745400091F70 /* HomeView.swift */; };
 		5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8E24CE747400091F70 /* AvatarView.swift */; };
 		5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF9024CE751200091F70 /* CustomTextField.swift */; };
@@ -59,6 +64,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28C4789524CE89200026FE0E /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		28C4789724CE89680026FE0E /* Explanation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explanation.swift; sourceTree = "<group>"; };
+		28C4789924CE89810026FE0E /* QuestionFinal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFinal.swift; sourceTree = "<group>"; };
+		28C4789B24CE89900026FE0E /* QuestionFinalVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFinalVote.swift; sourceTree = "<group>"; };
+		28C4789D24CE89B90026FE0E /* TextViewMultiLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewMultiLine.swift; sourceTree = "<group>"; };
 		5384FF8C24CE745400091F70 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5384FF8E24CE747400091F70 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		5384FF9024CE751200091F70 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -124,6 +134,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28C4789F24CE8A080026FE0E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5384FF8C24CE745400091F70 /* HomeView.swift */,
+				5384FF8E24CE747400091F70 /* AvatarView.swift */,
+				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
+				28C4789724CE89680026FE0E /* Explanation.swift */,
+				28C4789524CE89200026FE0E /* Question.swift */,
+				28C4789924CE89810026FE0E /* QuestionFinal.swift */,
+				28C4789B24CE89900026FE0E /* QuestionFinalVote.swift */,
+				ADC6347824CE851D00B1D624 /* FinalStage-1.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		28C478A024CE8A1E0026FE0E /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				28C4789D24CE89B90026FE0E /* TextViewMultiLine.swift */,
+				5384FF9024CE751200091F70 /* CustomTextField.swift */,
+				5384FF9224CE754800091F70 /* KeyboardResponder.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		ADC6347524CE839400B1D624 /* Montserrat-Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,12 +215,8 @@
 				CCA00F6424C6DD3D00FCD3C9 /* LaunchScreen.storyboard */,
 				CCA00F6724C6DD3D00FCD3C9 /* Info.plist */,
 				CCA00F6124C6DD3D00FCD3C9 /* Preview Content */,
-				5384FF8C24CE745400091F70 /* HomeView.swift */,
-				ADC6347824CE851D00B1D624 /* FinalStage-1.swift */,
-				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
-				5384FF8E24CE747400091F70 /* AvatarView.swift */,
-				5384FF9024CE751200091F70 /* CustomTextField.swift */,
-				5384FF9224CE754800091F70 /* KeyboardResponder.swift */,
+				28C4789F24CE8A080026FE0E /* View */,
+				28C478A024CE8A1E0026FE0E /* Helper */,
 			);
 			path = sesamamu;
 			sourceTree = "<group>";
@@ -367,10 +398,15 @@
 			files = (
 				ADC6347924CE851D00B1D624 /* FinalStage-1.swift in Sources */,
 				CCA00F5A24C6DD3C00FCD3C9 /* AppDelegate.swift in Sources */,
+				28C4789C24CE89900026FE0E /* QuestionFinalVote.swift in Sources */,
+				28C4789E24CE89B90026FE0E /* TextViewMultiLine.swift in Sources */,
 				5384FF8D24CE745400091F70 /* HomeView.swift in Sources */,
 				5384FF9324CE754800091F70 /* KeyboardResponder.swift in Sources */,
 				5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */,
+				28C4789624CE89200026FE0E /* Question.swift in Sources */,
+				28C4789824CE89680026FE0E /* Explanation.swift in Sources */,
 				CCA00F5C24C6DD3C00FCD3C9 /* SceneDelegate.swift in Sources */,
+				28C4789A24CE89810026FE0E /* QuestionFinal.swift in Sources */,
 				ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */,
 				5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */,
 				CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */,
@@ -540,7 +576,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"sesamamu/Preview Content\"";
-				DEVELOPMENT_TEAM = MX956RXSX2;
+				DEVELOPMENT_TEAM = 8F28SDPW6X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = sesamamu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -561,7 +597,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"sesamamu/Preview Content\"";
-				DEVELOPMENT_TEAM = MX956RXSX2;
+				DEVELOPMENT_TEAM = 8F28SDPW6X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = sesamamu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
