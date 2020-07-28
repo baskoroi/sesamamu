@@ -13,7 +13,9 @@ struct QuestionFinalVote: View {
     var finalRoundQuestionVote = ["Bagian tubuh favoritemu?", "Kalo besok kiamat apa yang bakal kamu lakuin hari ini?", "Lo pake kacamata atau ga?", "Sebutin ciri-ciri lo yang paling unik!!", "Siapa pirs lopemu?", "Kalau udah gede mau jadi apa?"]
     
     var chooseQ:[String] = ["hello"]
-    @State var selectedIndex:Int = -1
+    @State var selectedIndex = [Int]()
+    
+    @State private var tooMuch = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -28,7 +30,7 @@ struct QuestionFinalVote: View {
                             ZStack{
                                 Rectangle()
                                     .frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height*0.12)
-                                    .foregroundColor(self.selectedIndex == index ? .yellow : .white)
+                                    .foregroundColor(self.selectedIndex.contains(index) ? .yellow : .white)
                                     .cornerRadius(12)
                                 VStack{
                                     Text("Pertanyaan \(index+1)")
@@ -39,8 +41,20 @@ struct QuestionFinalVote: View {
                                         .multilineTextAlignment(.center)
                                 }.padding(.horizontal, 40)
                             }.onTapGesture {
-                                print("Pilih \(index)")
-                                self.selectedIndex = index
+                                if self.selectedIndex.contains(index){
+                                    if let pos = self.selectedIndex.firstIndex(of: index) {
+                                        self.selectedIndex.remove(at: pos)
+                                    }
+                                } else {
+                                    if self.selectedIndex.count > 2 {
+                                        self.tooMuch = true
+                                    } else {
+                                        self.selectedIndex.append(index)
+                                        print(self.selectedIndex)
+                                    }
+                                }
+                            }.alert(isPresented: self.$tooMuch) {
+                                Alert(title: Text("Kebanyakan kakak"), message: Text("Pilih 3 aja ya, jangan serakah"), dismissButton: .default(Text("Siaap!")))
                             }.padding(.vertical, 5)
                         }.listRowBackground(Color.blue)
                     }
