@@ -36,6 +36,10 @@
 		ADC6347424CE838900B1D624 /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC6346124CE838900B1D624 /* Montserrat-ThinItalic.ttf */; };
 		ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC6347624CE850B00B1D624 /* RoomPlayer.swift */; };
 		ADC6347924CE851D00B1D624 /* FinalStage-1.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC6347824CE851D00B1D624 /* FinalStage-1.swift */; };
+		CC81105224D12C4000682336 /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC81105124D12C4000682336 /* AnswerCell.swift */; };
+		CC81105524D12C9200682336 /* AnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC81105424D12C9200682336 /* AnswerViewModel.swift */; };
+		CC81105724D12CE000682336 /* AllAnswersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC81105624D12CE000682336 /* AllAnswersView.swift */; };
+		CC81105924D12DDC00682336 /* FontSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC81105824D12DDC00682336 /* FontSelector.swift */; };
 		CCA00F5A24C6DD3C00FCD3C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA00F5924C6DD3C00FCD3C9 /* AppDelegate.swift */; };
 		CCA00F5C24C6DD3C00FCD3C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA00F5B24C6DD3C00FCD3C9 /* SceneDelegate.swift */; };
 		CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA00F5D24C6DD3C00FCD3C9 /* ContentView.swift */; };
@@ -93,6 +97,10 @@
 		ADC6346124CE838900B1D624 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
 		ADC6347624CE850B00B1D624 /* RoomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPlayer.swift; sourceTree = "<group>"; };
 		ADC6347824CE851D00B1D624 /* FinalStage-1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FinalStage-1.swift"; sourceTree = "<group>"; };
+		CC81105124D12C4000682336 /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
+		CC81105424D12C9200682336 /* AnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewModel.swift; sourceTree = "<group>"; };
+		CC81105624D12CE000682336 /* AllAnswersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAnswersView.swift; sourceTree = "<group>"; };
+		CC81105824D12DDC00682336 /* FontSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSelector.swift; sourceTree = "<group>"; };
 		CCA00F5624C6DD3C00FCD3C9 /* sesamamu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sesamamu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA00F5924C6DD3C00FCD3C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CCA00F5B24C6DD3C00FCD3C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +145,7 @@
 		28C4789F24CE8A080026FE0E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CC81105024D12BCA00682336 /* Components */,
 				5384FF8C24CE745400091F70 /* HomeView.swift */,
 				5384FF8E24CE747400091F70 /* AvatarView.swift */,
 				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
@@ -145,6 +154,7 @@
 				28C4789924CE89810026FE0E /* QuestionFinal.swift */,
 				28C4789B24CE89900026FE0E /* QuestionFinalVote.swift */,
 				ADC6347824CE851D00B1D624 /* FinalStage-1.swift */,
+				CC81105624D12CE000682336 /* AllAnswersView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -159,7 +169,7 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		ADC6347524CE839400B1D624 /* Montserrat-Font */ = {
+		ADC6347524CE839400B1D624 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
 				ADC6345C24CE838800B1D624 /* Montserrat-Black.ttf */,
@@ -180,14 +190,30 @@
 				ADC6345E24CE838800B1D624 /* Montserrat-SemiBoldItalic.ttf */,
 				ADC6345F24CE838800B1D624 /* Montserrat-Thin.ttf */,
 				ADC6346124CE838900B1D624 /* Montserrat-ThinItalic.ttf */,
+				CC81105824D12DDC00682336 /* FontSelector.swift */,
 			);
-			path = "Montserrat-Font";
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		CC81105024D12BCA00682336 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				CC81105124D12C4000682336 /* AnswerCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		CC81105324D12C8100682336 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CC81105424D12C9200682336 /* AnswerViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		CCA00F4D24C6DD3C00FCD3C9 = {
 			isa = PBXGroup;
 			children = (
-				ADC6347524CE839400B1D624 /* Montserrat-Font */,
 				CCA00F5824C6DD3C00FCD3C9 /* sesamamu */,
 				CCA00F6F24C6DD3D00FCD3C9 /* sesamamuTests */,
 				CCA00F7A24C6DD3D00FCD3C9 /* sesamamuUITests */,
@@ -212,9 +238,11 @@
 				CCA00F5B24C6DD3C00FCD3C9 /* SceneDelegate.swift */,
 				CCA00F5D24C6DD3C00FCD3C9 /* ContentView.swift */,
 				CCA00F5F24C6DD3D00FCD3C9 /* Assets.xcassets */,
+				ADC6347524CE839400B1D624 /* Fonts */,
 				CCA00F6424C6DD3D00FCD3C9 /* LaunchScreen.storyboard */,
 				CCA00F6724C6DD3D00FCD3C9 /* Info.plist */,
 				CCA00F6124C6DD3D00FCD3C9 /* Preview Content */,
+				CC81105324D12C8100682336 /* ViewModels */,
 				28C4789F24CE8A080026FE0E /* View */,
 				28C478A024CE8A1E0026FE0E /* Helper */,
 			);
@@ -405,10 +433,14 @@
 				5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */,
 				28C4789624CE89200026FE0E /* Question.swift in Sources */,
 				28C4789824CE89680026FE0E /* Explanation.swift in Sources */,
+				CC81105224D12C4000682336 /* AnswerCell.swift in Sources */,
 				CCA00F5C24C6DD3C00FCD3C9 /* SceneDelegate.swift in Sources */,
+				CC81105924D12DDC00682336 /* FontSelector.swift in Sources */,
 				28C4789A24CE89810026FE0E /* QuestionFinal.swift in Sources */,
+				CC81105524D12C9200682336 /* AnswerViewModel.swift in Sources */,
 				ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */,
 				5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */,
+				CC81105724D12CE000682336 /* AllAnswersView.swift in Sources */,
 				CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
