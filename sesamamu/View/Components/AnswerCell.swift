@@ -3,7 +3,7 @@
 //  sesamamu
 //
 //  Created by Baskoro Indrayana on 07/28/20.
-//  Copyright © 2020 Baskoro Indrayana. All rights reserved.
+//  Copyright © 2020 Baskoro Indrayana. All rights  reserved.
 //
 
 import SwiftUI
@@ -16,8 +16,9 @@ struct AnswerCell: View {
     let messageFont  = FontSelector.AllAnswers.messageFont
     
     public var body: some View {
-        if viewModel.isMyOwn {
-            HStack {
+        
+        HStack {
+            if viewModel.isMyOwn {
                 Spacer()
                 VStack(alignment: .trailing) {
                     Text("(you) \(viewModel.nickname!)").font(nicknameFont).bold()
@@ -37,9 +38,7 @@ struct AnswerCell: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 42, height: 42, alignment: .center)
                 }
-            }.padding(.horizontal, 16)
-        } else {
-            HStack {
+            } else {
                 ZStack(alignment: Alignment(horizontal: .center, vertical: .center)) {
                     Image("avatarBackground")
                         .resizable()
@@ -59,8 +58,8 @@ struct AnswerCell: View {
                         .foregroundColor(viewModel.foregroundColor)
                 }
                 Spacer()
-            }.padding(.horizontal, 16)
-        }
+            }
+        }.padding(.horizontal, 16)
     }
 }
 
