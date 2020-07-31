@@ -15,9 +15,7 @@ struct QuestionFinal: View {
     @State var userInput:String = ""
     
     @ObservedObject var textCount = TextCount()
-    
-    @State var offSetValueForKeyboard: CGFloat = 0
-    
+        
     var body: some View {
         GeometryReader { geometry in
             ZStack{
@@ -75,12 +73,13 @@ struct QuestionFinal: View {
                                 .font(.system(size: 15))
                                 .foregroundColor(.red)
                         }
-                    }.onAppear(perform: self.pushForKeyboard)
-                        .offset(y: -self.offSetValueForKeyboard*0.5)
+                    }.keyboardAdaptive()
                         .animation(.spring(response: 0.7, dampingFraction: 0.5, blendDuration: 1))
                     
                     Button(action: {
                         print("Kirim tapped")
+                        //MARK: - Save data to DB for vote
+                        print("Final text: \(self.userInput)")
                     }) {
                         Image("buatcamp")
                             .renderingMode(.original)
@@ -91,15 +90,6 @@ struct QuestionFinal: View {
                     }
                 }.frame(height: UIScreen.main.bounds.height*0.9)
             }.onTapGesture {self.hideKeyboard()}
-        }
-    }
-    func pushForKeyboard() {
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { key in
-            let value = key.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-            self.offSetValueForKeyboard = value.height
-        }
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { key in
-            self.offSetValueForKeyboard = 0
         }
     }
 }
