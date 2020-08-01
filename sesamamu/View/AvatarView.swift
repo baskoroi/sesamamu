@@ -17,26 +17,30 @@ struct AvatarView: View {
     
     @State var host: Bool
     
-    @ObservedObject var namaPanggung = TextBindingManager(limit: 20)
-    @ObservedObject var namaAsli = TextBindingManager(limit: 20)
+    
+    @State var namaPanggung = ""
+    @State var namaAsli = ""
+    
+//    @ObservedObject var namaPanggung = "TextBindingManager(limit: 20)"
+//    @ObservedObject var namaAsli = TextBindingManager(limit: 20)
+    
+    @ObservedObject var keyboardResponder = KeyboardResponder()
     
     let lightBlue = Color(red: 177.0/255.0, green: 224.0/255.0, blue: 232.0/255.0, opacity: 1.0)
     
     @State var avatarList: [String] = ["binatang-1", "binatang-2", "binatang-3", "binatang-4", "binatang-5", "binatang-6", "binatang-7", "binatang-8", "binatang-9", "binatang-10", "binatang-11", "binatang-12", "binatang-13", "binatang-14", "binatang-15", "binatang-16"]
     
-    @ObservedObject var keyboard = KeyboardResponder()
-    
     var body: some View {
-        
-        GeometryReader { geometry in
+//        GeometryReader { geometry in
             ZStack(alignment: .center) {
                 Image("background2")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
-                    .frame(width: geometry.size.width)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//                .frame(width: geometry.size.width)
                 
-                VStack{
+                VStack(alignment: .center){
                     Text("Pilih karakter kamu!")
                         .foregroundColor(.white)
                         .font(.system(size: 20, weight: .bold, design: .default))
@@ -60,7 +64,7 @@ struct AvatarView: View {
                                 .padding(.leading, 30)
                         }
                         Spacer()
-                        ZStack{
+                        ZStack {
                             
                             Image("avatarBackground")
                                 .renderingMode(.original)
@@ -74,7 +78,6 @@ struct AvatarView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 220, height: 220)
                         }
-                        
                         
                         Spacer()
                         Button(action: {
@@ -112,20 +115,19 @@ struct AvatarView: View {
                         .frame(width: 250)
                         .padding(.top, 20)
                     
-                    TextField("Nama Panggung", text: self.$namaPanggung.text)
+                    TextField("Nama Panggung", text: self.$namaPanggung)
                         .padding()
                         .frame(width: 300, height: 50)
                         .foregroundColor(.black)
                         .background(self.lightBlue)
                         .cornerRadius(12)
-                    
                     Image("namaAsli")
                         .renderingMode(.original)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 140)
                     
-                    TextField("Nama Asli", text: self.$namaAsli.text)
+                    TextField("Nama Asli", text: self.$namaAsli)
                         .padding()
                         .frame(width: 300, height: 50)
                         .foregroundColor(.black)
@@ -190,29 +192,16 @@ struct AvatarView: View {
                         }
                     }
                     
-                }.padding(.top, 100)
-                    
-                //.keyboardAdaptive()
-                    .padding(.top, -100)
-                    .offset(x: 0, y: -self.keyboard.currentHeight)
-                    .animation(.easeOut(duration: 0.25))
-                //                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                //                    .offset(y: -self.value)
-                //                    .animation(.spring())
-                //                    .onAppear{
-                //                        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti) in
-                //                            let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-                //                            let height = value.height
-                //                            self.value = height
-                //                        }
-                //
-                //                        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
-                //
-                //                            self.value = 0
-                //                        }
-                //                }
-            }
+                }
+                .animation(.spring())
+                .padding(.top, -100)
+        }.KeyboardAwarePadding()
+                .animation(.spring())
+            .onTapGesture {
+            self.hideKeyboard()
         }
+//        }
+        
     }
     
 }
