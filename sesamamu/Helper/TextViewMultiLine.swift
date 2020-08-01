@@ -14,7 +14,7 @@ struct MultilineTextField: View {
     @State private var viewHeight: CGFloat = 40 //start with one line
     @State private var shouldShowPlaceholder = false
     @Binding var text: String
-    
+        
     //Char Limit
     var charTextViewLimit:Int
     
@@ -58,6 +58,9 @@ private struct UITextViewWrapper: UIViewRepresentable {
     @Binding var calculatedHeight: CGFloat
     var charLimitInput: Int
     var onDone: (() -> Void)?
+    
+    //Keyboard
+    @State var offSetValueForKeyboard = CGFloat()
         
     func makeUIView(context: UIViewRepresentableContext<UITextViewWrapper>) -> UITextView {
         let textField = UITextView()

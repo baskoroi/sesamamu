@@ -12,7 +12,7 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var store = GlobalStore()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         let contentView = HomeView()
@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = UIHostingController(rootView: contentView)
+        window.rootViewController = UIHostingController(rootView: contentView.environmentObject(store))
         self.window = window
         
         window.makeKeyAndVisible()
