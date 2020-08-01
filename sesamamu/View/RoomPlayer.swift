@@ -23,7 +23,7 @@ struct RoomPlayer: View {
     @State var playerColumn:Int = 5
     @State var isRoomEmpty:Bool = false
     @State var orangeBackground = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
-    
+    @State var isHost = true
     
     var body: some View {
         GeometryReader { geometry in
@@ -67,7 +67,7 @@ struct RoomPlayer: View {
                     }
                     .frame(width:UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.65)
                     
-                    if(isHost){
+                    if(self.isHost){
                         Button(action: {
                             print("buat camp tapped")
                         }) {
@@ -106,11 +106,11 @@ struct PlayersCollectionView: View {
     @State var orangeBox = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
     
     let players:[PlayersAvailable] = [
-        PlayersAvailable(avatarURL: "Tiger", isHost:false, realName :"baskoro",stageName: "Wadidaw Boi"),
-        PlayersAvailable(avatarURL: "BullDog", isHost:true, realName :"markus",stageName: "Boombayah"),
-        PlayersAvailable(avatarURL: "Dog", isHost:false, realName :"christian",stageName: "Aku Padamu"),
-        PlayersAvailable(avatarURL: "Pinguin", isHost:false, realName :"alfred",stageName: "Lee Tae Oh"),
-        PlayersAvailable(avatarURL: "Rabbit", isHost:false, realName :"davia",stageName: "Lisa BlackPink"),
+        PlayersAvailable(avatarURL: "binatang-1", isHost:false, realName :"baskoro",stageName: "Wadidaw Boi"),
+        PlayersAvailable(avatarURL: "binatang-2", isHost:true, realName :"markus",stageName: "Boombayah"),
+        PlayersAvailable(avatarURL: "binatang-3", isHost:false, realName :"christian",stageName: "Aku Padamu"),
+        PlayersAvailable(avatarURL: "binatang-4", isHost:false, realName :"alfred",stageName: "Lee Tae Oh"),
+        PlayersAvailable(avatarURL: "binatang-5", isHost:false, realName :"davia",stageName: "Lisa BlackPink"),
         PlayersAvailable(avatarURL: "", isHost: false, realName :"",stageName: ""),
         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
