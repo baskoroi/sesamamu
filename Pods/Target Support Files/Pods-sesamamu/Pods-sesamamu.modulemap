@@ -1,0 +1,6 @@
+framework module Pods_sesamamu {
+  umbrella header "Pods-sesamamu-umbrella.h"
+
+  export *
+  module * { export * }
+}
