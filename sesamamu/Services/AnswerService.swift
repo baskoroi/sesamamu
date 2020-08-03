@@ -11,17 +11,29 @@ import FirebaseDatabase
 
 class AnswerService: ObservableObject {
     
-    var chatRef = Database.database().reference().child("testMessages")
+    var chatRef = Database.database().reference().child("answers")
     var chatHandle: UInt?
     
-    func observeIncomingAnswers(completion: @escaping (AnswerViewModel?) -> Void) {
+    func observeIncomingAnswers(for question: QuestionModel,
+                                at campID: String,
+                                completion: @escaping (AnswerViewModel?) -> Void) {
         
-        chatHandle = chatRef.observe(.childAdded, with: { (message) in
-            if let value = message.value as? [String: Any] {
-                let viewModel = AnswerViewModel(nickname: value["nickname"] as? String,
-                                                message: value["message"] as? String,
-                                                avatarURL: value["avatarURL"] as? String,
-                                                timestamp: Date().timeIntervalSince1970)
+        let ref = getDBReferenceForAnswer(question, at: campID)
+        
+        chatHandle = ref.observe(.childAdded, with: { (answer) in
+            if let value = answer.value as? [String: Any],
+                let memberID = value["member"] as? String,
+                let stageName = memberID.components(separatedBy: "->").last,
+                let answerText = value["answer"] as? String,
+                let avatarURL = value["avatarURL"] as? String,
+                let timestamp = value["timestamp"] as? TimeInterval {
+
+                let viewModel = AnswerViewModel(stageName: stageName,
+                                                answerText: answerText,
+                                                isMyOwn: false,
+                                                avatarURL: avatarURL,
+                                                timestamp: timestamp)
+                
                 completion(viewModel)
             } else {
                 completion(nil)
@@ -31,20 +43,26 @@ class AnswerService: ObservableObject {
         }
     }
     
-    func sendAnswer(for question: QuestionModel, at campID: String, from viewModel: AnswerViewModel) {
-        guard let nickname = viewModel.nickname,
-            let avatarURL = viewModel.avatarURL,
-            let message = viewModel.message else { return }
+    func sendAnswer(for question: QuestionModel,
+                    at campID: String,
+                    from viewModel: AnswerViewModel) {
+        guard let stageName = viewModel.stageName,
+            let answerText = viewModel.answerText,
+            let avatarURL = viewModel.avatarURL else { return }
         
-        let ref = self.chatRef.child(campID).child("round\(question.round)").child(question.text)
+        let ref = getDBReferenceForAnswer(question, at: campID)
         
         // timestamp is only set as per setValue function call below
         ref.childByAutoId().setValue([
-            "nickname": nickname,
+            "member": "\(campID)->\(stageName)",
+            "answer": answerText,
             "avatarURL": avatarURL,
-            "message": message,
-            "timestamp": Date().timeIntervalSince1970,
+            "timestamp": Date().timeIntervalSince1970
         ])
+    }
+    
+    private func getDBReferenceForAnswer(_ question: QuestionModel, at campID: String) -> DatabaseReference {
+        return chatRef.child(campID).child("round\(question.round)").child(question.text)
     }
     
     deinit {

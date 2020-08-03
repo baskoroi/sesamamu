@@ -42,7 +42,9 @@ struct AllAnswersView: View {
             if isHost {
                 // TODO work on continuing to next question view
                 // open this func's definition to do it
-                HostToContinueButton()
+                HostToContinueButton(buttonAction: {
+                    // TODO work on this part to navigate to next question
+                })
             } else {
                 Text("Menunggu pemain lain untuk selesai menjawab... 😋")
                     .font(Font.custom("Montserrat-Italic", size: 18))
@@ -57,7 +59,7 @@ struct AllAnswersView: View {
                         .aspectRatio(contentMode: .fill)
                         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/))
         .onAppear {
-            self.answerService.observeIncomingAnswers {
+            self.answerService.observeIncomingAnswers(for: QuestionModel(round: 1, text: "What's the wifi pass?"), at: "CAMPRET") {
                 answerValue in
                 
                 DispatchQueue.main.async {
@@ -85,8 +87,10 @@ struct FullScreen: ViewModifier {
 struct AllAnswersView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AllAnswersView(isHost: true)
-            AllAnswersView(isHost: false)
+            AllAnswersView(isHost: true).previewDevice("iPhone 11")
+            AllAnswersView(isHost: false).previewDevice("iPhone 11")
+            AllAnswersView(isHost: true).previewDevice("iPhone 8")
+            AllAnswersView(isHost: false).previewDevice("iPhone 8")
         }
     }
 }
@@ -121,11 +125,10 @@ struct QuotedQuestionView: View {
 }
 
 struct HostToContinueButton: View {
+    var buttonAction: () -> Void
+    
     var body: some View {
-        Button(action: {
-            // TODO work on this part to navigate to next question
-            print("Move to next question... No DB access needed...")
-        }) {
+        Button(action: buttonAction) {
             Text("Lanjut")
                 .font(Font.custom("Montserrat-Bold", size: 28))
                 .foregroundColor(.yellow)
