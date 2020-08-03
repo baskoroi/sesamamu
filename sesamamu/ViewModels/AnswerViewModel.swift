@@ -16,6 +16,6 @@ struct AnswerViewModel: Hashable {
     var isMyOwn: Bool = false
     var avatarURL: String?
     var timestamp: TimeInterval
-    var foregroundColor: Color = .white
-    var backgroundColor: Color = .blue
+    var foregroundColor: Color = .black
+    var backgroundColor: Color = .white
 }
