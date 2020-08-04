@@ -15,6 +15,7 @@ struct HomeView: View {
     @State var value : CGFloat = 0
     
     @State var host = false
+    @State var isRoomIDValid = false
     
     @State private var keyboardHeight: CGFloat = 0
     
@@ -76,7 +77,7 @@ struct HomeView: View {
                                             self.value = 0
                                             self.isRoomIDFieldActive = false
                                         }
-                                    }
+                                }
                                 
                                 NavigationLink(destination: AvatarView(host: false), isActive: self.$isNavigationActive){
                                     Image("rightButton")
@@ -84,9 +85,13 @@ struct HomeView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 30)
-                                        
+                                    
+                                    
                                 }.navigationBarBackButtonHidden(false)
-                                .navigationBarHidden(false)
+                                    .navigationBarHidden(false)
+                                    .simultaneousGesture(TapGesture().onEnded({
+                                        print("pindah ke avatar view")
+                                    }))
                                 
                             }.offset(y: self.isRoomIDFieldActive ? -200:0)
                             
@@ -113,12 +118,10 @@ struct HomeView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 250, alignment: .center)
                                     .padding(.bottom, UIScreen.main.bounds.height - (UIScreen.main.bounds.height-175))
-                            }.simultaneousGesture(TapGesture().onEnded{
-                                
-                            })
+                            }
                         }
                     }.KeyboardAwarePadding()
-                    .animation(.spring())
+                        .animation(.spring())
                     
                     //.animation(.spring())
                     //.offset(y: -self.keyboardResponder.currentHeight*0.9)
@@ -130,8 +133,8 @@ struct HomeView: View {
             }.onAppear {
                 print("MUNCUL LAGI")
             }
-        
-            }
+            
+        }
         .navigationBarTitle("")
         .navigationBarHidden(isNavigationActive)
     }
@@ -139,7 +142,7 @@ struct HomeView: View {
 
 struct KeyboardAwareModifier: ViewModifier {
     @State private var keyboardHeight: CGFloat = 0
-
+    
     private var keyboardHeightPublisher: AnyPublisher<CGFloat, Never> {
         Publishers.Merge(
             NotificationCenter.default
@@ -149,9 +152,9 @@ struct KeyboardAwareModifier: ViewModifier {
             NotificationCenter.default
                 .publisher(for: UIResponder.keyboardWillHideNotification)
                 .map { _ in CGFloat(0) }
-       ).eraseToAnyPublisher()
+        ).eraseToAnyPublisher()
     }
-
+    
     func body(content: Content) -> some View {
         content
             .padding(.bottom, keyboardHeight)
