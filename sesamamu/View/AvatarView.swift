@@ -16,191 +16,234 @@ struct AvatarView: View {
     @State private var value : CGFloat = 0
     
     @State var host: Bool
-    
+    @State private var randomNumber = ""
     
     @State var namaPanggung = ""
     @State var namaAsli = ""
     
-//    @ObservedObject var namaPanggung = "TextBindingManager(limit: 20)"
-//    @ObservedObject var namaAsli = TextBindingManager(limit: 20)
-    
     @ObservedObject var keyboardResponder = KeyboardResponder()
+    @ObservedObject var playerService = PlayerService()
+    @ObservedObject var campService = CampService()
+    
+    @State var isRoomCreated = false
     
     let lightBlue = Color(red: 177.0/255.0, green: 224.0/255.0, blue: 232.0/255.0, opacity: 1.0)
+    
+    // MARK: - store avatar ke database
     
     @State var avatarList: [String] = ["binatang-1", "binatang-2", "binatang-3", "binatang-4", "binatang-5", "binatang-6", "binatang-7", "binatang-8", "binatang-9", "binatang-10", "binatang-11", "binatang-12", "binatang-13", "binatang-14", "binatang-15", "binatang-16"]
     
     var body: some View {
-//        GeometryReader { geometry in
-            ZStack(alignment: .center) {
-                Image("background2")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .edgesIgnoringSafeArea(.all)
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-//                .frame(width: geometry.size.width)
-                
-                VStack(alignment: .center){
-                    Text("Pilih karakter kamu!")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20, weight: .bold, design: .default))
-                    HStack{
-                        Button(action: {
-                            
-                            if self.counter == 1 {
-                                self.counter = 16
-                            } else{
-                                self.counter -= 1
-                            }
-                            
-                            print(self.counter)
-                            
-                        }) {
-                            Image("leftButton")
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 60)
-                                .padding(.leading, 30)
-                        }
-                        Spacer()
-                        ZStack {
-                            
-                            Image("avatarBackground")
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 250, height: 250)
-                            
-                            Image("binatang-\(self.counter)")
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 220, height: 220)
+        //        GeometryReader { geometry in
+        ZStack(alignment: .center) {
+            Image("background2")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            //                .frame(width: geometry.size.width)
+            
+            VStack(alignment: .center){
+                Text("Pilih karakter kamu!")
+                    .foregroundColor(.white)
+                    .font(.system(size: 20, weight: .bold, design: .default))
+                HStack{
+                    Button(action: {
+                        
+                        if self.counter == 1 {
+                            self.counter = 16
+                        } else{
+                            self.counter -= 1
                         }
                         
-                        Spacer()
-                        Button(action: {
-                            
-                            if self.counter == 16 {
-                                self.counter = 1
-                            } else{
-                                self.counter += 1
+                        
+                        
+                        print(self.counter)
+                        
+                    }) {
+                        Image("leftButton")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 60)
+                            .padding(.leading, 30)
+                    }
+                    Spacer()
+                    ZStack {
+                        
+                        Image("avatarBackground")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 250, height: 250)
+                        
+                        Image("binatang-\(self.counter)")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 220, height: 220)
+                    }
+                    
+                    Spacer()
+                    Button(action: {
+                        
+                        if self.counter == 16 {
+                            self.counter = 1
+                        } else{
+                            self.counter += 1
+                        }
+                        
+                        print(self.counter)
+                        
+                    }) {
+                        Image("rightButton")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 60)
+                            .padding(.trailing, 30)
+                    }
+                }
+                
+                Group{
+                    Text("Kamu akan memasuki Camp dengan")
+                    Text("identitas baru. Pilih") + Text(" karakter unik-mu").bold()
+                    Text(" dan masukkan") + Text("nama panggung-mu.").bold()
+                    Text("Jangan lupa sertakan") + Text(" nama aslimu!").bold()
+                }.foregroundColor(.white)
+                    .font(.system(size: 15))
+                
+                Image("namaPanggung")
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 250)
+                    .padding(.top, 20)
+                
+                TextField("Nama Panggung", text: self.$namaPanggung)
+                    .padding()
+                    .frame(width: 300, height: 50)
+                    .foregroundColor(.black)
+                    .background(self.lightBlue)
+                    .cornerRadius(12)
+                
+                Image("namaAsli")
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 140)
+                
+                TextField("Nama Asli", text: self.$namaAsli)
+                    .padding()
+                    .frame(width: 300, height: 50)
+                    .foregroundColor(.black)
+                    .background(self.lightBlue)
+                    .cornerRadius(12)
+                
+                if self.host {
+                    VStack{
+                        HStack {
+                            Button(action: {
+                                
+                                if self.jumlahPemain == 1{
+                                    self.jumlahPemain = 1
+                                } else {
+                                    self.jumlahPemain -= 1
+                                }
+                                
+                            }) {
+                                Image("minusButton")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50)
+                                    .padding(.trailing, 30)
                             }
                             
-                            print(self.counter)
+                            Text("\(self.jumlahPemain)")
+                                .font(.system(size: 35, weight: .bold, design: .default))
+                                .foregroundColor(.white)
                             
-                        }) {
-                            Image("rightButton")
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 60)
-                                .padding(.trailing, 30)
+                            Button(action: {
+                                
+                                if self.jumlahPemain == 15{
+                                    self.jumlahPemain = 15
+                                } else {
+                                    self.jumlahPemain += 1
+                                }
+                            }) {
+                                Image("plusButton")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50)
+                                    .padding(.leading, 30)
+                            }
                         }
                     }
                     
-                    Group{
-                        Text("Kamu akan memasuki Camp dengan")
-                        Text("identitas baru. Pilih") + Text(" karakter unik-mu").bold()
-                        Text(" dan masukkan") + Text("nama panggung-mu.").bold()
-                        Text("Jangan lupa sertakan") + Text(" nama aslimu!").bold()
-                    }.foregroundColor(.white)
-                        .font(.system(size: 15))
-                    
-                    Image("namaPanggung")
+                    NavigationLink(destination: RoomPlayer(), isActive: $isRoomCreated){
+                        Image("buatcamp")
                         .renderingMode(.original)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 250)
-                        .padding(.top, 20)
-                    
-                    TextField("Nama Panggung", text: self.$namaPanggung)
-                        .padding()
-                        .frame(width: 300, height: 50)
-                        .foregroundColor(.black)
-                        .background(self.lightBlue)
-                        .cornerRadius(12)
-                    Image("namaAsli")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 140)
-                    
-                    TextField("Nama Asli", text: self.$namaAsli)
-                        .padding()
-                        .frame(width: 300, height: 50)
-                        .foregroundColor(.black)
-                        .background(self.lightBlue)
-                        .cornerRadius(12)
-                    
-                    if self.host {
-                        VStack{
-                            HStack {
-                                Button(action: {
-                                    
-                                    if self.jumlahPemain == 1{
-                                        self.jumlahPemain = 1
-                                    } else {
-                                        self.jumlahPemain -= 1
-                                    }
-                                    
-                                }) {
-                                    Image("minusButton")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .padding(.trailing, 30)
+                        .frame(width: 250, height: 50, alignment: .center)
+                        .simultaneousGesture(TapGesture().onEnded({
+                            
+                            
+                            
+                            let playerViewModel = PlayerViewModel(stageName: self.namaPanggung, realName: self.namaAsli, avatarURL: "binatang-\(self.counter)", isHost: false, campID: "123456")
+                            
+                            self.campService.createCamp(playerViewModel: playerViewModel, maxPlayers: self.jumlahPemain) { (camp, player) in
+                                if camp == nil{
+                                    print("camp cannot be created")
+                                    return
                                 }
                                 
-                                Text("\(self.jumlahPemain)")
-                                    .font(.system(size: 35, weight: .bold, design: .default))
-                                    .foregroundColor(.white)
-                                
-                                Button(action: {
-                                    
-                                    if self.jumlahPemain == 15{
-                                        self.jumlahPemain = 15
-                                    } else {
-                                        self.jumlahPemain += 1
-                                    }
-                                }) {
-                                    Image("plusButton")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .padding(.leading, 30)
+                                self.playerService.createPlayer(viewModel: playerViewModel) { (fetchedPlayer) in
+                                    print(fetchedPlayer)
+                                    self.isRoomCreated = true
                                 }
                             }
+                        }))
                         }
+                } else{
+                    NavigationLink(destination: RoomPlayer()) {
                         
                         Image("gabungcamp")
                             .renderingMode(.original)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 250, height: 50, alignment: .center)
-                    } else{
-                        NavigationLink(destination: ContentView()) {
-                            Image("buatcamp")
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 250, height: 50, alignment: .center)
-                                .padding(.top, UIScreen.main.bounds.height - (UIScreen.main.bounds.height - 70))
+                            .padding(.top, UIScreen.main.bounds.height - (UIScreen.main.bounds.height - 70))
+                        
+                    }.simultaneousGesture(TapGesture().onEnded{
+                        //MARK: - sini geng
+                        
+                        let playerViewModel = PlayerViewModel(stageName: self.namaPanggung, realName: self.namaAsli, avatarURL: "binatang-\(self.counter)", isHost: false, campID: "123456")
+                        
+                        
+                        
+                        self.playerService.createPlayer(viewModel: playerViewModel) { (player) in
+                            print(player)
                         }
-                    }
-                    
+                        
+                        // MARK: - store avatar yg kepilih ke database, store jumlah pemain, store nama panggung dan nama asli
+                    })
                 }
-                .animation(.spring())
-                .padding(.top, -100)
-        }.KeyboardAwarePadding()
-                .animation(.spring())
-            .onTapGesture {
+                
+            }
+            .animation(.spring())
+            .padding(.top, -100)
+        }.onAppear{
+            print("avatar view muncul")
+        }
+        .KeyboardAwarePadding()
+        .animation(.spring())
+        .onTapGesture {
             self.hideKeyboard()
         }
-//        }
+        //        }
         
     }
     
