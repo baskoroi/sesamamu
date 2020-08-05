@@ -7,6 +7,7 @@
 //
 import SwiftUI
 import Combine
+import Firebase
 
 struct Question: View {
     var body: some View {
@@ -29,39 +30,42 @@ struct Question_Previews: PreviewProvider {
 
 struct QuestionView: View {
     //DB
-    @State var ronde: String = "Ronde 1"
-    @State var question: String = "Ada seorang gadis bernama Angel. Angel pergi membawa uang 70.000 untuk membeli sebuah buku seharga 50.000. Di jalan Angel beli bubur seharga 25.000. Kalau kamu jadi Angel, buburnya diaduk ga? Filosofinya?"
+//    private var questionRef = Database.database().reference().child("questions")
+    @State var round = "1"
+    @State var subRound = "1"
+//    @State var questionArray = []
+//    @State var randomQuestion = String()
+//    @State var questionRandom = String()
+ 
+    @ObservedObject var questionServices = QuestionServices()
     
     @State var userInput:String = ""
-    
     @ObservedObject var textCount = TextCount()
-    
 
     var body: some View {
         ZStack{
-            Image("backgroundhome2")
+            Image("backgroundRonde1")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("\(self.ronde)")
-                    .font(.system(size: 18, weight: .bold))
+                Text("Ronde \(round)")
+                    .font(Font.custom("Montserrat-Bold", size: 17))
                     .foregroundColor(.white)
                     .padding(.top, 10)
-                Text("Pertanyaan 1/3")
-                    .font(.system(size: 25, weight: .bold))
+                Text("Pertanyaan \(subRound)/3")
+                    .font(Font.custom("Montserrat-Bold", size: 20))
                     .foregroundColor(.white)
                 Rectangle()
                     .frame(width: 30, height: 3)
                     .foregroundColor(.white)
                     .padding(.vertical, 10)
-                VStack{
-                    Text("\(self.question)")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(width: UIScreen.main.bounds.width*0.8)
-                }
+                Text(questionServices.questionForRound.text ?? "")
+                    .font(Font.custom("Montserrat-BoldItalic", size: 15))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .frame(width: UIScreen.main.bounds.width*0.8)
+                    .lineSpacing(4)
                 Spacer()
                 ZStack{
                     Rectangle()
@@ -99,7 +103,7 @@ struct QuestionView: View {
                     //MARK: - Save answer to DB for chat room
                     print("Final text: \(self.userInput)")
                 }) {
-                    Image("buatcamp")
+                    Image("buttonKirim")
                         .renderingMode(.original)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -108,8 +112,22 @@ struct QuestionView: View {
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
+                .onAppear {
+                    self.questionServices.fetchQuestion(forRound: 1, campId: "")}
         }
     }
+    
+//    //Get question from DB and add it to questionArray
+//    func fetchQuestion(forRound:String) {
+//        questionRef.child("round\(forRound)").observeSingleEvent(of: .value, with: { (snapshot) in
+//            let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
+//            if let questionRandomDict = questionArrayChildren.randomElement()?.value as? [String: Any]{
+//                self.questionRandom = questionRandomDict["text"] as? String ?? ""
+//            }
+//          }) { (error) in
+//            print(error.localizedDescription)
+//        }
+//    }
 }
 
 extension Publishers {
