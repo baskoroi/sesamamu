@@ -11,7 +11,7 @@ import Foundation
 struct CampViewModel {
     
     var maxPlayers: Int
+    var playerCount: Int
     var campCode: String
-    
     
 }

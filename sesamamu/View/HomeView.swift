@@ -16,16 +16,18 @@ struct HomeView: View {
     
     @State var host = false
     @State var isRoomIDValid = false
+    @State var roomIDToJoin = ""
     
     @State private var keyboardHeight: CGFloat = 0
     
     @State var isNavigationActive = false
+    @State var showAlert = false
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     let lightBlue = Color(red: 177.0/255.0, green: 224.0/255.0, blue: 232.0/255.0, opacity: 1.0)
     
-    
+    @ObservedObject var campService = CampService()
     
     var body: some View {
         NavigationView {
@@ -79,19 +81,31 @@ struct HomeView: View {
                                         }
                                 }
                                 
-                                NavigationLink(destination: AvatarView(host: false), isActive: self.$isNavigationActive){
-                                    Image("rightButton")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 30)
+                                NavigationLink(destination: AvatarView(host: false, campCodeToJoin: self.roomIDToJoin), isActive: self.$isNavigationActive){
                                     
-                                    
+                                    Button(action: {
+                                        self.campService.findCamp(withCode: self.roomID) { (camp) in
+
+                                            guard let camp = camp else {
+                                                print("Not found")
+                                                self.showAlert = true
+                                                return
+                                            }
+
+                                            self.roomIDToJoin = camp.campCode
+                                            self.isNavigationActive = true
+                                        }
+                                    }) {
+                                        Image("rightButton")
+                                            .renderingMode(.original)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 30)
+                                    }.alert(isPresented: self.$showAlert) { () -> Alert in
+                                        Alert(title: Text("Camp tak ditemukan"), message: Text("Coba cek kodenya udah bener blum?"), dismissButton: .default(Text("Sip!")) )
+                                    }
                                 }.navigationBarBackButtonHidden(false)
                                     .navigationBarHidden(false)
-                                    .simultaneousGesture(TapGesture().onEnded({
-                                        print("pindah ke avatar view")
-                                    }))
                                 
                             }.offset(y: self.isRoomIDFieldActive ? -200:0)
                             

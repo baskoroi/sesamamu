@@ -16,7 +16,7 @@ struct AvatarView: View {
     @State private var value : CGFloat = 0
     
     @State var host: Bool
-    @State private var randomNumber = ""
+    @State var campCodeToJoin = "" // only for joining room, data passed from home view
     
     @State var namaPanggung = ""
     @State var namaAsli = ""
@@ -26,6 +26,16 @@ struct AvatarView: View {
     @ObservedObject var campService = CampService()
     
     @State var isRoomCreated = false
+    @State var isRoomJoined = false
+    
+    @State var showAlert = false
+    @State var alertTitle = ""
+    @State var alertMessage = ""
+    
+    // only for joining a room
+    @State var playersJoining = 0
+    @State var roomStatus = ""
+    @State var disableJoin = false
     
     let lightBlue = Color(red: 177.0/255.0, green: 224.0/255.0, blue: 232.0/255.0, opacity: 1.0)
     
@@ -43,7 +53,7 @@ struct AvatarView: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             //                .frame(width: geometry.size.width)
             
-            VStack(alignment: .center){
+            VStack(alignment: .center) {
                 Text("Pilih karakter kamu!")
                     .foregroundColor(.white)
                     .font(.system(size: 20, weight: .bold, design: .default))
@@ -108,10 +118,11 @@ struct AvatarView: View {
                 Group{
                     Text("Kamu akan memasuki Camp dengan")
                     Text("identitas baru. Pilih") + Text(" karakter unik-mu").bold()
-                    Text(" dan masukkan") + Text("nama panggung-mu.").bold()
+                    Text(" dan masukkan ") + Text("nama panggung-mu.").bold()
                     Text("Jangan lupa sertakan") + Text(" nama aslimu!").bold()
                 }.foregroundColor(.white)
                     .font(.system(size: 15))
+
                 
                 Image("namaPanggung")
                     .renderingMode(.original)
@@ -120,12 +131,36 @@ struct AvatarView: View {
                     .frame(width: 250)
                     .padding(.top, 20)
                 
-                TextField("Nama Panggung", text: self.$namaPanggung)
+                TextField("Nama Panggung", text: self.$namaPanggung, onEditingChanged: { isTyping in
+                    if !self.host { return }
+                    
+                    if self.namaPanggung.isEmpty { return }
+                    
+                    if !isTyping {
+                        self.campService.checkStageNameAvailability(
+                            stageName: self.namaPanggung,
+                            campCode: self.campCodeToJoin) { (isAvailable, error) in
+                            if let err = error {
+                                self.roomStatus = "Nama panggung nya udah keambil, cari yang laen..."
+                                self.disableJoin = true
+                                return
+                            }
+                                
+                            self.disableJoin = !isAvailable
+                            if isAvailable {
+                                self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
+                            }
+                        }
+                    }
+                })
                     .padding()
                     .frame(width: 300, height: 50)
                     .foregroundColor(.black)
                     .background(self.lightBlue)
                     .cornerRadius(12)
+                    .alert(isPresented: self.$showAlert) {
+                        Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                }
                 
                 Image("namaAsli")
                     .renderingMode(.original)
@@ -189,64 +224,97 @@ struct AvatarView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 250, height: 50, alignment: .center)
                         .simultaneousGesture(TapGesture().onEnded({
-                            
-                            
-                            
-                            let playerViewModel = PlayerViewModel(stageName: self.namaPanggung, realName: self.namaAsli, avatarURL: "binatang-\(self.counter)", isHost: false, campID: "123456")
-                            
+
+                            // Camp ID is emptied here, since the ID will be generated inside PlayerService during camp creation
+                            let playerViewModel = PlayerViewModel(stageName: self.namaPanggung, realName: self.namaAsli, avatarURL: "binatang-\(self.counter)", isHost: false, campID: "")
+
                             self.campService.createCamp(playerViewModel: playerViewModel, maxPlayers: self.jumlahPemain) { (camp, player) in
                                 if camp == nil{
                                     print("camp cannot be created")
                                     return
                                 }
-                                
-                                self.playerService.createPlayer(viewModel: playerViewModel) { (fetchedPlayer) in
+
+                                // MARK: - store avatar yg kepilih ke database, store jumlah pemain, store nama panggung dan nama asli
+                                self.playerService.createPlayer(viewModel: player) { (fetchedPlayer) in
                                     print(fetchedPlayer)
                                     self.isRoomCreated = true
                                 }
                             }
                         }))
                         }
-                } else{
-                    NavigationLink(destination: RoomPlayer()) {
-                        
-                        Image("gabungcamp")
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 250, height: 50, alignment: .center)
-                            .padding(.top, UIScreen.main.bounds.height - (UIScreen.main.bounds.height - 70))
-                        
-                    }.simultaneousGesture(TapGesture().onEnded{
-                        //MARK: - sini geng
-                        
-                        let playerViewModel = PlayerViewModel(stageName: self.namaPanggung, realName: self.namaAsli, avatarURL: "binatang-\(self.counter)", isHost: false, campID: "123456")
-                        
-                        
-                        
-                        self.playerService.createPlayer(viewModel: playerViewModel) { (player) in
-                            print(player)
+                } else {
+                    NavigationLink(destination: RoomPlayer(), isActive: self.$isRoomJoined) {
+                        Button(action: {
+                            let playerViewModel = PlayerViewModel(stageName: self.namaPanggung, realName: self.namaAsli, avatarURL: "binatang-\(self.counter)", isHost: false, campID: self.campCodeToJoin)
+                                                    
+                            // MARK: join camp here (alr includes player creation)
+                            self.campService.joinCamp(withCode: self.campCodeToJoin, playerCount: self.playersJoining, playerViewModel: playerViewModel) { (canJoin, campCode, error) in
+                                if error != nil || !canJoin {
+                                    self.alertTitle = "Gagal masuk camp"
+                                    self.alertMessage = "Ada error dari servernya. Coba tunggu sebentar trus masuk lagi :)"
+                                    self.showAlert = true
+                                    return
+                                }
+                                
+                                if canJoin {
+                                    self.disableJoin = false
+                                }
+                                
+                                self.isRoomJoined = true
+                            }
+                        }) {
+                            Image("gabungcamp")
+                                .renderingMode(.original)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 250, height: 50, alignment: .center)
+                                .padding(.top, UIScreen.main.bounds.height - (UIScreen.main.bounds.height - 70))
                         }
+                        .alert(isPresented: self.$showAlert) {
+                            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                        }
+                    }
+                    // due to camp conditions, e.g. room is full, stage name already exists, etc.
+                    .disabled(self.disableJoin)
+                    .onAppear {
+                        print("avatar view muncul")
                         
-                        // MARK: - store avatar yg kepilih ke database, store jumlah pemain, store nama panggung dan nama asli
-                    })
+                        self.campService.countPlayersInCamp(campCode: self.campCodeToJoin) { (numPlayers, canJoin, error) in
+                            
+                            if let numPlayers = numPlayers {
+                                self.playersJoining = numPlayers
+                            }
+                            
+                            if let err = error {
+                                self.alertTitle = "Camp nya full!"
+                                self.alertMessage = "Coba pencet Back dan panggil temenmu yang ngadain camp nya..."
+                                self.roomStatus = "Camp penuh. Boleh tunggu atau ke camp berikutnya..."
+                                self.disableJoin = true
+                                self.showAlert = true
+                                return
+                            }
+                            
+                            self.disableJoin = !canJoin
+                            if canJoin {
+                                self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
+                            }
+                        }
+                    }
                 }
-                
+                Text(roomStatus)
+                    .foregroundColor(.white)
+                    .font(.system(size: 12))
+                    .padding(.bottom, 0)
             }
             .animation(.spring())
             .padding(.top, -100)
-        }.onAppear{
-            print("avatar view muncul")
         }
         .KeyboardAwarePadding()
         .animation(.spring())
         .onTapGesture {
             self.hideKeyboard()
         }
-        //        }
-        
     }
-    
 }
 
 struct AvatarView_Previews: PreviewProvider {
