@@ -16,11 +16,11 @@ class InRoomService: ObservableObject {
     
     func observeInRoomPlayers(campID: String, completion: @escaping (PlayersAvailable?) -> Void) {
         let ref = getDBReferenceForInRoom(campID: campID)
-        
+//        var newInRoomPlayer:[PlayersAvailable] = []
         inRoomHandle = ref.observe(.value, with: { snapshot in
             let value = snapshot.value as! [String:Any]
             
-            print(value)
+            
 //            let newDict = value.values
             value.forEach({(key,value) in
                 if let newValue = value as? [String:Any],
@@ -28,11 +28,12 @@ class InRoomService: ObservableObject {
                 let stageName = newValue["stageName"] as? String,
                 let isHost = newValue["isHost"] as? Bool,
                     let avatarUrl = newValue["avatarURL"] as? String {
-                    
                     let viewModel = PlayersAvailable(avatarURL: avatarUrl, isHost: isHost, realName: realName, stageName: stageName)
+//                    print(viewModel)
                     
-                    print(newValue)
+//                    newInRoomPlayer.append(viewModel)
                     completion(viewModel)
+//                    print(newInRoomPlayer)
                 } else {
                     completion(nil)
                 }

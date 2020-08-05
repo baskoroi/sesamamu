@@ -24,6 +24,12 @@ struct RoomPlayer: View {
     @State var isRoomEmpty:Bool = false
     @State var orangeBackground = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
     @State var isHost = true
+    @State var playerIndex:Int = 0
+    @State var roomName = "room1"
+    
+    @EnvironmentObject var globalStore: GlobalStore
+    
+    @ObservedObject var inRoomService = InRoomService()
     
     var body: some View {
         GeometryReader { geometry in
@@ -65,11 +71,29 @@ struct RoomPlayer: View {
                             }
                         }
                     }
+                        
+                    .onAppear{
+                        
+                        self.inRoomService.observeInRoomPlayers(campID: self.roomName){
+                            roomValue in
+                            guard let roomValue = roomValue else {return}
+                            
+                            DispatchQueue.main.async {
+                               print(roomValue)
+                                
+                                self.globalStore.players[self.playerIndex] = roomValue
+                                self.playerIndex += 1
+                            }
+                            self.playerIndex = 0
+                        }
+                        
+                    }
                     .frame(width:UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.65)
                     
                     if(self.isHost){
                         Button(action: {
                             print("buat camp tapped")
+                            print(self.globalStore.players[0])
                         }) {
                             Image("buatcamp")
                                 .renderingMode(.original)
@@ -104,24 +128,25 @@ struct PlayersCollectionView: View {
     
     @State var backgroundBox = Color(red: 0.04, green: 0.15, blue: 0.20, opacity: 1.0)
     @State var orangeBox = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
+    @EnvironmentObject var globalStore: GlobalStore
     
-    let players:[PlayersAvailable] = [
-        PlayersAvailable(avatarURL: "binatang-1", isHost:false, realName :"baskoro",stageName: "Wadidaw Boi"),
-        PlayersAvailable(avatarURL: "binatang-2", isHost:true, realName :"markus",stageName: "Boombayah"),
-        PlayersAvailable(avatarURL: "binatang-3", isHost:false, realName :"christian",stageName: "Aku Padamu"),
-        PlayersAvailable(avatarURL: "binatang-4", isHost:false, realName :"alfred",stageName: "Lee Tae Oh"),
-        PlayersAvailable(avatarURL: "binatang-5", isHost:false, realName :"davia",stageName: "Lisa BlackPink"),
-        PlayersAvailable(avatarURL: "", isHost: false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: "")
-    ]
+//    let players:[PlayersAvailable] = [
+//        PlayersAvailable(avatarURL: "binatang-1", isHost:false, realName :"baskoro",stageName: "Wadidaw Boi"),
+//        PlayersAvailable(avatarURL: "binatang-2", isHost:true, realName :"markus",stageName: "Boombayah"),
+//        PlayersAvailable(avatarURL: "binatang-3", isHost:false, realName :"christian",stageName: "Aku Padamu"),
+//        PlayersAvailable(avatarURL: "binatang-4", isHost:false, realName :"alfred",stageName: "Lee Tae Oh"),
+//        PlayersAvailable(avatarURL: "binatang-5", isHost:false, realName :"davia",stageName: "Lisa BlackPink"),
+//        PlayersAvailable(avatarURL: "", isHost: false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: "")
+//    ]
     
     var index = 0
     init(row: Int, column: Int) {
@@ -131,7 +156,7 @@ struct PlayersCollectionView: View {
     var body: some View {
         
         ZStack(alignment: .bottom){
-            if(players[index].avatarURL == ""){
+            if(self.globalStore.players[index].avatarURL == ""){
                 ZStack{
                     Text("Ruang Tersedia")
                         .frame(width:UIScreen.main.bounds.size.width/5)
@@ -151,11 +176,11 @@ struct PlayersCollectionView: View {
                 VStack(alignment: .center){
                     ZStack{
                         
-                        Image(players[index].avatarURL)
+                        Image(self.globalStore.players[index].avatarURL)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .edgesIgnoringSafeArea(.all)
-                        if players[index].isHost {
+                        if self.globalStore.players[index].isHost {
                             Image("hostIcon150x150")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -171,7 +196,7 @@ struct PlayersCollectionView: View {
                             .frame(width:UIScreen.main.bounds.size.width/4,height:UIScreen.main.bounds.size.height/25)
                             .foregroundColor(self.orangeBox)
                         
-                        Text(players[index].stageName)
+                        Text(self.globalStore.players[index].stageName)
                             .frame(width:UIScreen.main.bounds.size.width/4,height:UIScreen.main.bounds.size.height/25,alignment: .center)
                             .font(.system(size: 15, weight: .heavy, design: .default))
                             .lineLimit(2)
