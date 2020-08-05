@@ -15,6 +15,7 @@ class QuestionViewModel: ObservableObject, Identifiable {
     @Published var round: Int?
     @Published var text: String?
     @Published var index: Int?
+    @Published var numberOfVote: Int?
     
     //MARK: - Different type of init for QuestionViewModel
     init() {}
@@ -28,6 +29,12 @@ class QuestionViewModel: ObservableObject, Identifiable {
         self.round = round
         self.text = text
         self.index = index
+    }
+    
+    init(round: Int?, text: String?, numberOfVote: Int?) {
+        self.round = round
+        self.text = text
+        self.numberOfVote = numberOfVote
     }
 }
     

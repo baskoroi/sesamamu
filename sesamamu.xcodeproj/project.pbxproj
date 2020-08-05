@@ -16,6 +16,8 @@
 		28C4789E24CE89B90026FE0E /* TextViewMultiLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789D24CE89B90026FE0E /* TextViewMultiLine.swift */; };
 		28C7D63024D993FC00615703 /* QuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D62F24D993FC00615703 /* QuestionViewModel.swift */; };
 		28C7D63224D99D9000615703 /* QuestionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63124D99D9000615703 /* QuestionServices.swift */; };
+		28C7D63424DA6A6700615703 /* MemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63324DA6A6700615703 /* MemberViewModel.swift */; };
+		28C7D63624DA6A8B00615703 /* MemberServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63524DA6A8B00615703 /* MemberServices.swift */; };
 		5384FF8D24CE745400091F70 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8C24CE745400091F70 /* HomeView.swift */; };
 		5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8E24CE747400091F70 /* AvatarView.swift */; };
 		5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF9024CE751200091F70 /* CustomTextField.swift */; };
@@ -89,6 +91,8 @@
 		28C4789D24CE89B90026FE0E /* TextViewMultiLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewMultiLine.swift; sourceTree = "<group>"; };
 		28C7D62F24D993FC00615703 /* QuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewModel.swift; sourceTree = SOURCE_ROOT; };
 		28C7D63124D99D9000615703 /* QuestionServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionServices.swift; sourceTree = "<group>"; };
+		28C7D63324DA6A6700615703 /* MemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberViewModel.swift; sourceTree = "<group>"; };
+		28C7D63524DA6A8B00615703 /* MemberServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberServices.swift; sourceTree = "<group>"; };
 		3C1724AFE7648578BB742177 /* Pods-sesamamu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu.debug.xcconfig"; path = "Target Support Files/Pods-sesamamu/Pods-sesamamu.debug.xcconfig"; sourceTree = "<group>"; };
 		5384FF8C24CE745400091F70 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5384FF8E24CE747400091F70 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -258,8 +262,9 @@
 		CC210EFA24D7CBC9004527EC /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CC210EFB24D7D056004527EC /* AnswerService.swift */,
+				28C7D63524DA6A8B00615703 /* MemberServices.swift */,
 				28C7D63124D99D9000615703 /* QuestionServices.swift */,
+				CC210EFB24D7D056004527EC /* AnswerService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 		CC81105324D12C8100682336 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				28C7D63324DA6A6700615703 /* MemberViewModel.swift */,
 				28C7D62F24D993FC00615703 /* QuestionViewModel.swift */,
 				CC81105424D12C9200682336 /* AnswerViewModel.swift */,
 			);
@@ -619,6 +625,7 @@
 				ADC6347924CE851D00B1D624 /* FinalStage-1.swift in Sources */,
 				CCA00F5A24C6DD3C00FCD3C9 /* AppDelegate.swift in Sources */,
 				28C4789C24CE89900026FE0E /* QuestionFinalVote.swift in Sources */,
+				28C7D63624DA6A8B00615703 /* MemberServices.swift in Sources */,
 				28C4789E24CE89B90026FE0E /* TextViewMultiLine.swift in Sources */,
 				5384FF8D24CE745400091F70 /* HomeView.swift in Sources */,
 				28C7D63224D99D9000615703 /* QuestionServices.swift in Sources */,
@@ -642,6 +649,7 @@
 				5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */,
 				CC81105724D12CE000682336 /* AllAnswersView.swift in Sources */,
 				CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */,
+				28C7D63424DA6A6700615703 /* MemberViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

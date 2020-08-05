@@ -30,9 +30,8 @@ struct Question_Previews: PreviewProvider {
 
 struct QuestionView: View {
     //DB
-//    private var questionRef = Database.database().reference().child("questions")
-    @State var round = "1"
-    @State var subRound = "1"
+    @State var ronde = 1
+    @State var subRonde = 1
 //    @State var questionArray = []
 //    @State var randomQuestion = String()
 //    @State var questionRandom = String()
@@ -49,11 +48,11 @@ struct QuestionView: View {
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("Ronde \(round)")
+                Text("Ronde \(ronde)")
                     .font(Font.custom("Montserrat-Bold", size: 17))
                     .foregroundColor(.white)
                     .padding(.top, 10)
-                Text("Pertanyaan \(subRound)/3")
+                Text("Pertanyaan \(subRonde)/3")
                     .font(Font.custom("Montserrat-Bold", size: 20))
                     .foregroundColor(.white)
                 Rectangle()

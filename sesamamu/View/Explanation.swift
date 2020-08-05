@@ -31,19 +31,18 @@ struct Explanation_Previews: PreviewProvider {
 
 
 struct ExplanationView: View {
-
-    @State var ronde: String = "Ronde 1"
+    //Question
+    @State var ronde: Int = 1
     @State var rondeIntro: String = "Pengen kenalan tapi malu nanya duluan. Daripada diem-dieman, Yaudah kita bantu dengan pertanyaan"
     @State var rondeDesc: String = "Di ronde ini kamu akan diberikan pertanyaan random. Jangan takut, ini cuma pemanasan. Ga ada jawaban benar dan salah kok. Selamat bermain!"
     
+    //Member
+    
     @State var isReady: Bool = false
     @State var numberOfPlayerAvailable: Int = 15
-    @State var numberOfPlayerReady: Int = 15
+    @State var numberOfPlayerReady: Int = 10
     
-//    @ObservedObject var playerReady = AllPlayerReady()
-    
-    
-    
+        
     var body: some View {
         ZStack{
             Image("backgroundRonde1")
@@ -51,7 +50,7 @@ struct ExplanationView: View {
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("\(self.ronde)")
+                Text("Ronde \(self.ronde)")
                     .font(Font.custom("Montserrat-Bold", size: 35))
                     .foregroundColor(.white)
                     .padding(.top, UIScreen.main.bounds.height*0.05)

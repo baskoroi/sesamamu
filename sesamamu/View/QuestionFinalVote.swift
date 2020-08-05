@@ -35,7 +35,7 @@ struct QuestionFinalVoteView: View {
 
     //DB
 //    private var questionRef = Database.database().reference().child("questions")
-    @State var ronde = "3"
+    @State var ronde = 3
 //    @State var questionArray = [String]()
     @State var campId = "123456"
     
@@ -43,6 +43,7 @@ struct QuestionFinalVoteView: View {
 //    var finalRoundQuestionVote = ["Bagian tubuh favoritemu?", "Kalo besok kiamat apa yang bakal kamu lakuin hari ini?", "Lo pake kacamata atau ga?", "Sebutin ciri-ciri lo yang paling unik!!", "Siapa pirs lopemu?", "Kalau udah gede mau jadi apa?"]
     
     @State var selectedQuestionId = [UUID]()
+    @State var selectedQuestion = [String]()
     @State private var tooMuch = false
     @State var noPertanyaan = 1
     
@@ -58,7 +59,7 @@ struct QuestionFinalVoteView: View {
                         ZStack{
                             Rectangle()
                                 .frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height*0.12)
-                                .foregroundColor(self.selectedQuestionId.contains(question.id) ? .yellow : .white)
+                                .foregroundColor(self.selectedQuestion.contains(question.text ?? "") ? .yellow : .white)
                                 .cornerRadius(12)
                             VStack{
                                 Text("Pertanyaan")
@@ -70,16 +71,18 @@ struct QuestionFinalVoteView: View {
                             }.padding(.horizontal, 40)
                         }
                         .onTapGesture {
-                            if self.selectedQuestionId.contains(question.id){
-                                if let pos = self.selectedQuestionId.firstIndex(of: question.id) {
-                                    self.selectedQuestionId.remove(at: pos)
+                            if self.selectedQuestion.contains(question.text ?? ""){
+                                if let pos = self.selectedQuestion.firstIndex(of: question.text ?? "") {
+                                    self.selectedQuestion.remove(at: pos)
                                 }
                             } else {
-                                if self.selectedQuestionId.count > 2 {
+                                if self.selectedQuestion.count > 2 {
                                     self.tooMuch = true
                                 } else {
-                                    self.selectedQuestionId.append(question.id)
-                                    print(self.selectedQuestionId)
+                                    //self.selectedQuestionId.append(question.id)
+                                    //print(self.selectedQuestionId)
+                                    self.selectedQuestion.append(question.text ?? "")
+                                    print(self.selectedQuestion)
                                 }
                             }}
                             .alert(isPresented: self.$tooMuch) {
@@ -97,7 +100,8 @@ struct QuestionFinalVoteView: View {
                 
                 Button(action: {
                     print("Kirim Tapped")
-//                    self.submitQuestionForVote()
+                    self.submitQuestionForVote()
+                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.campId)
                 }) {
                     Image("buttonKirim")
                         .renderingMode(.original)
@@ -108,32 +112,15 @@ struct QuestionFinalVoteView: View {
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
-                    self.questionServices.fetchQuestion(forRound: 3, campId: self.campId)
-//                    DispatchQueue.main.async {
-//                        self.fetchQuestion(forRound: self.ronde)
-//                    }
+                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: self.campId)
             }
         }
     }
-//    //Get question from DB and add it to questionArray
-//    func fetchQuestion(forRound:String) {
-//        questionRef.child("round\(forRound)/\(campCode)/submitted").observeSingleEvent(of: .value, with: { (snapshot) in
-//            let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
-//            for questionSubmitted in questionArrayChildren {
-//                let question = questionSubmitted.value as? [String: String]
-//                if let textQuestion = question?["text"] {
-//                    self.questionArray.append(textQuestion)
-//                    print(self.questionArray)
-//                }
-//            }
-//          }) { (error) in
-//            print(error.localizedDescription)
-//        }
-//    }
     
-//    func submitQuestionForVote() {
-//        for select in selectedIndex {
-//            print(questionArray[select])
-//        }
-//    }
+    func submitQuestionForVote() {
+        questionServices.fetchQuestion(forRound: 3, campId: campId)
+        for question in selectedQuestion {
+            questionServices.submitQuestionForVote(campId: campId, questionVoteText: question, numberOfVote: 1)
+        }
+    }
 }

@@ -29,6 +29,9 @@ struct QuestionFinal_Previews: PreviewProvider {
 }
 
 struct QuestionFinalView: View {
+    @ObservedObject var questionServices = QuestionServices()
+    @State var campId = "123456"
+
     var ronde: String = "Ronde 3"
     var rondeIntro: String = "Kalau kamu punya kesempatan untuk kenal dia lebih dalam dengan sebuah pertanyaan\n\nMau tanya apa??..."
     
@@ -100,7 +103,7 @@ struct QuestionFinalView: View {
                 Button(action: {
                     print("Kirim tapped")
                     //MARK: - Save data to DB for vote
-                    self.submitFinalQuestion(campCode: "123456", userQuestion: self.userInput)
+                    self.questionServices.submitFinalQuestion(campId: self.campId, userQuestion: self.userInput)
                 }) {
                     Image("buttonKirim")
                         .renderingMode(.original)
@@ -111,16 +114,5 @@ struct QuestionFinalView: View {
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
         }.onTapGesture {self.hideKeyboard()}
-    }
-    private var questionRef = Database.database().reference().child("questions")
-
-    func submitFinalQuestion(campCode: String,userQuestion text: String) {
-        questionRef.child("round3/\(campCode)/submitted").childByAutoId().setValue(["text": text]) { (error:Error?, ref:DatabaseReference) in
-            if let error = error {
-                print("Data could not be saved: \(error).")
-            } else {
-                print("Data saved successfully! User input: \(text)")
-            }
-        }
     }
 }
