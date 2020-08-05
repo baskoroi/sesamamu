@@ -16,11 +16,12 @@ struct HomeView: View {
     
     @State var host = false
     @State var isRoomIDValid = false
+    @State var roomIDToJoin = ""
     
     @State private var keyboardHeight: CGFloat = 0
     
     @State var isNavigationActive = false
-    @State var showsAlert = false
+    @State var showAlert = false
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
@@ -80,18 +81,18 @@ struct HomeView: View {
                                         }
                                 }
                                 
-                                NavigationLink(destination: AvatarView(host: false), isActive: self.$isNavigationActive){
+                                NavigationLink(destination: AvatarView(host: false, campCodeToJoin: self.roomIDToJoin), isActive: self.$isNavigationActive){
                                     
                                     Button(action: {
                                         self.campService.findCamp(withCode: self.roomID) { (camp) in
 
-                                            if camp == nil {
+                                            guard let camp = camp else {
                                                 print("Not found")
-                                                self.showsAlert = true
+                                                self.showAlert = true
                                                 return
                                             }
 
-                                            // TODO transfer camp view model from service to AvatarView
+                                            self.roomIDToJoin = camp.campCode
                                             self.isNavigationActive = true
                                         }
                                     }) {
@@ -100,24 +101,11 @@ struct HomeView: View {
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 30)
-                                    }.alert(isPresented: self.$showsAlert) { () -> Alert in
-                                        Alert(title: Text("Room not found"), message: Text("Please type another room code"), dismissButton: .default(Text("OK")) )
+                                    }.alert(isPresented: self.$showAlert) { () -> Alert in
+                                        Alert(title: Text("Camp tak ditemukan"), message: Text("Coba cek kodenya udah bener blum?"), dismissButton: .default(Text("Sip!")) )
                                     }
                                 }.navigationBarBackButtonHidden(false)
                                     .navigationBarHidden(false)
-//                                    .simultaneousGesture(TapGesture().onEnded({
-//                                        print("pindah ke avatar view")
-//
-//                                        self.campService.findCamp(withCode: "795270") { (camp) in
-//
-//                                            let seconds = 4.0
-//                                            DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: {
-//
-//                                                print("udah nunggu...")
-//                                                self.isNavigationActive.toggle()
-//                                            })
-//                                        }
-//                                    }))
                                 
                             }.offset(y: self.isRoomIDFieldActive ? -200:0)
                             
