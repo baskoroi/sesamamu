@@ -10,12 +10,33 @@ import Foundation
 import FirebaseDatabase
 
 class CampService: ObservableObject {
+
+    var campReference = Database.database().reference().child("camps")
+    var campHandle: UInt?
     
-   
+    func findCamp(withCode campCode: String,
+                  completion: @escaping(CampViewModel?) -> Void) {
+        
+        campHandle = campReference.child(campCode).observe(.value) { (snapshot) in
+            
+            guard let value = snapshot.value as? [String: Any],
+                  let maxPlayers = value["maxPlayers"] as? Int else {
+                
+                print("Camp is not found")
+                completion(nil)
+                return
+            }
+            
+            let campViewModel = CampViewModel(maxPlayers: maxPlayers, campCode: campCode)
+            print("Camp is found:", campViewModel)
+            completion(campViewModel)
+        }
+        
+    }
     
-    var ref = Database.database().reference().child("camps")
-    
-    func createCamp(playerViewModel: PlayerViewModel, maxPlayers: Int, completion: @escaping(CampViewModel?, PlayerViewModel) -> Void){
+    func createCamp(playerViewModel: PlayerViewModel,
+                    maxPlayers: Int,
+                    completion: @escaping(CampViewModel?, PlayerViewModel) -> Void){
         
         guard let stageName = playerViewModel.stageName else {
             completion(nil, playerViewModel)
@@ -27,7 +48,7 @@ class CampService: ObservableObject {
         playerViewModel.campID = campID
         
         let hostName = "\(campID)->\(stageName)"
-        ref.child(campID).setValue([
+        campReference.child(campID).setValue([
             "host": hostName,
             "maxPlayers": maxPlayers
         ])
@@ -37,4 +58,11 @@ class CampService: ObservableObject {
         completion(campViewModel, playerViewModel)
         
     }
+    
+    deinit {
+        if let handle = campHandle {
+            campReference.removeObserver(withHandle: handle)
+        }
+    }
 }
+

@@ -13,5 +13,4 @@ struct CampViewModel {
     var maxPlayers: Int
     var campCode: String
     
-    
 }
