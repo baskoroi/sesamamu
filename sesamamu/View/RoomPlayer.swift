@@ -129,25 +129,7 @@ struct PlayersCollectionView: View {
     @State var backgroundBox = Color(red: 0.04, green: 0.15, blue: 0.20, opacity: 1.0)
     @State var orangeBox = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
     @EnvironmentObject var globalStore: GlobalStore
-    
-//    let players:[PlayersAvailable] = [
-//        PlayersAvailable(avatarURL: "binatang-1", isHost:false, realName :"baskoro",stageName: "Wadidaw Boi"),
-//        PlayersAvailable(avatarURL: "binatang-2", isHost:true, realName :"markus",stageName: "Boombayah"),
-//        PlayersAvailable(avatarURL: "binatang-3", isHost:false, realName :"christian",stageName: "Aku Padamu"),
-//        PlayersAvailable(avatarURL: "binatang-4", isHost:false, realName :"alfred",stageName: "Lee Tae Oh"),
-//        PlayersAvailable(avatarURL: "binatang-5", isHost:false, realName :"davia",stageName: "Lisa BlackPink"),
-//        PlayersAvailable(avatarURL: "", isHost: false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-//        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: "")
-//    ]
-    
+
     var index = 0
     init(row: Int, column: Int) {
         index = row+column+(row*2)

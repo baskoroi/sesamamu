@@ -12,6 +12,7 @@ struct FinalStage_2: View {
     
     @EnvironmentObject var globalStore: GlobalStore
     @State var animationAmount:Double = 0.0
+    @ObservedObject var playerScoreService = PlayerScoreService()
     
     func calculateBondingMeter(answer: Array<Any> ) -> Int{
         let score:Int = 0
@@ -28,7 +29,6 @@ struct FinalStage_2: View {
     var body: some View {
         
         ZStack{
-            
             
             Color.black
                 .opacity(self.animationAmount)
@@ -126,6 +126,16 @@ struct FinalStage_2: View {
             }
             
             
+        }
+        .onAppear {
+            self.playerScoreService.calculateBondingMeterScore(campID: "room1") {
+                scoreValue in
+                
+                DispatchQueue.main.async {
+                    print(scoreValue)
+                }
+            }
+//            print("appeared!")
         }
     }
     
