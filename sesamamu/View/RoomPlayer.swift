@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-var isHost: Bool = false
-
 struct PlayersAvailable {
     let avatarURL: String
     let isHost: Bool
@@ -23,9 +21,10 @@ struct RoomPlayer: View {
     @State var playerColumn:Int = 5
     @State var isRoomEmpty:Bool = false
     @State var orangeBackground = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
-    @State var isHost = true
+    @State var isHost = false
     @State var playerIndex:Int = 0
     @State var roomName = "room1"
+    @State var currentPlayer: PlayerViewModel = PlayerViewModel(isHost: false)
     
     @EnvironmentObject var globalStore: GlobalStore
     
@@ -33,7 +32,7 @@ struct RoomPlayer: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack(alignment:.center){
+            ZStack(alignment:.center) {
                 Image("backgroundGradient")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -54,7 +53,7 @@ struct RoomPlayer: View {
                                 .frame(width:60)
                                 .font(.system(size:16, weight: .bold, design: .default))
                                 .multilineTextAlignment(.center)
-                            Text("6759512")
+                            Text(self.roomName)
                                 .lineLimit(2)
                                 .frame(width:180)
                                 .font(.system(size:35, weight: .bold, design: .default))
@@ -73,6 +72,27 @@ struct RoomPlayer: View {
                     }
                         
                     .onAppear{
+                        
+                        // clear players list before entering (join/create) the camp
+                        self.globalStore.clearPlayers()
+                        
+                        // set isHost, campCode, and player into global store
+                        if let avatarURL = self.currentPlayer.avatarURL,
+                            let realName = self.currentPlayer.realName,
+                            let stageName = self.currentPlayer.stageName {
+                            
+                            let isHost = self.currentPlayer.isHost
+                            self.globalStore.currentPlayer = PlayersAvailable(
+                                avatarURL: avatarURL,
+                                isHost: isHost,
+                                realName: realName,
+                                stageName: stageName)
+                        }
+                        
+                        self.globalStore.campCode = self.roomName
+                        
+                        print("current player:", self.globalStore.currentPlayer)
+                        print("camp code:", self.globalStore.campCode)
                         
                         self.inRoomService.observeInRoomPlayers(campID: self.roomName){
                             roomValue in
