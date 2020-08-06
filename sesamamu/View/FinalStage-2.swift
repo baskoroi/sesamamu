@@ -130,7 +130,7 @@ struct FinalStage_2: View {
             
         }
         .onAppear {
-            self.playerScoreService.calculateBondingMeterScore(campID: "room1") {
+            self.playerScoreService.calculateBondingMeterScore(campID: self.globalStore.roomName) {
                 scoreValue in
                 
                 DispatchQueue.main.async {

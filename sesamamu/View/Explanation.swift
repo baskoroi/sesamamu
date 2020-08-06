@@ -16,6 +16,7 @@ struct Explanation: View {
             }
         }.navigationBarHidden(true)
             .edgesIgnoringSafeArea(.all)
+        .navigationBarTitle("")
     }
 }
 

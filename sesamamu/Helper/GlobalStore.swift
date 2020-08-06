@@ -24,7 +24,14 @@ class GlobalStore: ObservableObject {
     @Published var bondingMeterScore = 0
     @Published var correctChoices = []
     
+    
+    @Published var roomName:String = "room1"
+    @Published var playerName:String = "Markus"
+    @Published var isHost:Bool = true
+    
     @Published var playerAnswerName : [playerAnswer] = [] //ini tiap buttonnya masuk
+    
+    
     @Published var players:[PlayersAvailable] = [
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
          PlayersAvailable(avatarURL: "", isHost:true, realName :"",stageName: ""),
