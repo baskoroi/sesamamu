@@ -23,7 +23,8 @@ struct RoomPlayer: View {
     @State var orangeBackground = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
     @State var isHost = false
     @State var playerIndex:Int = 0
-    //    @State var roomName = "room1"
+    @State var roomName = "room1"
+    @State var currentPlayer: PlayerViewModel = PlayerViewModel(isHost: false)
     
     @EnvironmentObject var globalStore: GlobalStore
     

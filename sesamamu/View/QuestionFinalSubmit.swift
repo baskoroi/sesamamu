@@ -9,35 +9,47 @@
 import SwiftUI
 import Firebase
 
-struct QuestionFinal: View {
-    private var roomIDRef = Database.database().reference().child("camps")
-
+struct QuestionFinalSubmit: View {
     var body: some View {
         GeometryReader { geometry in
-            QuestionFinalView()
-        }
+            NavigationView{
+                QuestionFinalSubmitView()
+            }.navigationBarHidden(true)
+                .navigationBarTitle("")
+                .edgesIgnoringSafeArea(.all)
+        }.onTapGesture {self.hideKeyboard()}
     }
 }
 
-struct QuestionFinal_Previews: PreviewProvider {
+struct QuestionFinalSubmit_Previews: PreviewProvider {
     static var previews: some View {
         Group{
-            QuestionFinal().previewDevice("iPhone 11")
-            QuestionFinal().previewDevice("iPhone 8")
+            QuestionFinalSubmit().previewDevice("iPhone 11")
+            QuestionFinalSubmit().previewDevice("iPhone 8")
         }
     }
 }
 
-struct QuestionFinalView: View {
+struct QuestionFinalSubmitView: View {
+    //Global Store
+    @EnvironmentObject var globalStore: GlobalStore
+    //@State var campId = "123456"
+    
+    //DB
     @ObservedObject var questionServices = QuestionServices()
-    @State var campId = "123456"
 
     var ronde: String = "Ronde 3"
     var rondeIntro: String = "Kalau kamu punya kesempatan untuk kenal dia lebih dalam dengan sebuah pertanyaan\n\nMau tanya apa??..."
     
+    //User Input
     @State var userInput:String = ""
-    
     @ObservedObject var textCount = TextCount()
+    
+    //Alert
+    @State private var textFieldEmpty = false
+    
+    //NavigationLink
+    @State private var readyToMove = false
         
     var body: some View {
         ZStack{
@@ -103,7 +115,12 @@ struct QuestionFinalView: View {
                 Button(action: {
                     print("Kirim tapped")
                     //MARK: - Save data to DB for vote
-                    self.questionServices.submitFinalQuestion(campId: self.campId, userQuestion: self.userInput)
+                    if self.userInput != "" {
+                        self.questionServices.submitFinalQuestion(campId: self.globalStore.roomName, userQuestion: self.userInput)
+                        self.readyToMove = true
+                    } else {
+                        self.textFieldEmpty = true
+                    }
                 }) {
                     Image("buttonKirim")
                         .renderingMode(.original)
@@ -111,8 +128,14 @@ struct QuestionFinalView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 250)
                         .padding(.top, 15)
+                }.alert(isPresented: self.$textFieldEmpty) {
+                    Alert(title: Text("Masih kosong nih"), message: Text("Hati aja perlu di isi, isiannya jangan lupa diisi juga ya kak"), dismissButton: .default(Text("Tjakep!")))}
+                NavigationLink(destination: QuestionFinalVote(), isActive: $readyToMove) {
+                    EmptyView()
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
-        }.onTapGesture {self.hideKeyboard()}
+                .offset(y: -UIScreen.main.bounds.height*0.05)
+        }
     }
 }
+

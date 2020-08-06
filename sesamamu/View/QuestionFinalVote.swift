@@ -11,12 +11,14 @@ import Firebase
 
 struct QuestionFinalVote: View {
     var body: some View {
-//        NavigationView{
-            GeometryReader { geometry in
+        GeometryReader { geometry in
+            NavigationView{
                 QuestionFinalVoteView()
-            }
+            }.navigationBarHidden(true)
+                .navigationBarTitle("")
+                .edgesIgnoringSafeArea(.all)
         }
-//    }
+    }
 }
 
 struct QuestionFinalVote_Previews: PreviewProvider {
@@ -29,23 +31,29 @@ struct QuestionFinalVote_Previews: PreviewProvider {
 }
 
 struct QuestionFinalVoteView: View {
-    //VM
+    //Global Store
+    @EnvironmentObject var globalStore: GlobalStore
+    //@State var campId = "123456"
+
+    
+    //DB
     @ObservedObject var questionServices = QuestionServices()
     @State var questions = [QuestionViewModel]()
 
     //DB
-//    private var questionRef = Database.database().reference().child("questions")
     @State var ronde = 3
-//    @State var questionArray = [String]()
-    @State var campId = "123456"
     
     var rondeIntro: String = "Pilih 3 pertanyaan yang paling menarik hati"
-//    var finalRoundQuestionVote = ["Bagian tubuh favoritemu?", "Kalo besok kiamat apa yang bakal kamu lakuin hari ini?", "Lo pake kacamata atau ga?", "Sebutin ciri-ciri lo yang paling unik!!", "Siapa pirs lopemu?", "Kalau udah gede mau jadi apa?"]
-    
-    @State var selectedQuestionId = [UUID]()
+
+    //User Input
     @State var selectedQuestion = [String]()
-    @State private var tooMuch = false
     @State var noPertanyaan = 1
+    
+    //Alert
+    @State private var tooMuch = false
+    
+    //NavigationLink
+    @State private var readyToMove = false
     
     var body: some View {
         ZStack{
@@ -79,8 +87,6 @@ struct QuestionFinalVoteView: View {
                                 if self.selectedQuestion.count > 2 {
                                     self.tooMuch = true
                                 } else {
-                                    //self.selectedQuestionId.append(question.id)
-                                    //print(self.selectedQuestionId)
                                     self.selectedQuestion.append(question.text ?? "")
                                     print(self.selectedQuestion)
                                 }
@@ -100,8 +106,10 @@ struct QuestionFinalVoteView: View {
                 
                 Button(action: {
                     print("Kirim Tapped")
-                    self.submitQuestionForVote()
-                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.campId)
+                    self.submitAllVotedQuestion()
+                    self.readyToMove = true
+                    //Func ini lebih baik cuma dipanggil sekali jadi kefilter cuma sekali, better host nya aja yang punya func ini tapi baru ke trigger kalau semua udah ngevote. Fungsi ngecek semua udah jawab atau belum, belum ada nih
+                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.globalStore.roomName, isHost: true)
                 }) {
                     Image("buttonKirim")
                         .renderingMode(.original)
@@ -109,18 +117,29 @@ struct QuestionFinalVoteView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 250)
                 }
+                
+                NavigationLink(destination: Question(), isActive: $readyToMove) {
+                    EmptyView()
+                }
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
-                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: self.campId)
+                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: self.globalStore.roomName)
             }
         }
     }
     
-    func submitQuestionForVote() {
-        questionServices.fetchQuestion(forRound: 3, campId: campId)
+    func submitAllVotedQuestion() {
+        questionServices.fetchQuestion(forRound: 3, campId: globalStore.roomName)
         for question in selectedQuestion {
-            questionServices.submitQuestionForVote(campId: campId, questionVoteText: question, numberOfVote: 1)
+            questionServices.submitQuestionForVote(campId: globalStore.roomName, questionVoteText: question, numberOfVote: 1)
         }
     }
 }
+
+
+//MARK: - NOTES
+/*
+ 3. Perlu tau di udah di ronde dan pertanyaan ke berapa, dan perpindahannya gimn?
+ 4. Perlu logic gimna caranya tau semua orang udah ngevote
+*/
