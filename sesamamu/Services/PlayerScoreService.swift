@@ -25,21 +25,32 @@ class PlayerScoreService: ObservableObject {
         ])
     }
     
-    func calculateBondingMeterScore(campID: String, completion: @escaping (Int) -> Void ) {
+    func calculateBondingMeterScore(campID: String, completion: @escaping (BondingMeterModel?) -> Void ) {
         let ref = getDBReferenceForRoom(campID: campID).child("bondingMeterScore")
-        var playerScores:[Int] = []
+//        var playerScores:[BondingMeterModel] = []
         
         
-        bondMeterScoreHandle = ref.observe(.value, with: { (score) in
-            if let score = score.value as? [String:Any] {
+        bondMeterScoreHandle = ref.observe(.value, with: { snapshot in
+            let value = snapshot.value as? [String:Any]
                 
-            }
+            value?.forEach({(key,value) in
+                if let newValue = value as? [String:Any],
+                    let name = newValue["player"] as? String,
+                    let score = newValue["score"] as? Int {
+                    
+                    let viewModel = BondingMeterModel(name: name, score: score)
+                    
+//                    playerScores.append(viewModel)
+                    
+//                    print(playerScores)
+                    completion(viewModel)
+                    
+                }else{
+                    completion(nil)
+                }
+            })
 //            completion(totalScore)
-                
-            
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+        })
         
         
     }
