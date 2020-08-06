@@ -23,14 +23,16 @@ class GlobalStore: ObservableObject {
     
     @Published var bondingMeterScore = 0
     @Published var correctChoices = []
-    
+    @Published var campCode: String = ""
+    @Published var currentPlayer: PlayersAvailable = PlayersAvailable(avatarURL: "", isHost: false, realName: "", stageName: "")
+    var isHost: Bool { self.currentPlayer.isHost }
     @Published var playerAnswerName : [playerAnswer] = [] //ini tiap buttonnya masuk
     @Published var players:[PlayersAvailable] = [
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-         PlayersAvailable(avatarURL: "", isHost:true, realName :"",stageName: ""),
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-         PlayersAvailable(avatarURL: "", isHost: false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
@@ -42,6 +44,12 @@ class GlobalStore: ObservableObject {
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: "")
      ]
+    
+    func clearPlayers() {
+        self.players = Array(
+            repeating: PlayersAvailable(avatarURL: "", isHost: false, realName: "",stageName: ""),
+            count: 15)
+    }
     
     
     @Published var inGamePlayer = [

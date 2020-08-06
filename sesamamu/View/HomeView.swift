@@ -29,6 +29,8 @@ struct HomeView: View {
     
     @ObservedObject var campService = CampService()
     
+    @EnvironmentObject var globalStore: GlobalStore
+    
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
@@ -81,7 +83,11 @@ struct HomeView: View {
                                         }
                                 }
                                 
-                                NavigationLink(destination: AvatarView(host: false, campCodeToJoin: self.roomIDToJoin), isActive: self.$isNavigationActive){
+                                NavigationLink(
+                                    destination: AvatarView(host: false,
+                                                            campCodeToEnter: self.roomIDToJoin)
+                                                 .environmentObject(self.globalStore),
+                                    isActive: self.$isNavigationActive) {
                                     
                                     Button(action: {
                                         self.campService.findCamp(withCode: self.roomID) { (camp) in
@@ -125,7 +131,10 @@ struct HomeView: View {
                         }
                         
                         if !self.isRoomIDFieldActive{
-                            NavigationLink(destination: AvatarView(host: true)) {
+                            NavigationLink(
+                                destination: AvatarView(host: true)
+                                    .environmentObject(self.globalStore)) {
+                                        
                                 Image("buatcamp")
                                     .renderingMode(.original)
                                     .resizable()

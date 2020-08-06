@@ -62,7 +62,7 @@ class CampService: ObservableObject {
             }
             
             // if the camp cannot be filled with more players
-            guard playerCount + 1 <= maxPlayers else { // +1: new player
+            guard playerCount <= maxPlayers else { 
                 completion(playerCount, false,
                            .campIsFull("Camp yang kamu masuki sudah penuh " +
                             "(max. \(maxPlayers) orang), pencet Back & kasitau temanmu!"))
