@@ -25,6 +25,24 @@ class GlobalStore: ObservableObject {
     @Published var correctChoices = []
     
     @Published var playerAnswerName : [playerAnswer] = [] //ini tiap buttonnya masuk
+    @Published var players:[PlayersAvailable] = [
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:true, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost: false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
+         PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: "")
+     ]
+    
     
     @Published var inGamePlayer = [
         playerAnswer(name: "real1", correctAnswer: "stage1"),
