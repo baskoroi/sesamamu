@@ -13,6 +13,7 @@ struct FinalStage: View {
     @State var page = "opening"
     @State var correctAnswer:Double = 0
     @EnvironmentObject var globalStore: GlobalStore
+    @ObservedObject var playerScoreService = PlayerScoreService()
     
     var body: some View {
         
@@ -74,6 +75,9 @@ struct FinalStage: View {
                                 }
                                 
                                 self.globalStore.bondingMeterScore = Int(Double(self.correctAnswer)/Double(self.globalStore.inGamePlayer.count/2) * 100)
+                                
+                                self.playerScoreService.sendScore(campID: "room1", score: self.globalStore.bondingMeterScore, playerName: "baskoro")
+                                
                                 
                                 self.page = "bondingMeter"
                             }) {
