@@ -11,6 +11,8 @@ import SwiftUI
 struct FinalStage_2: View {
     
     @EnvironmentObject var globalStore: GlobalStore
+    @State var playerIndex:Int = 0
+    @State var totalScore:Int = 0
     @State var animationAmount:Double = 0.0
     @ObservedObject var playerScoreService = PlayerScoreService()
     
@@ -132,10 +134,12 @@ struct FinalStage_2: View {
                 scoreValue in
                 
                 DispatchQueue.main.async {
-                    print(scoreValue)
+                    self.totalScore += scoreValue!.score
+                    self.playerIndex += 1
+                    self.globalStore.bondingMeterScore = self.totalScore/self.playerIndex
                 }
+               
             }
-//            print("appeared!")
         }
     }
     

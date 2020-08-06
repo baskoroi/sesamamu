@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+
+struct BondingMeterModel{
+    var name : String
+    var score : Int
+}
