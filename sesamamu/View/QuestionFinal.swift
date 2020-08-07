@@ -9,11 +9,11 @@
 import SwiftUI
 import Firebase
 
-struct QuestionFinalSubmit: View {
+struct QuestionFinal: View {
     var body: some View {
         GeometryReader { geometry in
             NavigationView{
-                QuestionFinalSubmitView()
+                QuestionFinalView()
             }.navigationBarHidden(true)
                 .navigationBarTitle("")
                 .edgesIgnoringSafeArea(.all)
@@ -21,16 +21,16 @@ struct QuestionFinalSubmit: View {
     }
 }
 
-struct QuestionFinalSubmit_Previews: PreviewProvider {
+struct QuestionFinal_Previews: PreviewProvider {
     static var previews: some View {
         Group{
-            QuestionFinalSubmit().previewDevice("iPhone 11")
-            QuestionFinalSubmit().previewDevice("iPhone 8")
+            QuestionFinal().previewDevice("iPhone 11")
+            QuestionFinal().previewDevice("iPhone 8")
         }
     }
 }
 
-struct QuestionFinalSubmitView: View {
+struct QuestionFinalView: View {
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
     //@State var campId = "123456"
