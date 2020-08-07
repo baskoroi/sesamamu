@@ -10,10 +10,14 @@ import SwiftUI
 import Firebase
 
 struct Explanation: View {
+    
+    @EnvironmentObject var globalStore: GlobalStore
+    
     var body: some View {
         GeometryReader { geometry in
             NavigationView{
                 ExplanationView()
+                    .environmentObject(self.globalStore)
             }.navigationBarHidden(true)
                 .navigationBarTitle("")
                 .edgesIgnoringSafeArea(.all)
@@ -45,6 +49,8 @@ struct ExplanationView: View {
     
     //NavigationLink
     @State private var readyToMove = false
+    
+    @EnvironmentObject var globalStore: GlobalStore
     
     var body: some View {
         ZStack{
@@ -83,7 +89,7 @@ struct ExplanationView: View {
                     ProgressTrack()
                     ProgressBar(counter: counter, countTo: countTo)
                 }.padding(.top, 10)
-                NavigationLink(destination: Question(), isActive: $readyToMove) {
+                NavigationLink(destination: Question().environmentObject(self.globalStore), isActive: $readyToMove) {
                     EmptyView()
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)

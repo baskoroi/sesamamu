@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseDatabase
 
 class QuestionServices: ObservableObject, Identifiable {
     @Published var submittedQuestionByUser = QuestionViewModel()
@@ -58,7 +58,7 @@ class QuestionServices: ObservableObject, Identifiable {
     }
     
     //MARK: - Get question from DB and add it to questionArray
-    func fetchQuestion(forRound:Int, campId: String) {
+    func fetchQuestion(forRound: Int, campId: String) {
         if forRound == 3 {
             questionRef.child("round\(forRound)/\(campId)/submitted").observeSingleEvent(of: .value, with: { (snapshot) in
                 let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
@@ -72,7 +72,7 @@ class QuestionServices: ObservableObject, Identifiable {
             }) { (error) in
                 print(error.localizedDescription)
             }
-        } else if forRound == 31{
+        } else if forRound == 31 {
             questionRef.child("round3/\(campId)/published").observeSingleEvent(of: .value, with: { (snapshot) in
                 let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
                 if let questionRandomDict = questionArrayChildren.randomElement()?.value as? [String: Any]{

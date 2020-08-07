@@ -13,7 +13,7 @@ struct QuestionFinal: View {
     var body: some View {
         GeometryReader { geometry in
             NavigationView{
-                QuestionFinalSubmitView()
+                QuestionFinalView()
             }.navigationBarHidden(true)
                 .navigationBarTitle("")
                 .edgesIgnoringSafeArea(.all)
@@ -21,7 +21,7 @@ struct QuestionFinal: View {
     }
 }
 
-struct QuestionFinalSubmit_Previews: PreviewProvider {
+struct QuestionFinal_Previews: PreviewProvider {
     static var previews: some View {
         Group{
             QuestionFinal().previewDevice("iPhone 11")
@@ -30,7 +30,7 @@ struct QuestionFinalSubmit_Previews: PreviewProvider {
     }
 }
 
-struct QuestionFinalSubmitView: View {
+struct QuestionFinalView: View {
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
     //@State var campId = "123456"

@@ -12,6 +12,8 @@ struct AllAnswersView: View {
 
     var isHost: Bool
     
+    @EnvironmentObject var globalStore: GlobalStore
+    
     @State private var answers: [AnswerViewModel] = []
     @ObservedObject var answerService = AnswerService()
     
@@ -19,7 +21,7 @@ struct AllAnswersView: View {
         VStack {
             // MARK: Question in quotes
             QuotedQuestionView()
-                .padding(.top, 36)
+                .padding(.top, 60)
             
             // MARK: List of answers (chat-like UI)
             ScrollView {
@@ -59,7 +61,11 @@ struct AllAnswersView: View {
                         .aspectRatio(contentMode: .fill)
                         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/))
         .onAppear {
-            self.answerService.observeIncomingAnswers(for: QuestionModel(round: 1, text: "What's the wifi pass?"), at: "CAMPRET") {
+            self.answerService.observeIncomingAnswers(
+                for: QuestionModel(round: self.globalStore.round,
+                                   text: self.globalStore.questionText),
+                at: self.globalStore.roomName) {
+                    
                 answerValue in
                 
                 DispatchQueue.main.async {
@@ -97,7 +103,12 @@ struct AllAnswersView_Previews: PreviewProvider {
 
 struct QuotedQuestionView: View {
     
-    @State private var questionText = "Password Wi-Fi teraneh? Panjangin lagiiiiiiiiii........ TEROS Panjangin lagiiiiiiiiii........ Dipanjangin"
+    @EnvironmentObject var globalStore: GlobalStore
+    
+    var questionText: String {
+        return self.globalStore.questionText
+    }
+    
     var quotePaddingMultiplier: CGFloat {
         return questionText.isEmpty ? 1 : CGFloat(questionText.count / 20)
     }
