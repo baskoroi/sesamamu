@@ -84,7 +84,8 @@ private struct UITextViewWrapper: UIViewRepresentable {
         if uiView.text != self.text {
             uiView.text = self.text
         }
-        if uiView.window != nil, !uiView.isFirstResponder {
+        //Sebelumnya ada tanda "!" di !uiView.isFirstResponder, tp di del krn crash, hopefullya ga ada msalah.
+        if uiView.window != nil, uiView.isFirstResponder {
             uiView.becomeFirstResponder()
         }
         UITextViewWrapper.recalculateHeight(view: uiView, result: $calculatedHeight)
@@ -146,3 +147,4 @@ class TextCount: ObservableObject {
         }
     }
 }
+

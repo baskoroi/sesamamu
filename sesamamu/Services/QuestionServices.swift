@@ -72,6 +72,15 @@ class QuestionServices: ObservableObject, Identifiable {
             }) { (error) in
                 print(error.localizedDescription)
             }
+        } else if forRound == 31{
+            questionRef.child("round3/\(campId)/published").observeSingleEvent(of: .value, with: { (snapshot) in
+                let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
+                if let questionRandomDict = questionArrayChildren.randomElement()?.value as? [String: Any]{
+                    self.questionForRound = QuestionViewModel(round: forRound, text: questionRandomDict["text"] as? String ?? "")
+                }
+            }) { (error) in
+                print(error.localizedDescription)
+            }
         } else {
             questionRef.child("round\(forRound)").observeSingleEvent(of: .value, with: { (snapshot) in
                 let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
@@ -85,31 +94,33 @@ class QuestionServices: ObservableObject, Identifiable {
     }
     
     //MARK: - Filter top 3 voted question and save it to Published path
-    func findTopThreeQuestion(forRound:Int, campId: String) {
-        questionRef.child("round\(forRound)/\(campId)/voted").observeSingleEvent(of: .value, with: { (snapshot) in
-            let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
-            for questionVoted in questionArrayChildren {
-                let question = questionVoted.value as? [String: String]
-                if let textQuestion = question?["text"] {
-                    self.questionArrayForVote.append(textQuestion)
+    func findTopThreeQuestion(forRound:Int, campId: String, isHost: Bool) {
+        if isHost {
+            questionRef.child("round\(forRound)/\(campId)/voted").observeSingleEvent(of: .value, with: { (snapshot) in
+                let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
+                for questionVoted in questionArrayChildren {
+                    let question = questionVoted.value as? [String: String]
+                    if let textQuestion = question?["text"] {
+                        self.questionArrayForVote.append(textQuestion)
+                    }
                 }
-            }
-            print(self.questionArrayForVote)
-            
-            for _ in 1...3 {
-                let mappedQuestion = self.questionArrayForVote.map{($0, 1)}
-                let counts = Dictionary(mappedQuestion, uniquingKeysWith: +)
+                print(self.questionArrayForVote)
                 
-                
-                if let (value, count) = counts.max(by: {$0.1 < $1.1}) {
-                    print("\(value) occurs \(count) times")
-                    self.submitVotedQuestionForRound3(campId: campId, value: value)
-                    self.questionArrayForVote = self.questionArrayForVote.filter(){$0 != value}
-                    print(self.questionArrayForVote)
+                for _ in 1...3 {
+                    let mappedQuestion = self.questionArrayForVote.map{($0, 1)}
+                    let counts = Dictionary(mappedQuestion, uniquingKeysWith: +)
+                    
+                    
+                    if let (value, count) = counts.max(by: {$0.1 < $1.1}) {
+                        print("\(value) occurs \(count) times")
+                        self.submitVotedQuestionForRound3(campId: campId, value: value)
+                        self.questionArrayForVote = self.questionArrayForVote.filter(){$0 != value}
+                        print(self.questionArrayForVote)
+                    }
                 }
+            }) { (error) in
+                print(error.localizedDescription)
             }
-        }) { (error) in
-            print(error.localizedDescription)
         }
     }
 }

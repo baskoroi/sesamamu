@@ -14,7 +14,9 @@ struct Question: View {
         GeometryReader { geometry in
             NavigationView{
                 QuestionView()
-            }
+            }.navigationBarHidden(true)
+                .navigationBarTitle("")
+                .edgesIgnoringSafeArea(.all)
         }.onTapGesture {self.hideKeyboard()}
     }
 }
@@ -29,17 +31,26 @@ struct Question_Previews: PreviewProvider {
 }
 
 struct QuestionView: View {
+    //Global Store
+    @EnvironmentObject var globalStore: GlobalStore
+    @State private var ronde = 31
+    @State private var subRonde = 1
+    //Khusus ronde terakhir yang sudah di filter pake ronde = 31
+
     //DB
-    @State var ronde = 1
-    @State var subRonde = 1
-//    @State var questionArray = []
-//    @State var randomQuestion = String()
-//    @State var questionRandom = String()
- 
-    @ObservedObject var questionServices = QuestionServices()
+    @ObservedObject private var questionServices = QuestionServices()
+    @ObservedObject private var answerService = AnswerService()
     
-    @State var userInput:String = ""
-    @ObservedObject var textCount = TextCount()
+    //User Input
+    @State private var userInput:String = ""
+    @ObservedObject private var textCount = TextCount()
+    
+    //Alert
+    @State private var textFieldEmpty = false
+    
+    //NavigationLink
+    @State private var readyToMove = false
+
 
     var body: some View {
         ZStack{
@@ -100,7 +111,15 @@ struct QuestionView: View {
                 Button(action: {
                     print("Kirim tapped")
                     //MARK: - Save answer to DB for chat room
-                    print("Final text: \(self.userInput)")
+                    if self.userInput != "" {
+                        /*
+                         answerService.sendAnswer(for: QuestionModel(round: ronde, text: self.userInput), at: globalStore.roomName, from: AnswerViewModel(stageName: <#T##String?#>, answerText: <#T##String?#>, isMyOwn: <#T##Bool#>, avatarURL: <#T##String?#>, timestamp: <#T##TimeInterval#>))
+                         */
+                        print("Final text: \(self.userInput)")
+                        self.readyToMove = true
+                    } else {
+                        self.textFieldEmpty = true
+                    }
                 }) {
                     Image("buttonKirim")
                         .renderingMode(.original)
@@ -108,25 +127,17 @@ struct QuestionView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 250)
                         .padding(.top, 15)
+                }.alert(isPresented: self.$textFieldEmpty) {
+                    Alert(title: Text("Masih kosong nih"), message: Text("Hati aja perlu di isi, isiannya jangan lupa diisi juga ya kak"), dismissButton: .default(Text("Tjakep!")))}
+                NavigationLink(destination: AllAnswersView(isHost: true), isActive: $readyToMove) {
+                    EmptyView()
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
-                    self.questionServices.fetchQuestion(forRound: 1, campId: "")}
+                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: self.globalStore.roomName)}
         }
     }
-    
-//    //Get question from DB and add it to questionArray
-//    func fetchQuestion(forRound:String) {
-//        questionRef.child("round\(forRound)").observeSingleEvent(of: .value, with: { (snapshot) in
-//            let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
-//            if let questionRandomDict = questionArrayChildren.randomElement()?.value as? [String: Any]{
-//                self.questionRandom = questionRandomDict["text"] as? String ?? ""
-//            }
-//          }) { (error) in
-//            print(error.localizedDescription)
-//        }
-//    }
 }
 
 extension Publishers {
@@ -163,3 +174,4 @@ extension View {
         ModifiedContent(content: self, modifier: KeyboardAdaptive())
     }
 }
+

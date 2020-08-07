@@ -14,10 +14,10 @@ struct Explanation: View {
         GeometryReader { geometry in
             NavigationView{
                 ExplanationView()
-            }
-        }.navigationBarHidden(true)
-            .edgesIgnoringSafeArea(.all)
-        .navigationBarTitle("")
+            }.navigationBarHidden(true)
+                .navigationBarTitle("")
+                .edgesIgnoringSafeArea(.all)
+        }
     }
 }
 
@@ -32,18 +32,20 @@ struct Explanation_Previews: PreviewProvider {
 
 
 struct ExplanationView: View {
-    //Question
+    //Intro to question
     @State var ronde: Int = 1
     @State var rondeIntro: String = "Pengen kenalan tapi malu nanya duluan. Daripada diem-dieman, Yaudah kita bantu dengan pertanyaan"
     @State var rondeDesc: String = "Di ronde ini kamu akan diberikan pertanyaan random. Jangan takut, ini cuma pemanasan. Ga ada jawaban benar dan salah kok. Selamat bermain!"
     
-    //Member
+    //Timer
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var appEnterForeground = true
+    @State var counter: Int = 0
+    var countTo: Int = 5
     
-    @State var isReady: Bool = false
-    @State var numberOfPlayerAvailable: Int = 15
-    @State var numberOfPlayerReady: Int = 10
+    //NavigationLink
+    @State private var readyToMove = false
     
-        
     var body: some View {
         ZStack{
             Image("backgroundRonde1")
@@ -77,61 +79,29 @@ struct ExplanationView: View {
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .frame(width: 300)
-                HStack{
-                    if numberOfPlayerReady == numberOfPlayerAvailable {
-                        ForEach(0..<numberOfPlayerReady){ index in
-                            Circle()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.white)
-                                .padding(.top, 30)
-                        }
-                    } else if numberOfPlayerReady > 0{
-                        ForEach(0..<numberOfPlayerReady){ index in
-                            Circle()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.white)
-                                .padding(.top, 30)
-                        }
-                        ForEach(0..<self.numberOfPlayerAvailable-numberOfPlayerReady){ index in
-                            Circle()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.gray)
-                                .padding(.top, 30)
-                        }
-                    } else {
-                        ForEach(0..<numberOfPlayerAvailable){ index in
-                            Circle()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.gray)
-                                .padding(.top, 30)
-                        }
-                    }
+                ZStack{
+                    ProgressTrack()
+                    ProgressBar(counter: counter, countTo: countTo)
+                }.padding(.top, 10)
+                NavigationLink(destination: Question(), isActive: $readyToMove) {
+                    EmptyView()
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
+        }.onReceive(timer) { time in
+            guard self.appEnterForeground else { return }
+            if (self.counter < self.countTo) {
+                self.counter += 1
+            } else if (self.counter == self.countTo){
+                //stop timer
+                self.timer.upstream.connect().cancel()
+                self.readyToMove = true
+                print("Pindah yukks")
+            }
+        }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            self.appEnterForeground = false
+        }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            self.appEnterForeground = true
         }
     }
 }
-
-//class AllPlayerReady: ObservableObject {
-//    @State var numberOfPlayerAvailable: Int = 15
-//
-//    @Published var numberOfPlayerReady: Int = 0 {
-//        didSet{
-//            if numberOfPlayerAvailable == numberOfPlayerReady {
-//                print("Sama inih")
-//            }
-//        }
-//    }
-//}
-
-//class TextCount: ObservableObject {
-//    var charCount:Int = 0
-//
-//    @Published var userTextInput:String = ""{
-//        didSet{
-//            charCount = userTextInput.count
-//            print(charCount)
-//        }
-//    }
-//}
