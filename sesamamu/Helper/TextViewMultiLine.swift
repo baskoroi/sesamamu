@@ -3,7 +3,7 @@
 //  sesamamu
 //
 //  Created by Yohanes Markus Heksan on 27/07/20.
-//  Copyright © 2020 Baskoro Indrayana. All rights reserved.
+//  Copyright ©️ 2020 Baskoro Indrayana. All rights reserved.
 //
 
 import SwiftUI
@@ -147,4 +147,3 @@ class TextCount: ObservableObject {
         }
     }
 }
-

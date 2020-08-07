@@ -117,7 +117,7 @@ struct RoomPlayer: View {
                         //                        .edgesIgnoringSafeArea(.all)
                         
                         if(self.isHost){
-                            NavigationLink(destination: Explanation()){
+                            NavigationLink(destination: Explanation().environmentObject(self.globalStore)){
                                 
                                 Image("buatcamp")
                                     .renderingMode(.original)

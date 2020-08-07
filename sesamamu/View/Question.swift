@@ -10,10 +10,14 @@ import Combine
 import Firebase
 
 struct Question: View {
+    
+    @EnvironmentObject var globalStore: GlobalStore
+    
     var body: some View {
         GeometryReader { geometry in
             NavigationView{
                 QuestionView()
+                    .environmentObject(self.globalStore)
             }.navigationBarHidden(true)
                 .navigationBarTitle("")
                 .edgesIgnoringSafeArea(.all)
@@ -33,20 +37,19 @@ struct Question_Previews: PreviewProvider {
 struct QuestionView: View {
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
-    @State private var ronde = 31
+    @State private var ronde = 1
     @State private var subRonde = 1
     //Khusus ronde terakhir yang sudah di filter pake ronde = 31
 
     //DB
-    @ObservedObject private var questionServices = QuestionServices()
-    @ObservedObject private var answerService = AnswerService()
+    @ObservedObject var questionServices = QuestionServices()
+    @ObservedObject var answerService = AnswerService()
     
     //User Input
-    @State private var userInput:String = ""
-    @ObservedObject private var textCount = TextCount()
+    @ObservedObject var textCount = TextCount()
     
     //Alert
-    @State private var textFieldEmpty = false
+    @State var textFieldEmpty = false
     
     //NavigationLink
     @State private var readyToMove = false
@@ -70,7 +73,7 @@ struct QuestionView: View {
                     .frame(width: 30, height: 3)
                     .foregroundColor(.white)
                     .padding(.vertical, 10)
-                Text(questionServices.questionForRound.text ?? "")
+                Text(self.questionServices.questionForRound.text ?? "")
                     .font(Font.custom("Montserrat-BoldItalic", size: 15))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -83,9 +86,7 @@ struct QuestionView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                     
-                    MultilineTextField("Jawab di sini ya", text: self.$textCount.userTextInput, charLimit: 150, onCommit: {
-                        self.userInput = self.textCount.userTextInput
-                    })
+                    MultilineTextField("Jawab di sini ya", text: self.$textCount.userTextInput, charLimit: 150)
                         .frame(width: UIScreen.main.bounds.width*0.85)
                         .font(.system(size: 18))
                     
@@ -111,11 +112,25 @@ struct QuestionView: View {
                 Button(action: {
                     print("Kirim tapped")
                     //MARK: - Save answer to DB for chat room
-                    if self.userInput != "" {
-                        /*
-                         answerService.sendAnswer(for: QuestionModel(round: ronde, text: self.userInput), at: globalStore.roomName, from: AnswerViewModel(stageName: <#T##String?#>, answerText: <#T##String?#>, isMyOwn: <#T##Bool#>, avatarURL: <#T##String?#>, timestamp: <#T##TimeInterval#>))
-                         */
-                        print("Final text: \(self.userInput)")
+                    let answerText = self.textCount.userTextInput
+                    if !self.textCount.userTextInput.isEmpty {
+                        
+                        let currentPlayer = self.globalStore.currentPlayer
+                        
+                        self.globalStore.round = self.ronde
+                        self.globalStore.questionNumber = self.subRonde
+                        self.globalStore.questionText = self.questionServices.questionForRound.text!
+                        
+                        self.answerService.sendAnswer(
+                            for: QuestionModel(round: self.globalStore.round, text: self.globalStore.questionText),
+                            at: self.globalStore.roomName,
+                            from: AnswerViewModel(
+                                stageName: currentPlayer.stageName,
+                                answerText: answerText,
+                                isMyOwn: false,
+                                avatarURL: currentPlayer.avatarURL,
+                                timestamp: Date().timeIntervalSince1970))
+                        print("Final text: \(answerText)")
                         self.readyToMove = true
                     } else {
                         self.textFieldEmpty = true
@@ -129,13 +144,15 @@ struct QuestionView: View {
                         .padding(.top, 15)
                 }.alert(isPresented: self.$textFieldEmpty) {
                     Alert(title: Text("Masih kosong nih"), message: Text("Hati aja perlu di isi, isiannya jangan lupa diisi juga ya kak"), dismissButton: .default(Text("Tjakep!")))}
-                NavigationLink(destination: AllAnswersView(isHost: true), isActive: $readyToMove) {
+                NavigationLink(destination: AllAnswersView(isHost: true).environmentObject(self.globalStore),
+                               isActive: $readyToMove) {
                     EmptyView()
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
-                .offset(y: -UIScreen.main.bounds.height*0.05)
+//                .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
-                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: self.globalStore.roomName)}
+                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: self.globalStore.roomName)
+            }
         }
     }
 }
