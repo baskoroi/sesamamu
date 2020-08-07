@@ -24,11 +24,14 @@ class GlobalStore: ObservableObject {
     @Published var bondingMeterScore = 0
     @Published var correctChoices = []
     
-    
+    // TODO rename to `campCode`
     @Published var roomName:String = "room1"
-    @Published var playerName:String = "Markus"
-    @Published var isHost:Bool = true
-    
+    //@Published var playerName:String = "Markus"
+    //@Published var isHost:Bool = true
+
+    @Published var currentPlayer: PlayersAvailable = PlayersAvailable(avatarURL: "", isHost: false, realName: "", stageName: "")
+    var isHost: Bool { self.currentPlayer.isHost }
+
     @Published var playerAnswerName : [playerAnswer] = [] //ini tiap buttonnya masuk
     
     

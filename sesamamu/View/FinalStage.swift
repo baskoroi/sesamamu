@@ -79,7 +79,7 @@ struct FinalStage: View {
                                 
                                 self.globalStore.bondingMeterScore = Int(Double(self.correctAnswer)/Double(self.globalStore.inGamePlayer.count/2) * 100)
                                 
-                                self.playerScoreService.sendScore(campID: self.globalStore.roomName, score: self.globalStore.bondingMeterScore, playerName: self.globalStore.playerName)
+                                self.playerScoreService.sendScore(campID: self.globalStore.roomName, score: self.globalStore.bondingMeterScore, playerName: self.globalStore.currentPlayer.stageName)
                                 
                                 
                                 self.page = "bondingMeter"
