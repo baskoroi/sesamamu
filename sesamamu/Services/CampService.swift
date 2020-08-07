@@ -45,9 +45,9 @@ class CampService: ObservableObject {
     
     // escaping closure parameters:
     // 1. current number of players in the camp
-    // 2. can the room accommodate another player
+    // 2. max players in the camp
     // 3. the camp service error and its message
-    func countPlayersInCamp(campCode: String, completion: @escaping (Int?, Bool, CampServiceError?) -> Void) {
+    func countPlayersInCamp(campCode: String, completion: @escaping (Int?, Int?) -> Void) {
         // intentionally .observe() to capture streams of values
         campReference.child(campCode).observe(.value) { (snapshot) in
             
@@ -57,19 +57,11 @@ class CampService: ObservableObject {
                 let maxPlayers = value["maxPlayers"] as? Int else {
                 
                 // skip the error and assume as joinable, as nil value might mean we could get the non-nil snapshots in near future
-                completion(nil, true, nil)
+                completion(nil, nil)
                 return
             }
             
-            // if the camp cannot be filled with more players
-            guard playerCount <= maxPlayers else { 
-                completion(playerCount, false,
-                           .campIsFull("Camp yang kamu masuki sudah penuh " +
-                            "(max. \(maxPlayers) orang), pencet Back & kasitau temanmu!"))
-                return
-            }
-            
-            completion(playerCount, true, nil)
+            completion(playerCount, maxPlayers)
         }
     }
     
@@ -143,4 +135,3 @@ class CampService: ObservableObject {
         }
     }
 }
-

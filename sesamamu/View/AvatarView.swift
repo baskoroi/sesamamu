@@ -228,6 +228,13 @@ struct AvatarView: View {
                         
                         Button(action: {
                             
+                            guard !self.namaPanggung.isEmpty && !self.namaAsli.isEmpty else {
+                                self.alertTitle = "Lengkapi inputnya..."
+                                self.alertMessage = "Nama panggung sama nama aslinya jangan lupa diisi, dua-duanya yah..."
+                                self.showAlert = true
+                                return
+                            }
+                            
                             // Camp ID is emptied here, since the ID will be generated inside PlayerService during camp creation
                             let playerViewModel = PlayerViewModel(
                                 stageName: self.namaPanggung,
@@ -286,6 +293,14 @@ struct AvatarView: View {
                         isActive: self.$isRoomJoined) {
                             
                         Button(action: {
+                            
+                            guard !self.namaPanggung.isEmpty && !self.namaAsli.isEmpty else {
+                                self.alertTitle = "Lengkapi inputnya..."
+                                self.alertMessage = "Nama panggung sama nama aslinya jangan lupa diisi, dua-duanya yah..."
+                                self.showAlert = true
+                                return
+                            }
+                            
                             let playerViewModel = PlayerViewModel(stageName: self.namaPanggung, realName: self.namaAsli, avatarURL: "binatang-\(self.counter)", isHost: false, campID: self.campCodeToEnter)
                             self.currentPlayer = playerViewModel
                             
@@ -323,25 +338,30 @@ struct AvatarView: View {
                     .onAppear {
                         print("avatar view muncul")
                         
-                        self.campService.countPlayersInCamp(campCode: self.campCodeToEnter) { (numPlayers, canJoin, error) in
+                        self.campService.countPlayersInCamp(campCode: self.campCodeToEnter) { (numPlayers, maxPlayers) in
                             
-                            if let numPlayers = numPlayers {
-                                self.playersJoining = numPlayers
+                            guard let numP = numPlayers, let maxP = maxPlayers else {
+                                return
                             }
                             
-                            if let err = error {
+                            self.playersJoining = numP
+                            
+                            // only checked if room is not joined yet
+                            if numP > maxP {
                                 self.alertTitle = "Camp nya full!"
                                 self.alertMessage = "Coba pencet Back dan panggil temenmu yang ngadain camp nya..."
                                 self.roomStatus = "Camp penuh. Boleh tunggu atau ke camp berikutnya..."
                                 self.disableJoin = true
                                 self.showAlert = true
                                 return
+                            } else if numP == maxP {
+                                self.roomStatus = "Camp sudah penuh, mencapai jumlah maksimum player..."
+                                self.disableJoin = true
+                                return
                             }
                             
-                            self.disableJoin = !canJoin
-                            if canJoin {
-                                self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
-                            }
+                            self.disableJoin = false
+                            self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
                         }
                     }
                 }
