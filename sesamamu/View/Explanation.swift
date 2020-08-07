@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct Explanation: View {
     var body: some View {
@@ -31,45 +32,48 @@ struct Explanation_Previews: PreviewProvider {
 
 
 struct ExplanationView: View {
-    @State var ronde: String = "Ronde 1"
+    //Question
+    @State var ronde: Int = 1
     @State var rondeIntro: String = "Pengen kenalan tapi malu nanya duluan. Daripada diem-dieman, Yaudah kita bantu dengan pertanyaan"
-    @State var rondeDesc: String = "Di ronde ini kamu akan diberikan pertanyaan random. Jangan takut, ini cuma pemanasan. Ga ada jawaban benar dan salah kok. Selemat bermain!"
+    @State var rondeDesc: String = "Di ronde ini kamu akan diberikan pertanyaan random. Jangan takut, ini cuma pemanasan. Ga ada jawaban benar dan salah kok. Selamat bermain!"
+    
+    //Member
     
     @State var isReady: Bool = false
     @State var numberOfPlayerAvailable: Int = 15
-    @State var numberOfPlayerReady: Int = 15
+    @State var numberOfPlayerReady: Int = 10
     
-//    @ObservedObject var playerReady = AllPlayerReady()
-    
+        
     var body: some View {
         ZStack{
-            Image("backgroundhome2")
+            Image("backgroundRonde1")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("\(self.ronde)")
-                    .font(.system(size: 41, weight: .heavy))
+                Text("Ronde \(self.ronde)")
+                    .font(Font.custom("Montserrat-Bold", size: 35))
                     .foregroundColor(.white)
-                    .padding(.top, 20)
+                    .padding(.top, UIScreen.main.bounds.height*0.05)
                 VStack{
                     Text("\"")
-                        .font(.system(size: 40, weight: .bold))
+                        .font(Font.custom("Montserrat-ExtraBoldItalic", size: 35))
                         .foregroundColor(.white)
                         .frame(width: 250, alignment: .leading)
                     Text("\(self.rondeIntro)")
-                        .font(.system(size: 17, weight: .bold, design: .default))
+                        .font(Font.custom("Montserrat-BoldItalic", size: 15))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .frame(width: 300)
+                        .lineSpacing(4)
                     Text("\"")
-                        .font(.system(size: 40, weight: .bold))
+                        .font(Font.custom("Montserrat-ExtraBoldItalic", size: 35))
                         .foregroundColor(.white)
                         .frame(width: 250, alignment: .trailing)
-                }
+                }.padding(.top, UIScreen.main.bounds.height*0.01)
                 Spacer()
                 Text("\(self.rondeDesc)")
-                    .font(.system(size: 15, weight: .regular))
+                    .font(Font.custom("Montserrat", size: 15))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .frame(width: 300)

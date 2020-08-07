@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-var isHost: Bool = false
-
 struct PlayersAvailable {
     let avatarURL: String
     let isHost: Bool
@@ -23,15 +21,18 @@ struct RoomPlayer: View {
     @State var playerColumn:Int = 5
     @State var isRoomEmpty:Bool = false
     @State var orangeBackground = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
-    @State var isHost = true
+    @State var isHost = false
     @State var playerIndex:Int = 0
-    //    @State var roomName = "room1"
+
+    @State var roomName = "room1"
+    @State var currentPlayer: PlayerViewModel = PlayerViewModel(isHost: false)
     
     @EnvironmentObject var globalStore: GlobalStore
     
     @ObservedObject var inRoomService = InRoomService()
     
     var body: some View {
+
         NavigationView {
             GeometryReader { geometry in
                 
@@ -79,9 +80,27 @@ struct RoomPlayer: View {
                                 
                             }.frame(width:UIScreen.main.bounds.size.width)
                         }
-                        .onAppear{
+                        .onAppear {
+
+                            // clear players list before entering (join/create) the camp
+                            self.globalStore.clearPlayers()
+
+                            // set isHost, campCode, and player into global store
+                            if let avatarURL = self.currentPlayer.avatarURL,
+                                let realName = self.currentPlayer.realName,
+                                let stageName = self.currentPlayer.stageName {
+
+                                let isHost = self.currentPlayer.isHost
+                                self.globalStore.currentPlayer = PlayersAvailable(
+                                    avatarURL: avatarURL,
+                                    isHost: isHost,
+                                    realName: realName,
+                                    stageName: stageName)
+                            }
+
+                            self.globalStore.roomName = self.roomName
                             
-                            self.inRoomService.observeInRoomPlayers(campID: self.globalStore.roomName){
+                            self.inRoomService.observeInRoomPlayers(campID: self.globalStore.roomName) {
                                 roomValue in
                                 guard let roomValue = roomValue else {return}
                                 
@@ -93,7 +112,6 @@ struct RoomPlayer: View {
                                 }
                                 self.playerIndex = 0
                             }
-                            
                         }
                         .frame(width:UIScreen.main.bounds.size.width-100, height: UIScreen.main.bounds.size.height * 0.6)
                         //                        .edgesIgnoringSafeArea(.all)
@@ -108,18 +126,7 @@ struct RoomPlayer: View {
                                     .frame(width: 250, alignment: .center)
                                     .padding()
                             }
-                            //                            Button(action: {
-                            //                                print("buat camp tapped")
-                            //                                print(self.globalStore.players[0])
-                            //                            }) {
-                            //                                Image("buatcamp")
-                            //                                    .renderingMode(.original)
-                            //                                    .resizable()
-                            //                                    .aspectRatio(contentMode: .fit)
-                            //                                    .frame(width: 250, alignment: .center)
-                            //                                    .padding()
-                            //                            }
-                        }else{
+                        } else {
                             Text("Menunggu Tuan Rumah Untuk Memulai Permainan...")
                                 .italic()
                                 .lineLimit(3)
