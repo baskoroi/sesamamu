@@ -37,8 +37,10 @@ struct Question_Previews: PreviewProvider {
 struct QuestionView: View {
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
-    @State private var ronde = 1
-    @State private var subRonde = 1
+    @State private var ronde = 3
+    @State private var subRonde = 2
+    @State private var isHost = true
+    @State private var generateNewRound = true
     //Khusus ronde terakhir yang sudah di filter pake ronde = 31
 
     //DB
@@ -144,14 +146,15 @@ struct QuestionView: View {
                         .padding(.top, 15)
                 }.alert(isPresented: self.$textFieldEmpty) {
                     Alert(title: Text("Masih kosong nih"), message: Text("Hati aja perlu di isi, isiannya jangan lupa diisi juga ya kak"), dismissButton: .default(Text("Tjakep!")))}
-                NavigationLink(destination: AllAnswersView(isHost: true).environmentObject(self.globalStore),
+                NavigationLink(destination: AllAnswersView(isHost: self.isHost).environmentObject(self.globalStore),
                                isActive: $readyToMove) {
                     EmptyView()
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
 //                .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
-                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: self.globalStore.roomName)
+//                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: "987654"/*self.globalStore.roomName*/)
+                    self.questionServices.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: "777777", forRound: self.ronde, no: self.subRonde, isHost: self.isHost, generateNewRound: self.generateNewRound)
             }
         }
     }

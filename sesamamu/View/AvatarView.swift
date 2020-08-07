@@ -126,7 +126,7 @@ struct AvatarView: View {
                 }.foregroundColor(.white)
                     .font(.system(size: 15))
                 
-                Image("namaPanggung")
+                Image("namapanggung-30")
                     .renderingMode(.original)
                     .resizable()
                     .aspectRatio(contentMode: .fit)

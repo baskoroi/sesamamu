@@ -19,6 +19,7 @@ struct Explanation: View {
                     .environmentObject(self.globalStore)
             }.navigationBarHidden(true)
                 .navigationBarTitle("")
+                .navigationBarBackButtonHidden(true)
                 .edgesIgnoringSafeArea(.all)
         }
     }
@@ -44,7 +45,7 @@ struct ExplanationView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var appEnterForeground = true
     @State var counter: Int = 0
-    var countTo: Int = 5
+    var countTo: Int = 3
     
     //NavigationLink
     @State private var readyToMove = false
@@ -92,7 +93,7 @@ struct ExplanationView: View {
                     EmptyView()
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
-                .offset(y: -UIScreen.main.bounds.height*0.05)
+//                .offset(y: -UIScreen.main.bounds.height*0.05)
         }.onReceive(timer) { time in
             guard self.appEnterForeground else { return }
             if (self.counter < self.countTo) {
