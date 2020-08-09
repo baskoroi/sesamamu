@@ -16,10 +16,13 @@ class QuestionServices: ObservableObject, Identifiable {
     @Published var questionArrayForRound = [QuestionViewModel]()
     @Published var questionForRound = QuestionViewModel()
     
+    @Published var questionPickArray = [String]()
+    
     @Published var questionArrayForVote = [String]()
 
     //DB ref
     private var questionRef = Database.database().reference().child("questions")
+    private var campRef = Database.database().reference().child("camps")
     
     //MARK: - Submit data to DB
     func submitFinalQuestion(campId: String, userQuestion questionText: String) {
@@ -81,21 +84,58 @@ class QuestionServices: ObservableObject, Identifiable {
             }) { (error) in
                 print(error.localizedDescription)
             }
-        } else {
-            questionRef.child("round\(forRound)").observeSingleEvent(of: .value, with: { (snapshot) in
-                let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
-                if let questionRandomDict = questionArrayChildren.randomElement()?.value as? [String: Any]{
-                    self.questionForRound = QuestionViewModel(round: forRound, text: questionRandomDict["text"] as? String ?? "")
-                }
-            }) { (error) in
-                print(error.localizedDescription)
-            }
         }
     }
     
+    func fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: String, forRound: Int, no questionNumber: Int, isHost:Bool, generateNewRound: Bool){
+        if isHost && generateNewRound {
+            questionRef.child("round\(forRound)").observeSingleEvent(of: .value, with: { (snapshot) in
+                let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
+                for _ in 0...2 {
+                    if let questionRandomDict = questionArrayChildren.randomElement()?.value as? [String: Any]{
+                        let questionPick = questionRandomDict["text"]
+                        self.questionPickArray.append(questionPick as? String ?? "")
+                    }
+                }
+                print(self.questionPickArray)
+                var number = 0
+                //Insert to Camp Question with specific id
+                for question in self.questionPickArray {
+                    number += 1
+                    self.campRef.child("\(campId)/currentQuestions").childByAutoId().setValue(["number": number,"text": question]) { (error:Error?, ref:DatabaseReference) in
+                        if let error = error {
+                            print("Data could not be saved: \(error).")
+                        } else {
+                            self.submittedQuestionByUser = QuestionViewModel(round: 3, text: question)
+                            print("Data saved successfully! User input: \(question)")
+                        }
+                    }
+                }
+                self.fetchQuestionFromCurrentQuestionWithSpecificCampId(id: campId, for: forRound, no: questionNumber)
+            }) { (error) in
+                print(error.localizedDescription)
+            }
+        } else {
+            fetchQuestionFromCurrentQuestionWithSpecificCampId(id: campId, for: forRound, no: questionNumber)
+        }
+    }
+    
+    func fetchQuestionFromCurrentQuestionWithSpecificCampId(id campId: String, for forRound: Int, no questionNumber: Int) {
+        campRef.child("\(campId)/currentQuestions").observeSingleEvent(of: .value, with: { (snapshot) in
+            let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
+            for number in 0...questionNumber-1{
+                if let questionDict = questionArrayChildren[number].value as? [String: Any] {
+                    print(questionDict)
+                    self.questionForRound = QuestionViewModel(round: forRound, text: questionDict["text"] as? String ?? "")
+                }
+            }
+            print(self.questionForRound)
+        })
+    }
+    
     //MARK: - Filter top 3 voted question and save it to Published path
-    func findTopThreeQuestion(forRound:Int, campId: String, isHost: Bool) {
-        if isHost {
+    func findTopThreeQuestion(forRound:Int, campId: String, isHost: Bool, generateNewRound: Bool) {
+        if isHost && generateNewRound {
             questionRef.child("round\(forRound)/\(campId)/voted").observeSingleEvent(of: .value, with: { (snapshot) in
                 let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
                 for questionVoted in questionArrayChildren {
@@ -115,9 +155,41 @@ class QuestionServices: ObservableObject, Identifiable {
                         print("\(value) occurs \(count) times")
                         self.submitVotedQuestionForRound3(campId: campId, value: value)
                         self.questionArrayForVote = self.questionArrayForVote.filter(){$0 != value}
-                        print(self.questionArrayForVote)
                     }
                 }
+                print(self.questionArrayForVote)
+                self.removeAndUpdateQuestionForFinalQuestion(campId: campId, forRound: forRound, question: self.questionArrayForVote)
+            }) { (error) in
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func removeAndUpdateQuestionForFinalQuestion(campId: String, forRound:Int, question:[String]) {
+        campRef.child("\(campId)/currentQuestions").removeValue { (err, dbRef) in
+            self.questionRef.child("round\(forRound)/\(campId)/published").observeSingleEvent(of: .value, with: { (snapshot) in
+                let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
+                for _ in 0...2 {
+                    if let questionRandomDict = questionArrayChildren.randomElement()?.value as? [String: Any]{
+                        let questionPick = questionRandomDict["text"]
+                        self.questionPickArray.append(questionPick as! String)
+                    }
+                }
+                print(self.questionPickArray)
+                var number = 0
+                //Insert to Camp Question with specific id
+                for question in self.questionPickArray {
+                    number += 1
+                    self.campRef.child("\(campId)/currentQuestions").childByAutoId().setValue(["number": number,"text": question]) { (error:Error?, ref:DatabaseReference) in
+                        if let error = error {
+                            print("Data could not be saved: \(error).")
+                        } else {
+                            self.submittedQuestionByUser = QuestionViewModel(round: 3, text: question)
+                            print("Data saved successfully! User input: \(question)")
+                        }
+                    }
+                }
+                //                    self.fetchQuestionFromCurrentQuestionWithSpecificCampId(id: campId, for: forRound, no: questionNumber)
             }) { (error) in
                 print(error.localizedDescription)
             }

@@ -19,6 +19,7 @@
 		28C7D63424DA6A6700615703 /* MemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63324DA6A6700615703 /* MemberViewModel.swift */; };
 		28C7D63624DA6A8B00615703 /* MemberServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63524DA6A8B00615703 /* MemberServices.swift */; };
 		28C7D63E24DCF82400615703 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63D24DCF82400615703 /* CountDownTimer.swift */; };
+		28C7D64024DD9E2C00615703 /* ExplanationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63F24DD9E2C00615703 /* ExplanationService.swift */; };
 		5384FF8D24CE745400091F70 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8C24CE745400091F70 /* HomeView.swift */; };
 		5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8E24CE747400091F70 /* AvatarView.swift */; };
 		5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF9024CE751200091F70 /* CustomTextField.swift */; };
@@ -102,6 +103,7 @@
 		28C7D63324DA6A6700615703 /* MemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberViewModel.swift; sourceTree = "<group>"; };
 		28C7D63524DA6A8B00615703 /* MemberServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberServices.swift; sourceTree = "<group>"; };
 		28C7D63D24DCF82400615703 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
+		28C7D63F24DD9E2C00615703 /* ExplanationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationService.swift; sourceTree = "<group>"; };
 		3C1724AFE7648578BB742177 /* Pods-sesamamu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu.debug.xcconfig"; path = "Target Support Files/Pods-sesamamu/Pods-sesamamu.debug.xcconfig"; sourceTree = "<group>"; };
 		5384FF8C24CE745400091F70 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5384FF8E24CE747400091F70 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				28C7D63524DA6A8B00615703 /* MemberServices.swift */,
+				28C7D63F24DD9E2C00615703 /* ExplanationService.swift */,
 				28C7D63124D99D9000615703 /* QuestionServices.swift */,
 				CC210EFB24D7D056004527EC /* AnswerService.swift */,
 				53A2B7DD24D82A8A0045997E /* CampService.swift */,
@@ -671,6 +674,7 @@
 				CC81105224D12C4000682336 /* AnswerCell.swift in Sources */,
 				CCA00F5C24C6DD3C00FCD3C9 /* SceneDelegate.swift in Sources */,
 				CC025B9C24D3B33800576998 /* FinalStage.swift in Sources */,
+				28C7D64024DD9E2C00615703 /* ExplanationService.swift in Sources */,
 				CC81105924D12DDC00682336 /* FontSelector.swift in Sources */,
 				28C4789A24CE89810026FE0E /* QuestionFinal.swift in Sources */,
 				CC210EFC24D7D056004527EC /* AnswerService.swift in Sources */,
