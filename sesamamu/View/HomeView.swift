@@ -75,9 +75,9 @@ struct HomeView: View {
                                     .cornerRadius(12)
                                     .onTapGesture {
                                         self.isRoomIDFieldActive = true
-                                        if self.isRoomIDFieldActive{
+                                        if self.isRoomIDFieldActive {
                                             self.value = self.keyboardHeight
-                                        }else{
+                                        } else {
                                             self.value = 0
                                             self.isRoomIDFieldActive = false
                                         }
@@ -90,6 +90,11 @@ struct HomeView: View {
                                     isActive: self.$isNavigationActive) {
                                     
                                     Button(action: {
+                                        if self.roomID.isEmpty {
+                                            self.showAlert = true
+                                            return
+                                        }
+                                        
                                         self.campService.findCamp(withCode: self.roomID) { (camp) in
 
                                             guard let camp = camp else {
@@ -108,7 +113,7 @@ struct HomeView: View {
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 30)
                                     }.alert(isPresented: self.$showAlert) { () -> Alert in
-                                        Alert(title: Text("Camp tak ditemukan"), message: Text("Coba cek kodenya udah bener blum?"), dismissButton: .default(Text("Sip!")) )
+                                        Alert(title: Text("Campnya ga ketemu"), message: Text("Diisi dulu yah kode nya... trus cek udah bener blum?"), dismissButton: .default(Text("Sip!")) )
                                     }
                                 }.navigationBarBackButtonHidden(false)
                                     .navigationBarHidden(false)
