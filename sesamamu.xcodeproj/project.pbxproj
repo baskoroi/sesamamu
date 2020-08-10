@@ -20,6 +20,7 @@
 		28C7D63624DA6A8B00615703 /* MemberServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63524DA6A8B00615703 /* MemberServices.swift */; };
 		28C7D63E24DCF82400615703 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63D24DCF82400615703 /* CountDownTimer.swift */; };
 		28C7D64024DD9E2C00615703 /* ExplanationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63F24DD9E2C00615703 /* ExplanationService.swift */; };
+		28C7D64424E102A000615703 /* QuestionParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D64324E102A000615703 /* QuestionParent.swift */; };
 		5384FF8D24CE745400091F70 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8C24CE745400091F70 /* HomeView.swift */; };
 		5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8E24CE747400091F70 /* AvatarView.swift */; };
 		5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF9024CE751200091F70 /* CustomTextField.swift */; };
@@ -104,6 +105,7 @@
 		28C7D63524DA6A8B00615703 /* MemberServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberServices.swift; sourceTree = "<group>"; };
 		28C7D63D24DCF82400615703 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		28C7D63F24DD9E2C00615703 /* ExplanationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationService.swift; sourceTree = "<group>"; };
+		28C7D64324E102A000615703 /* QuestionParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionParent.swift; sourceTree = "<group>"; };
 		3C1724AFE7648578BB742177 /* Pods-sesamamu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu.debug.xcconfig"; path = "Target Support Files/Pods-sesamamu/Pods-sesamamu.debug.xcconfig"; sourceTree = "<group>"; };
 		5384FF8C24CE745400091F70 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5384FF8E24CE747400091F70 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				5384FF8C24CE745400091F70 /* HomeView.swift */,
 				5384FF8E24CE747400091F70 /* AvatarView.swift */,
 				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
+				28C7D64324E102A000615703 /* QuestionParent.swift */,
 				28C4789724CE89680026FE0E /* Explanation.swift */,
 				28C4789524CE89200026FE0E /* Question.swift */,
 				28C4789924CE89810026FE0E /* QuestionFinal.swift */,
@@ -668,6 +671,7 @@
 				CC025B9624D3B0C800576998 /* FinalStage-2.swift in Sources */,
 				28C4789624CE89200026FE0E /* Question.swift in Sources */,
 				CC210EFF24D7EFC1004527EC /* QuestionModel.swift in Sources */,
+				28C7D64424E102A000615703 /* QuestionParent.swift in Sources */,
 				CC025B9A24D3B29D00576998 /* FinalStage-0.swift in Sources */,
 				ADB5A94C24DA631A008AE6C7 /* PlayerScoreService.swift in Sources */,
 				28C4789824CE89680026FE0E /* Explanation.swift in Sources */,

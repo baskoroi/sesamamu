@@ -43,7 +43,6 @@ struct QuestionView: View {
     var generateNewRound: Bool {
         self.globalStore.generateNewRound
     }
-    //Khusus ronde terakhir yang sudah di filter pake ronde = 31
 
     //DB
     @ObservedObject var questionServices = QuestionServices()
@@ -134,6 +133,7 @@ struct QuestionView: View {
                                 timestamp: Date().timeIntervalSince1970))
                         print("Final text: \(answerText)")
                         self.readyToMove = true
+                        self.globalStore.page = "AllAnswer"
                     } else {
                         self.textFieldEmpty = true
                     }
@@ -146,10 +146,10 @@ struct QuestionView: View {
                         .padding(.top, 15)
                 }.alert(isPresented: self.$textFieldEmpty) {
                     Alert(title: Text("Masih kosong nih"), message: Text("Hati aja perlu di isi, isiannya jangan lupa diisi juga ya kak"), dismissButton: .default(Text("Tjakep!")))}
-                NavigationLink(destination: AllAnswersView(isHost: self.isHost).environmentObject(self.globalStore),
-                               isActive: $readyToMove) {
-                    EmptyView()
-                }
+//                NavigationLink(destination: AllAnswersView(isHost: self.isHost).environmentObject(self.globalStore),
+//                               isActive: $readyToMove) {
+//                    EmptyView()
+//                }
             }.frame(height: UIScreen.main.bounds.height*0.9)
 //                .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {

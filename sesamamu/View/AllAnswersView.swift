@@ -23,7 +23,7 @@ struct AllAnswersView: View {
     @State var toNextRound = false
     @State var isEndOfGame = false
     
-    @State var destinationView: View
+//    @State var destinationView: View
     
     var body: some View {
         VStack {
@@ -55,22 +55,30 @@ struct AllAnswersView: View {
                 HostToContinueButton(buttonAction: {
                     // TODO work on this part to navigate to next question
                     if self.subRonde == 3 {
-                        if self.ronde == 3 {
+                        if self.ronde == 2 && self.subRonde == 3 {
                             self.toNextRound = true
                             self.isEndOfGame = true
-                            self.destinationView = FinalStage().environmentObject(self.globalStore)
+                            self.globalStore.page = "QuestionFinal"
+                            print("INIH NIHHHHHHHH")
+//                            self.destinationView = FinalStage().environmentObject(self.globalStore)
+                        } else if self.ronde == 3 && self.subRonde == 3 {
+                            //Go to Alfred part
                         } else {
                             self.globalStore.round = self.ronde + 1
                             self.globalStore.questionNumber = 1
                             self.globalStore.generateNewRound = true
                             self.toNextRound = true
-                            self.destinationView = Explanation().environmentObject(self.globalStore)
+                            self.globalStore.page = "Explanation"
+
+//                            self.destinationView = Explanation().environmentObject(self.globalStore)
                         }
                     } else if self.subRonde < 3 {
                         self.globalStore.questionNumber += 1
                         self.globalStore.generateNewRound = false
                         self.toNextRound = false
-                        self.destinationView = Question().environmentObject(self.globalStore)
+                        self.globalStore.page = "Question"
+
+//                        self.destinationView = Question().environmentObject(self.globalStore)
                     }
 
                     self.readyToMove = true
@@ -84,9 +92,9 @@ struct AllAnswersView: View {
                     .padding(.bottom, 24)
             }
             
-            NavigationLink(destination: self.destinationView, isActive: self.$readyToMove) {
-                EmptyView()
-            }
+//            NavigationLink(destination: self.destinationView, isActive: self.$readyToMove) {
+//                EmptyView()
+//            }
         }
         .modifier(FullScreen())
         .background(Image("backgroundhome2")
@@ -127,16 +135,16 @@ struct FullScreen: ViewModifier {
     }
 }
 
-struct AllAnswersView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            AllAnswersView(isHost: true).previewDevice("iPhone 11")
-            AllAnswersView(isHost: false).previewDevice("iPhone 11")
-            AllAnswersView(isHost: true).previewDevice("iPhone 8")
-            AllAnswersView(isHost: false).previewDevice("iPhone 8")
-        }
-    }
-}
+//struct AllAnswersView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            AllAnswersView(isHost: true).previewDevice("iPhone 11")
+//            AllAnswersView(isHost: false).previewDevice("iPhone 11")
+//            AllAnswersView(isHost: true).previewDevice("iPhone 8")
+//            AllAnswersView(isHost: false).previewDevice("iPhone 8")
+//        }
+//    }
+//}
 
 struct QuotedQuestionView: View {
     

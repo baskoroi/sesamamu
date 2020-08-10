@@ -40,7 +40,7 @@ struct ExplanationView: View {
     @EnvironmentObject var globalStore: GlobalStore
     @State var ronde = Int()
     @State var subRonde = Int()
-    
+
     //Intro to question
     @State var rondeIntro: String = "Pengen kenalan tapi malu nanya duluan. Daripada diem-dieman, Yaudah kita bantu dengan pertanyaan"
     @State var rondeDesc: String = "Di ronde ini kamu akan diberikan pertanyaan random. Jangan takut, ini cuma pemanasan. Ga ada jawaban benar dan salah kok. Selamat bermain!"
@@ -50,10 +50,10 @@ struct ExplanationView: View {
     @State private var appEnterForeground = true
     @State var counter: Int = 0
     var countTo: Int = 3
-    
+
     //NavigationLink
     @State private var readyToMove = false
-        
+
     @ObservedObject var questionService = QuestionServices()
     
     var body: some View {
@@ -93,9 +93,9 @@ struct ExplanationView: View {
                     ProgressTrack()
                     ProgressBar(counter: counter, countTo: countTo)
                 }.padding(.top, 10)
-                NavigationLink(destination: Question().environmentObject(self.globalStore), isActive: $readyToMove) {
-                    EmptyView()
-                }
+//                NavigationLink(destination: Question().environmentObject(self.globalStore), isActive: $readyToMove) {
+//                    EmptyView()
+//                }
             }.frame(height: UIScreen.main.bounds.height*0.9)
 //                .offset(y: -UIScreen.main.bounds.height*0.05)
         }.onReceive(timer) { time in
@@ -106,7 +106,7 @@ struct ExplanationView: View {
                 //stop timer
                 self.timer.upstream.connect().cancel()
                 self.readyToMove = true
-                print("Pindah yukks")
+                self.globalStore.page = "Question"
             }
         }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             self.appEnterForeground = false
@@ -133,7 +133,7 @@ struct ExplanationView: View {
 //                }
 //            }
             
-            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.globalStore.isHost, generateNewRound: self.globalStore.generateNewRound)
+//            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.globalStore.isHost, generateNewRound: self.globalStore.generateNewRound)
             
             print("Setelah ini ronde \(self.globalStore.round) and subRonde \(self.globalStore.questionNumber)")
         }

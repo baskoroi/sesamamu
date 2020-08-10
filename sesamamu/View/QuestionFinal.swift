@@ -85,10 +85,7 @@ struct QuestionFinalView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                     
-                    MultilineTextField("Tanya di sini ya", text: self.$textCount.userTextInput, charLimit: 150, onCommit: {
-                        self.userInput = self.textCount.userTextInput
-                        print("Final text: \(self.userInput)")
-                    })
+                    MultilineTextField("Tanya di sini ya", text: self.$textCount.userTextInput, charLimit: 150)
                         .frame(width: UIScreen.main.bounds.width*0.85)
                         .font(.system(size: 18))
                     
@@ -114,9 +111,12 @@ struct QuestionFinalView: View {
                 Button(action: {
                     print("Kirim tapped")
                     //MARK: - Save data to DB for vote
-                    if self.userInput != "" {
-                        self.questionServices.submitFinalQuestion(campId: self.globalStore.roomName, userQuestion: self.userInput)
+                    let answerText = self.textCount.userTextInput
+                    if !self.textCount.userTextInput.isEmpty {
+                        self.questionServices.submitFinalQuestion(campId: self.globalStore.roomName, userQuestion: answerText)
                         self.readyToMove = true
+                        self.globalStore.page = "QuestionFinalVote"
+
                     } else {
                         self.textFieldEmpty = true
                     }
@@ -129,9 +129,9 @@ struct QuestionFinalView: View {
                         .padding(.top, 15)
                 }.alert(isPresented: self.$textFieldEmpty) {
                     Alert(title: Text("Masih kosong nih"), message: Text("Hati aja perlu di isi, isiannya jangan lupa diisi juga ya kak"), dismissButton: .default(Text("Tjakep!")))}
-                NavigationLink(destination: QuestionFinalVote(), isActive: $readyToMove) {
-                    EmptyView()
-                }
+//                NavigationLink(destination: QuestionFinalVote(), isActive: $readyToMove) {
+//                    EmptyView()
+//                }
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
         }

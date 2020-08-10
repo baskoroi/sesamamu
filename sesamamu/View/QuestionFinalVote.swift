@@ -107,9 +107,16 @@ struct QuestionFinalVoteView: View {
                 Button(action: {
                     print("Kirim Tapped")
                     self.submitAllVotedQuestion()
-                    self.readyToMove = true
                     //Func ini lebih baik cuma dipanggil sekali jadi kefilter cuma sekali, better host nya aja yang punya func ini tapi baru ke trigger kalau semua udah ngevote. Fungsi ngecek semua udah jawab atau belum, belum ada nih
                     self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.globalStore.roomName, isHost: self.isHost, generateNewRound: self.generateNewRound)
+                    self.readyToMove = true
+//                    self.globalStore.page = "Explanation"
+                    if self.globalStore.round == 2 && self.globalStore.questionNumber == 3 {
+                        self.globalStore.round = self.globalStore.round + 1
+                        self.globalStore.questionNumber = 1
+                        self.globalStore.generateNewRound = true
+                        self.globalStore.page = "Explanation"
+                    }
                 }) {
                     Image("buttonKirim")
                         .renderingMode(.original)
@@ -118,9 +125,9 @@ struct QuestionFinalVoteView: View {
                         .frame(width: 250)
                 }
                 
-                NavigationLink(destination: Explanation(), isActive: $readyToMove) {
-                    EmptyView()
-                }
+//                NavigationLink(destination: Explanation(), isActive: $readyToMove) {
+//                    EmptyView()
+//                }
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
