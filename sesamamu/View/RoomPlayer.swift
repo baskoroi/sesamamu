@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-var isHost: Bool = false
-
 struct PlayersAvailable {
     let avatarURL: String
     let isHost: Bool
@@ -23,70 +21,121 @@ struct RoomPlayer: View {
     @State var playerColumn:Int = 5
     @State var isRoomEmpty:Bool = false
     @State var orangeBackground = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
-    @State var isHost = true
+    @State var isHost = false
+    @State var playerIndex:Int = 0
+
+    @State var roomName = "room1"
+    @State var currentPlayer: PlayerViewModel = PlayerViewModel(isHost: false)
+    
+    @EnvironmentObject var globalStore: GlobalStore
+    
+    @ObservedObject var inRoomService = InRoomService()
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment:.center){
-                Image("backgroundGradient")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .edgesIgnoringSafeArea(.all)
-                    .frame(width: geometry.size.width)
+
+        NavigationView {
+            GeometryReader { geometry in
                 
-                VStack(){
-                    ZStack{
-                        Image("roomIDButton")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .edgesIgnoringSafeArea(.all)
-                            .frame(width: geometry.size.width/1.5)
-                            .padding()
-                        HStack{
-                            Text("Nomer Camp")
-                                .lineLimit(2)
-                                .frame(width:60)
-                                .font(.system(size:16, weight: .bold, design: .default))
-                                .multilineTextAlignment(.center)
-                            Text("6759512")
-                                .lineLimit(2)
-                                .frame(width:180)
-                                .font(.system(size:35, weight: .bold, design: .default))
-                                .multilineTextAlignment(.center)
-                        }
-                        
-                    }
-                    ScrollView{
-                        ForEach(0..<self.playerColumn){ i in
-                            HStack {
-                                ForEach(0..<self.playerRow){ j in
-                                    PlayersCollectionView(row: i, column: j)
-                                }
-                            }
-                        }
-                    }
-                    .frame(width:UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.65)
+                ZStack{
+                    Image("backgroundGradient")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .edgesIgnoringSafeArea(.all)
                     
-                    if(self.isHost){
-                        Button(action: {
-                            print("buat camp tapped")
-                        }) {
-                            Image("buatcamp")
-                                .renderingMode(.original)
+                    
+                    VStack{
+                        ZStack{
+                            Image("roomIDButton")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 250, alignment: .center)
+                            //                                .edgesIgnoringSafeArea(.all)
+                            //                                .frame(width:UIScreen.main.bounds.size.width * 0.7, height:UIScreen.main.bounds.size.height * 0.2 )
+                            
+                            HStack{
+                                Text("Nomer Camp")
+                                    .lineLimit(2)
+                                    .frame(width:60)
+                                    .font(.system(size:16, weight: .bold, design: .default))
+                                    .multilineTextAlignment(.center)
+                                Text(self.globalStore.roomName)
+                                    .lineLimit(2)
+                                    .frame(width:UIScreen.main.bounds.size.width * 0.4)
+                                    .font(.system(size:32, weight: .bold, design: .default))
+                                    .multilineTextAlignment(.center)
+                            }
+                            
+                        }
+                        .frame(width: UIScreen.main.bounds.size.width * 0.7, height: UIScreen.main.bounds.size.height * 0.1)
+                            
+                        .padding(.init(top: -100, leading: 8, bottom: 8, trailing: 8))
+                        
+                        
+                        ScrollView{
+                            ForEach(0..<self.playerColumn){ i in
+                                HStack {
+                                    ForEach(0..<self.playerRow){ j in
+                                        PlayersCollectionView(row: i, column: j)
+                                    }
+                                }
+                                
+                            }.frame(width:UIScreen.main.bounds.size.width)
+                        }
+                        .onAppear {
+
+                            // clear players list before entering (join/create) the camp
+                            self.globalStore.clearPlayers()
+
+                            // set isHost, campCode, and player into global store
+                            if let avatarURL = self.currentPlayer.avatarURL,
+                                let realName = self.currentPlayer.realName,
+                                let stageName = self.currentPlayer.stageName {
+
+                                let isHost = self.currentPlayer.isHost
+                                self.globalStore.currentPlayer = PlayersAvailable(
+                                    avatarURL: avatarURL,
+                                    isHost: isHost,
+                                    realName: realName,
+                                    stageName: stageName)
+                            }
+
+                            self.globalStore.roomName = self.roomName
+                            
+                            self.inRoomService.observeInRoomPlayers(campID: self.globalStore.roomName) {
+                                roomValue in
+                                guard let roomValue = roomValue else {return}
+                                
+                                DispatchQueue.main.async {
+                                    print(roomValue)
+                                    
+                                    self.globalStore.players[self.playerIndex] = roomValue
+                                    self.playerIndex += 1
+                                }
+                                self.playerIndex = 0
+                            }
+                        }
+                        .frame(width:UIScreen.main.bounds.size.width-100, height: UIScreen.main.bounds.size.height * 0.6)
+                        //                        .edgesIgnoringSafeArea(.all)
+                        
+                        if(self.isHost){
+                            NavigationLink(destination: Explanation().environmentObject(self.globalStore)){
+                                
+                                Image("buatcamp")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 250, alignment: .center)
+                                    .padding()
+                            }
+                        } else {
+                            Text("Menunggu Tuan Rumah Untuk Memulai Permainan...")
+                                .italic()
+                                .lineLimit(3)
+                                .frame(width:UIScreen.main.bounds.size.width * 0.6)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                                .font(.system(size:18, weight: .bold, design: .default))
                                 .padding()
                         }
-                    }else{
-                        Text("Menunggu Tuan Rumah Untuk Memulai Permainan...")
-                            .italic()
-                            .lineLimit(3)
-                            .frame(width:UIScreen.main.bounds.size.width * 0.6)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
-                            .font(.system(size:18, weight: .bold, design: .default))
-                            .padding()
                     }
                 }
             }
@@ -104,24 +153,7 @@ struct PlayersCollectionView: View {
     
     @State var backgroundBox = Color(red: 0.04, green: 0.15, blue: 0.20, opacity: 1.0)
     @State var orangeBox = Color(red: 0.91, green: 0.57, blue: 0.27, opacity: 1.00)
-    
-    let players:[PlayersAvailable] = [
-        PlayersAvailable(avatarURL: "binatang-1", isHost:false, realName :"baskoro",stageName: "Wadidaw Boi"),
-        PlayersAvailable(avatarURL: "binatang-2", isHost:true, realName :"markus",stageName: "Boombayah"),
-        PlayersAvailable(avatarURL: "binatang-3", isHost:false, realName :"christian",stageName: "Aku Padamu"),
-        PlayersAvailable(avatarURL: "binatang-4", isHost:false, realName :"alfred",stageName: "Lee Tae Oh"),
-        PlayersAvailable(avatarURL: "binatang-5", isHost:false, realName :"davia",stageName: "Lisa BlackPink"),
-        PlayersAvailable(avatarURL: "", isHost: false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),
-        PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: "")
-    ]
+    @EnvironmentObject var globalStore: GlobalStore
     
     var index = 0
     init(row: Int, column: Int) {
@@ -131,7 +163,7 @@ struct PlayersCollectionView: View {
     var body: some View {
         
         ZStack(alignment: .bottom){
-            if(players[index].avatarURL == ""){
+            if(self.globalStore.players[index].avatarURL == ""){
                 ZStack{
                     Text("Ruang Tersedia")
                         .frame(width:UIScreen.main.bounds.size.width/5)
@@ -151,11 +183,11 @@ struct PlayersCollectionView: View {
                 VStack(alignment: .center){
                     ZStack{
                         
-                        Image(players[index].avatarURL)
+                        Image(self.globalStore.players[index].avatarURL)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .edgesIgnoringSafeArea(.all)
-                        if players[index].isHost {
+                        if self.globalStore.players[index].isHost {
                             Image("hostIcon150x150")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -168,11 +200,11 @@ struct PlayersCollectionView: View {
                     
                     ZStack(alignment: .center){
                         RoundedRectangle(cornerRadius: 3)
-                            .frame(width:UIScreen.main.bounds.size.width/4,height:UIScreen.main.bounds.size.height/25)
+                            .frame(width:UIScreen.main.bounds.size.width/4,height:UIScreen.main.bounds.size.height/20)
                             .foregroundColor(self.orangeBox)
                         
-                        Text(players[index].stageName)
-                            .frame(width:UIScreen.main.bounds.size.width/4,height:UIScreen.main.bounds.size.height/25,alignment: .center)
+                        Text(self.globalStore.players[index].stageName)
+                            .frame(width:UIScreen.main.bounds.size.width/4,height:UIScreen.main.bounds.size.height/20,alignment: .center)
                             .font(.system(size: 15, weight: .heavy, design: .default))
                             .lineLimit(2)
                             .multilineTextAlignment(.center)

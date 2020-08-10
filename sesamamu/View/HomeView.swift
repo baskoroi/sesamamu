@@ -15,16 +15,21 @@ struct HomeView: View {
     @State var value : CGFloat = 0
     
     @State var host = false
+    @State var isRoomIDValid = false
+    @State var roomIDToJoin = ""
     
     @State private var keyboardHeight: CGFloat = 0
     
     @State var isNavigationActive = false
+    @State var showAlert = false
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     let lightBlue = Color(red: 177.0/255.0, green: 224.0/255.0, blue: 232.0/255.0, opacity: 1.0)
     
+    @ObservedObject var campService = CampService()
     
+    @EnvironmentObject var globalStore: GlobalStore
     
     var body: some View {
         NavigationView {
@@ -70,23 +75,48 @@ struct HomeView: View {
                                     .cornerRadius(12)
                                     .onTapGesture {
                                         self.isRoomIDFieldActive = true
-                                        if self.isRoomIDFieldActive{
+                                        if self.isRoomIDFieldActive {
                                             self.value = self.keyboardHeight
-                                        }else{
+                                        } else {
                                             self.value = 0
                                             self.isRoomIDFieldActive = false
                                         }
-                                    }
+                                }
                                 
-                                NavigationLink(destination: AvatarView(host: false), isActive: self.$isNavigationActive){
-                                    Image("rightButton")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 30)
+                                NavigationLink(
+                                    destination: AvatarView(host: false,
+                                                            campCodeToEnter: self.roomIDToJoin)
+                                                 .environmentObject(self.globalStore),
+                                    isActive: self.$isNavigationActive) {
+                                    
+                                    Button(action: {
+                                        if self.roomID.isEmpty {
+                                            self.showAlert = true
+                                            return
+                                        }
                                         
+                                        self.campService.findCamp(withCode: self.roomID) { (camp) in
+
+                                            guard let camp = camp else {
+                                                print("Not found")
+                                                self.showAlert = true
+                                                return
+                                            }
+
+                                            self.roomIDToJoin = camp.campCode
+                                            self.isNavigationActive = true
+                                        }
+                                    }) {
+                                        Image("rightButton")
+                                            .renderingMode(.original)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 30)
+                                    }.alert(isPresented: self.$showAlert) { () -> Alert in
+                                        Alert(title: Text("Campnya ga ketemu"), message: Text("Diisi dulu yah kode nya... trus cek udah bener blum?"), dismissButton: .default(Text("Sip!")) )
+                                    }
                                 }.navigationBarBackButtonHidden(false)
-                                .navigationBarHidden(false)
+                                    .navigationBarHidden(false)
                                 
                             }.offset(y: self.isRoomIDFieldActive ? -200:0)
                             
@@ -106,19 +136,20 @@ struct HomeView: View {
                         }
                         
                         if !self.isRoomIDFieldActive{
-                            NavigationLink(destination: AvatarView(host: true)) {
+                            NavigationLink(
+                                destination: AvatarView(host: true)
+                                    .environmentObject(self.globalStore)) {
+                                        
                                 Image("buatcamp")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 250, alignment: .center)
                                     .padding(.bottom, UIScreen.main.bounds.height - (UIScreen.main.bounds.height-175))
-                            }.simultaneousGesture(TapGesture().onEnded{
-                                
-                            })
+                            }
                         }
                     }.KeyboardAwarePadding()
-                    .animation(.spring())
+                        .animation(.spring())
                     
                     //.animation(.spring())
                     //.offset(y: -self.keyboardResponder.currentHeight*0.9)
@@ -130,8 +161,8 @@ struct HomeView: View {
             }.onAppear {
                 print("MUNCUL LAGI")
             }
-        
-            }
+            
+        }
         .navigationBarTitle("")
         .navigationBarHidden(isNavigationActive)
     }
@@ -139,7 +170,7 @@ struct HomeView: View {
 
 struct KeyboardAwareModifier: ViewModifier {
     @State private var keyboardHeight: CGFloat = 0
-
+    
     private var keyboardHeightPublisher: AnyPublisher<CGFloat, Never> {
         Publishers.Merge(
             NotificationCenter.default
@@ -149,9 +180,9 @@ struct KeyboardAwareModifier: ViewModifier {
             NotificationCenter.default
                 .publisher(for: UIResponder.keyboardWillHideNotification)
                 .map { _ in CGFloat(0) }
-       ).eraseToAnyPublisher()
+        ).eraseToAnyPublisher()
     }
-
+    
     func body(content: Content) -> some View {
         content
             .padding(.bottom, keyboardHeight)

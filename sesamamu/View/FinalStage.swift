@@ -13,6 +13,7 @@ struct FinalStage: View {
     @State var page = "opening"
     @State var correctAnswer:Double = 0
     @EnvironmentObject var globalStore: GlobalStore
+    @ObservedObject var playerScoreService = PlayerScoreService()
     
     var body: some View {
         
@@ -63,17 +64,23 @@ struct FinalStage: View {
                         else if self.page == "guessingPage" {
                             Button(action: {
 //                                self.globalStore.bondingMeterScore = 0
-                                let sortedAnswer = self.globalStore.inGamePlayer.sorted { $0.number < $1.number }
-                                print("this is the sorted answer")
-                                print(sortedAnswer)
-                                
-                                for i in 0..<sortedAnswer.count-1 {
-                                    if sortedAnswer[i].name == sortedAnswer[i+1].correctAnswer && sortedAnswer[i].correctAnswer == sortedAnswer[i+1].name && sortedAnswer[i].number == sortedAnswer[i+1].number {
-                                        self.correctAnswer += 1
-                                    }
+                                if self.globalStore.inGamePlayer.count > 0 {
+                                    let sortedAnswer = self.globalStore.inGamePlayer.sorted { $0.number < $1.number }
+                                                                   print("this is the sorted answer")
+                                                                   print(sortedAnswer)
+                                                                   
+                                                                   for i in 0..<sortedAnswer.count-1 {
+                                                                       if sortedAnswer[i].name == sortedAnswer[i+1].correctAnswer && sortedAnswer[i].correctAnswer == sortedAnswer[i+1].name && sortedAnswer[i].number == sortedAnswer[i+1].number {
+                                                                           self.correctAnswer += 1
+                                                                       }
+                                                                   }
                                 }
+                               
                                 
                                 self.globalStore.bondingMeterScore = Int(Double(self.correctAnswer)/Double(self.globalStore.inGamePlayer.count/2) * 100)
+                                
+                                self.playerScoreService.sendScore(campID: self.globalStore.roomName, score: self.globalStore.bondingMeterScore, playerName: self.globalStore.currentPlayer.stageName)
+                                
                                 
                                 self.page = "bondingMeter"
                             }) {
@@ -87,6 +94,22 @@ struct FinalStage: View {
                         }
                         
                     }
+                }
+                .onAppear(){
+                    print(self.globalStore.players.count)
+                    
+                    for i in 0..<self.globalStore.players.count {
+                        if self.globalStore.players[i].realName != "" {
+                            self.globalStore.inGamePlayer.append(playerAnswer(name:  self.globalStore.players[i].realName, correctAnswer:  self.globalStore.players[i].stageName))
+                        }
+                    }
+                    
+                    for i in 0..<self.globalStore.players.count {
+                        if self.globalStore.players[i].realName != "" {
+                            self.globalStore.inGamePlayer.append(playerAnswer(name:  self.globalStore.players[i].stageName, correctAnswer:  self.globalStore.players[i].realName))
+                        }
+                    }
+                    
                 }
             }
         }

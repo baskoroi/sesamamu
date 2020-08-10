@@ -14,11 +14,7 @@ struct FinalStage_0: View {
     var body: some View {
         
         GeometryReader { geometry in
-            ZStack(alignment: .center){
-                //                    Image("background-night")
-                //                        .resizable()
-                //                        .aspectRatio(contentMode: .fill)
-                
+            ZStack(alignment: .center){                
                 VStack(alignment: .center, spacing: 0){
                     VStack{
                         

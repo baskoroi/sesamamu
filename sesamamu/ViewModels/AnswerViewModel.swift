@@ -11,11 +11,11 @@ import SwiftUI
 struct AnswerViewModel: Hashable {
     var id = UUID()
 
-    var nickname: String?
-    var message: String?
+    var stageName: String?
+    var answerText: String?
     var isMyOwn: Bool = false
     var avatarURL: String?
     var timestamp: TimeInterval
-    var foregroundColor: Color = .white
-    var backgroundColor: Color = .blue
+    var foregroundColor: Color = .black
+    var backgroundColor: Color = .white
 }

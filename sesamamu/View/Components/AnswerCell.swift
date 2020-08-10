@@ -21,9 +21,9 @@ struct AnswerCell: View {
             if viewModel.isMyOwn {
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text("(you) \(viewModel.nickname!)").font(nicknameFont).bold()
+                    Text("(you) \(viewModel.stageName!)").font(nicknameFont).bold()
                         .foregroundColor(.white)
-                    Text(viewModel.message!)
+                    Text(viewModel.answerText!)
                         .font(messageFont)
                         .padding(.all, 12)
                         .background(viewModel.backgroundColor)
@@ -48,9 +48,9 @@ struct AnswerCell: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Text(viewModel.nickname!).font(nicknameFont).bold()
+                    Text(viewModel.stageName!).font(nicknameFont).bold()
                         .foregroundColor(.white)
-                    Text(viewModel.message!)
+                    Text(viewModel.answerText!)
                         .font(messageFont)
                         .padding(.all, 12)
                         .background(viewModel.backgroundColor)
@@ -66,8 +66,8 @@ struct AnswerCell: View {
 struct AnswerCell_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            AnswerCell(viewModel: AnswerViewModel(nickname: "cow ada di hatiku", message: "his test message is here, and this is his longer sentence to visualize to you how the cell expands", isMyOwn: false, avatarURL: "binatang-1", timestamp: Date().timeIntervalSince1970, foregroundColor: .black, backgroundColor: .white))
-            AnswerCell(viewModel: AnswerViewModel(nickname: "tigerman", message: "this is your own message, you might speak a little or much... I don't know :)", isMyOwn: true, avatarURL: "binatang-2", timestamp: Date().timeIntervalSince1970, foregroundColor: .black, backgroundColor: .white))
+            AnswerCell(viewModel: AnswerViewModel(stageName: "cow ada di hatiku", answerText: "his test answerText is here, and this is his longer sentence to visualize to you how the cell expands", isMyOwn: false, avatarURL: "binatang-1", timestamp: Date().timeIntervalSince1970, foregroundColor: .black, backgroundColor: .white))
+            AnswerCell(viewModel: AnswerViewModel(stageName: "tigerman", answerText: "this is your own answerText, you might speak a little or much... I don't know :)", isMyOwn: true, avatarURL: "binatang-2", timestamp: Date().timeIntervalSince1970, foregroundColor: .black, backgroundColor: .white))
         }.background(Color(red: 0.059, green: 0.154, blue: 0.209))
     }
 }

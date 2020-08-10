@@ -7,84 +7,16 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct QuestionFinalVote: View {
-    var rondeIntro: String = "Pilih 3 pertanyaan yang paling menarik hati"
-    var finalRoundQuestionVote = ["Bagian tubuh favoritemu?", "Kalo besok kiamat apa yang bakal kamu lakuin hari ini?", "Lo pake kacamata atau ga?", "Sebutin ciri-ciri lo yang paling unik!!", "Siapa pirs lopemu?", "Kalau udah gede mau jadi apa?"]
-    
-    var chooseQ:[String] = ["hello"]
-    @State var selectedIndex = [Int]()
-    
-    @State private var tooMuch = false
-    
     var body: some View {
-        NavigationView{
-            GeometryReader { geometry in
-                ZStack{
-                    Image("backgroundhome2")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .edgesIgnoringSafeArea(.all)
-                    VStack{
-                        ScrollView{
-                            ForEach(0..<self.finalRoundQuestionVote.count) { index in
-                                ZStack{
-                                    Rectangle()
-                                        .frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height*0.12)
-                                        .foregroundColor(self.selectedIndex.contains(index) ? .yellow : .white)
-                                        .cornerRadius(12)
-                                    VStack{
-                                        Text("Pertanyaan \(index+1)")
-                                            .font(.system(size: 17, weight: .bold, design: .default))
-                                        Text("\(self.finalRoundQuestionVote[index])")
-                                            .font(.system(size: 17))
-                                            .padding(.top, 10)
-                                            .multilineTextAlignment(.center)
-                                    }.padding(.horizontal, 40)
-                                }.onTapGesture {
-                                    if self.selectedIndex.contains(index){
-                                        if let pos = self.selectedIndex.firstIndex(of: index) {
-                                            self.selectedIndex.remove(at: pos)
-                                        }
-                                    } else {
-                                        if self.selectedIndex.count > 2 {
-                                            self.tooMuch = true
-                                        } else {
-                                            self.selectedIndex.append(index)
-                                            print(self.selectedIndex)
-                                        }
-                                    }
-                                }.alert(isPresented: self.$tooMuch) {
-                                    Alert(title: Text("Kebanyakan kakak"), message: Text("Pilih 3 aja ya, jangan serakah"), dismissButton: .default(Text("Siaap!")))
-                                }.padding(.vertical, 5)
-                            }.listRowBackground(Color.blue)
-                        }
-                        
-                        Text("\(self.rondeIntro)")
-                            .font(.system(size: 20, weight: .heavy))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 15)
-                        Button(action: {
-                            self.submitQuestionForVote()
-                        }) {
-                            Image("buatcamp")
-                                .renderingMode(.original)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 250)
-                        }
-                    }.frame(height: UIScreen.main.bounds.height*0.9)
-                        .offset(y: -UIScreen.main.bounds.height*0.05)
-                }
-            }
-        }
-    }
-    
-    func submitQuestionForVote() {
-        for select in selectedIndex {
-            print(finalRoundQuestionVote[select])
+        GeometryReader { geometry in
+            NavigationView{
+                QuestionFinalVoteView()
+            }.navigationBarHidden(true)
+                .navigationBarTitle("")
+                .edgesIgnoringSafeArea(.all)
         }
     }
 }
@@ -97,3 +29,118 @@ struct QuestionFinalVote_Previews: PreviewProvider {
         }
     }
 }
+
+struct QuestionFinalVoteView: View {
+    //Global Store
+    @EnvironmentObject var globalStore: GlobalStore
+    @State var campId = "777777"
+    @State private var generateNewRound = true
+    @State private var isHost = true
+    
+    //DB
+    @ObservedObject var questionServices = QuestionServices()
+    @State var questions = [QuestionViewModel]()
+
+    //DB
+    @State var ronde = 3
+    
+    var rondeIntro: String = "Pilih 3 pertanyaan yang paling menarik hati"
+
+    //User Input
+    @State var selectedQuestion = [String]()
+    @State var noPertanyaan = 1
+    
+    //Alert
+    @State private var tooMuch = false
+    
+    //NavigationLink
+    @State private var readyToMove = false
+    
+    var body: some View {
+        ZStack{
+            Image("backgroundRonde3")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
+            VStack{
+                ScrollView{
+                    ForEach(questionServices.questionArrayForRound, id: \.id) { (question) in
+                        ZStack{
+                            Rectangle()
+                                .frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height*0.12)
+                                .foregroundColor(self.selectedQuestion.contains(question.text ?? "") ? .yellow : .white)
+                                .cornerRadius(12)
+                            VStack{
+                                Text("Pertanyaan")
+                                    .font(Font.custom("Montserrat-Bold", size: 15))
+                                Text(question.text ?? "")
+                                    .font(Font.custom("Montserrat", size: 15))
+                                    .padding(.top, 10)
+                                    .multilineTextAlignment(.center)
+                            }.padding(.horizontal, 40)
+                        }
+                        .onTapGesture {
+                            if self.selectedQuestion.contains(question.text ?? ""){
+                                if let pos = self.selectedQuestion.firstIndex(of: question.text ?? "") {
+                                    self.selectedQuestion.remove(at: pos)
+                                }
+                            } else {
+                                if self.selectedQuestion.count > 2 {
+                                    self.tooMuch = true
+                                } else {
+                                    self.selectedQuestion.append(question.text ?? "")
+                                    print(self.selectedQuestion)
+                                }
+                            }}
+                            .alert(isPresented: self.$tooMuch) {
+                                Alert(title: Text("Kebanyakan kakak"), message: Text("Pilih 3 aja ya, jangan serakah"), dismissButton: .default(Text("Siaap!")))}
+                            .offset(y: UIScreen.main.bounds.height*0.05)
+                    }
+                }
+                
+                Text("\(self.rondeIntro)")
+                    .font(Font.custom("Montserrat-BoldItalic", size: 17))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 15)
+                
+                Button(action: {
+                    print("Kirim Tapped")
+                    self.submitAllVotedQuestion()
+                    self.readyToMove = true
+                    //Func ini lebih baik cuma dipanggil sekali jadi kefilter cuma sekali, better host nya aja yang punya func ini tapi baru ke trigger kalau semua udah ngevote. Fungsi ngecek semua udah jawab atau belum, belum ada nih
+                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.campId /*self.globalStore.roomName*/, isHost: self.isHost, generateNewRound: self.generateNewRound)
+                }) {
+                    Image("buttonKirim")
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 250)
+                }
+                
+                NavigationLink(destination: Explanation(), isActive: $readyToMove) {
+                    EmptyView()
+                }
+            }.frame(height: UIScreen.main.bounds.height*0.9)
+                .offset(y: -UIScreen.main.bounds.height*0.05)
+                .onAppear {
+                    self.questionServices.fetchQuestion(forRound: self.ronde, campId:self.campId /*self.globalStore.roomName*/)
+            }
+        }
+    }
+    
+    func submitAllVotedQuestion() {
+        questionServices.fetchQuestion(forRound: 3, campId: self.campId /*globalStore.roomName*/)
+        for question in selectedQuestion {
+            questionServices.submitQuestionForVote(campId: self.campId /*globalStore.roomName*/, questionVoteText: question, numberOfVote: 1)
+        }
+    }
+}
+
+
+//MARK: - NOTES
+/*
+ 3. Perlu tau di udah di ronde dan pertanyaan ke berapa, dan perpindahannya gimn?
+ 4. Perlu logic gimna caranya tau semua orang udah ngevote
+*/
