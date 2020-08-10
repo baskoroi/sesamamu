@@ -155,7 +155,8 @@ struct QuestionView: View {
                 .onAppear {
                     print("sekarang ronde \(self.globalStore.round) and subRonde \(self.globalStore.questionNumber)")
 //                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: "987654"/self.globalStore.roomName/)
-                    self.questionServices.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.isHost, generateNewRound: self.globalStore.generateNewRound)
+                    self.questionServices.fetchQuestionFromCurrentQuestionWithSpecificCampId(id: self.globalStore.roomName, for: self.globalStore.round, no: self.globalStore.questionNumber)
+//                    self.questionServices.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.isHost, generateNewRound: self.globalStore.generateNewRound)
             }
         }
     }

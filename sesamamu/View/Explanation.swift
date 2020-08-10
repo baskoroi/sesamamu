@@ -119,7 +119,8 @@ struct ExplanationView: View {
             print("sekarang ronde \(self.ronde) and subRonde \(self.subRonde)")
         
             self.counter = 0
-            
+            print(self.globalStore.isHost, self.globalStore.generateNewRound)
+            var isHost = true
             self.globalStore.generateNewRound = true
             
 //            if self.ronde < 3 {
@@ -132,6 +133,7 @@ struct ExplanationView: View {
 //                    self.globalStore.generateNewRound = false
 //                }
 //            }
+            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: isHost, generateNewRound: self.globalStore.generateNewRound)
             
 //            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.globalStore.isHost, generateNewRound: self.globalStore.generateNewRound)
             
