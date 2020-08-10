@@ -3,21 +3,21 @@
 //  sesamamu
 //
 //  Created by Yohanes Markus Heksan on 27/07/20.
-//  Copyright © 2020 Baskoro Indrayana. All rights reserved.
+//  Copyright ©️ 2020 Baskoro Indrayana. All rights reserved.
 //
 import SwiftUI
 import Firebase
 
 struct Explanation: View {
-    
     @EnvironmentObject var globalStore: GlobalStore
-    
+
     var body: some View {
         GeometryReader { geometry in
             NavigationView{
                 ExplanationView()
                     .environmentObject(self.globalStore)
-            }.navigationBarHidden(true)
+            }
+            .navigationBarHidden(true)
                 .navigationBarTitle("")
                 .navigationBarBackButtonHidden(true)
                 .edgesIgnoringSafeArea(.all)
@@ -36,11 +36,15 @@ struct Explanation_Previews: PreviewProvider {
 
 
 struct ExplanationView: View {
+    //Global Store
+    @EnvironmentObject var globalStore: GlobalStore
+    @State var ronde = Int()
+    @State var subRonde = Int()
+    
     //Intro to question
-    @State var ronde: Int = 1
     @State var rondeIntro: String = "Pengen kenalan tapi malu nanya duluan. Daripada diem-dieman, Yaudah kita bantu dengan pertanyaan"
     @State var rondeDesc: String = "Di ronde ini kamu akan diberikan pertanyaan random. Jangan takut, ini cuma pemanasan. Ga ada jawaban benar dan salah kok. Selamat bermain!"
-    
+
     //Timer
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var appEnterForeground = true
@@ -49,8 +53,8 @@ struct ExplanationView: View {
     
     //NavigationLink
     @State private var readyToMove = false
-    
-    @EnvironmentObject var globalStore: GlobalStore
+        
+    @ObservedObject var questionService = QuestionServices()
     
     var body: some View {
         ZStack{
@@ -108,6 +112,30 @@ struct ExplanationView: View {
             self.appEnterForeground = false
         }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             self.appEnterForeground = true
+        }.onAppear {
+            self.ronde = self.globalStore.round
+            self.subRonde = self.globalStore.questionNumber
+            
+            print("sekarang ronde \(self.ronde) and subRonde \(self.subRonde)")
+        
+            self.counter = 0
+            
+            self.globalStore.generateNewRound = true
+            
+//            if self.ronde < 3 {
+//                if self.subRonde == 3 {
+//                    self.globalStore.round = self.ronde + 1
+//                    self.globalStore.questionNumber = 1
+//                    self.globalStore.generateNewRound = true
+//                } else if self.subRonde < 3 {
+//                    self.globalStore.questionNumber += 1
+//                    self.globalStore.generateNewRound = false
+//                }
+//            }
+            
+            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.globalStore.isHost, generateNewRound: self.globalStore.generateNewRound)
+            
+            print("Setelah ini ronde \(self.globalStore.round) and subRonde \(self.globalStore.questionNumber)")
         }
     }
 }
