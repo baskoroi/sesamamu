@@ -110,6 +110,7 @@ struct QuestionFinalView: View {
                 
                 Button(action: {
                     print("Kirim tapped")
+                    print("Kamarnya ini nih \(self.globalStore.roomName)")
                     //MARK: - Save data to DB for vote
                     let answerText = self.textCount.userTextInput
                     if !self.textCount.userTextInput.isEmpty {

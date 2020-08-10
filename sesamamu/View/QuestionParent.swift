@@ -16,26 +16,30 @@ struct QuestionParent: View {
 
     @State var page = String()
     var body: some View {
-        GeometryReader { geometry in
-            if self.globalStore.page == "Explanation" {
-                ExplanationView()
+        NavigationView{
+            GeometryReader { geometry in
+                if self.globalStore.page == "Explanation" {
+                    ExplanationView()
+                }
+                else if self.globalStore.page == "Question" {
+                    QuestionView()
+                }
+                else if self.globalStore.page == "AllAnswer" {
+                    AllAnswersView(isHost: self.isHost)
+                }
+                else if self.globalStore.page == "QuestionFinal" {
+                    QuestionFinalView()
+                }
+                else if self.globalStore.page == "QuestionFinalVote" {
+                    QuestionFinalVoteView()
+                }
+                
             }
-            else if self.globalStore.page == "Question" {
-                QuestionView()
-            }
-            else if self.globalStore.page == "AllAnswer" {
-                AllAnswersView(isHost: self.isHost)
-            }
-            else if self.globalStore.page == "QuestionFinal" {
-                QuestionFinalView()
-            }
-            else if self.globalStore.page == "QuestionFinalVote" {
-                QuestionFinalVoteView()
-            }
-
-        }
-        .edgesIgnoringSafeArea(.all)
-        .onTapGesture {self.hideKeyboard()}
+            .edgesIgnoringSafeArea(.all)
+            .onTapGesture {self.hideKeyboard()}
+        }.navigationBarHidden(true)
+            .navigationBarTitle("")
+            .navigationBarBackButtonHidden(true)
     }
 }
 

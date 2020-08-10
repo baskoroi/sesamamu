@@ -22,6 +22,7 @@ struct AllAnswersView: View {
     @State var readyToMove = false
     @State var toNextRound = false
     @State var isEndOfGame = false
+    @State var goToFinal = false
     
 //    @State var destinationView: View
     
@@ -62,7 +63,7 @@ struct AllAnswersView: View {
                             print("INIH NIHHHHHHHH")
 //                            self.destinationView = FinalStage().environmentObject(self.globalStore)
                         } else if self.ronde == 3 && self.subRonde == 3 {
-                            //Go to Alfred part
+                            self.goToFinal = true
                         } else {
                             self.globalStore.round = self.ronde + 1
                             self.globalStore.questionNumber = 1
@@ -95,6 +96,9 @@ struct AllAnswersView: View {
 //            NavigationLink(destination: self.destinationView, isActive: self.$readyToMove) {
 //                EmptyView()
 //            }
+            NavigationLink(destination: FinalStage(), isActive: self.$goToFinal) {
+                EmptyView()
+            }
         }
         .modifier(FullScreen())
         .background(Image("backgroundhome2")
