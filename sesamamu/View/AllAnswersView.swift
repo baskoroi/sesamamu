@@ -13,9 +13,17 @@ struct AllAnswersView: View {
     var isHost: Bool
     
     @EnvironmentObject var globalStore: GlobalStore
+    @State var ronde = Int()
+    @State var subRonde = Int()
     
     @State private var answers: [AnswerViewModel] = []
     @ObservedObject var answerService = AnswerService()
+    
+    @State var readyToMove = false
+    @State var toNextRound = false
+    @State var isEndOfGame = false
+    
+    @State var destinationView: View
     
     var body: some View {
         VStack {
@@ -46,13 +54,38 @@ struct AllAnswersView: View {
                 // open this func's definition to do it
                 HostToContinueButton(buttonAction: {
                     // TODO work on this part to navigate to next question
+                    if self.subRonde == 3 {
+                        if self.ronde == 3 {
+                            self.toNextRound = true
+                            self.isEndOfGame = true
+                            self.destinationView = FinalStage().environmentObject(self.globalStore)
+                        } else {
+                            self.globalStore.round = self.ronde + 1
+                            self.globalStore.questionNumber = 1
+                            self.globalStore.generateNewRound = true
+                            self.toNextRound = true
+                            self.destinationView = Explanation().environmentObject(self.globalStore)
+                        }
+                    } else if self.subRonde < 3 {
+                        self.globalStore.questionNumber += 1
+                        self.globalStore.generateNewRound = false
+                        self.toNextRound = false
+                        self.destinationView = Question().environmentObject(self.globalStore)
+                    }
+
+                    self.readyToMove = true
                 })
-            } else {
+            }
+            else {
                 Text("Menunggu pemain lain untuk selesai menjawab... 😋")
                     .font(Font.custom("Montserrat-Italic", size: 18))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 24)
+            }
+            
+            NavigationLink(destination: self.destinationView, isActive: self.$readyToMove) {
+                EmptyView()
             }
         }
         .modifier(FullScreen())
@@ -61,6 +94,9 @@ struct AllAnswersView: View {
                         .aspectRatio(contentMode: .fill)
                         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/))
         .onAppear {
+            self.ronde = self.globalStore.round
+            self.subRonde = self.globalStore.questionNumber
+            
             self.answerService.observeIncomingAnswers(
                 for: QuestionModel(round: self.globalStore.round,
                                    text: self.globalStore.questionText),
@@ -86,7 +122,8 @@ struct AllAnswersView: View {
 struct FullScreen: ViewModifier {
     func body(content: Content) -> some View {
         return content
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+            .frame(minWidth: 0, maxWidth: .infinity,
+                   minHeight: 0, maxHeight: .infinity, alignment: .center)
     }
 }
 

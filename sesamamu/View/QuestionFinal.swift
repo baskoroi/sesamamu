@@ -3,7 +3,7 @@
 //  sesamamu
 //
 //  Created by Yohanes Markus Heksan on 27/07/20.
-//  Copyright © 2020 Baskoro Indrayana. All rights reserved.
+//  Copyright ©️ 2020 Baskoro Indrayana. All rights reserved.
 //
 
 import SwiftUI
@@ -33,7 +33,6 @@ struct QuestionFinal_Previews: PreviewProvider {
 struct QuestionFinalView: View {
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
-    @State var campId = "777777"
     
     //DB
     @ObservedObject var questionServices = QuestionServices()
@@ -116,7 +115,7 @@ struct QuestionFinalView: View {
                     print("Kirim tapped")
                     //MARK: - Save data to DB for vote
                     if self.userInput != "" {
-                        self.questionServices.submitFinalQuestion(campId: self.campId /*self.globalStore.roomName*/, userQuestion: self.userInput)
+                        self.questionServices.submitFinalQuestion(campId: self.globalStore.roomName, userQuestion: self.userInput)
                         self.readyToMove = true
                     } else {
                         self.textFieldEmpty = true
@@ -138,4 +137,3 @@ struct QuestionFinalView: View {
         }
     }
 }
-

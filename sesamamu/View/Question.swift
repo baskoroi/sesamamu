@@ -3,7 +3,7 @@
 //  sesamamu
 //
 //  Created by Yohanes Markus Heksan on 27/07/20.
-//  Copyright © 2020 Baskoro Indrayana. All rights reserved.
+//  Copyright ©️ 2020 Baskoro Indrayana. All rights reserved.
 //
 import SwiftUI
 import Combine
@@ -40,7 +40,9 @@ struct QuestionView: View {
 //    @State private var ronde = GlobalStore().round
 //    @State private var subRonde = GlobalStore().questionNumber
     @State private var isHost = true
-    @State private var generateNewRound = true
+    var generateNewRound: Bool {
+        self.globalStore.generateNewRound
+    }
     //Khusus ronde terakhir yang sudah di filter pake ronde = 31
 
     //DB
@@ -152,8 +154,8 @@ struct QuestionView: View {
 //                .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
                     print("sekarang ronde \(self.globalStore.round) and subRonde \(self.globalStore.questionNumber)")
-//                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: "987654"/*self.globalStore.roomName*/)
-                    self.questionServices.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: "777777", forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.isHost, generateNewRound: self.generateNewRound)
+//                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: "987654"/self.globalStore.roomName/)
+                    self.questionServices.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.isHost, generateNewRound: self.globalStore.generateNewRound)
             }
         }
     }
@@ -193,4 +195,3 @@ extension View {
         ModifiedContent(content: self, modifier: KeyboardAdaptive())
     }
 }
-

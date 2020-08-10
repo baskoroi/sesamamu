@@ -3,7 +3,7 @@
 //  sesamamu
 //
 //  Created by Yohanes Markus Heksan on 27/07/20.
-//  Copyright © 2020 Baskoro Indrayana. All rights reserved.
+//  Copyright ©️ 2020 Baskoro Indrayana. All rights reserved.
 //
 
 import SwiftUI
@@ -33,7 +33,6 @@ struct QuestionFinalVote_Previews: PreviewProvider {
 struct QuestionFinalVoteView: View {
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
-    @State var campId = "777777"
     @State private var generateNewRound = true
     @State private var isHost = true
     
@@ -110,7 +109,7 @@ struct QuestionFinalVoteView: View {
                     self.submitAllVotedQuestion()
                     self.readyToMove = true
                     //Func ini lebih baik cuma dipanggil sekali jadi kefilter cuma sekali, better host nya aja yang punya func ini tapi baru ke trigger kalau semua udah ngevote. Fungsi ngecek semua udah jawab atau belum, belum ada nih
-                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.campId /*self.globalStore.roomName*/, isHost: self.isHost, generateNewRound: self.generateNewRound)
+                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.globalStore.roomName, isHost: self.isHost, generateNewRound: self.generateNewRound)
                 }) {
                     Image("buttonKirim")
                         .renderingMode(.original)
@@ -125,15 +124,15 @@ struct QuestionFinalVoteView: View {
             }.frame(height: UIScreen.main.bounds.height*0.9)
                 .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
-                    self.questionServices.fetchQuestion(forRound: self.ronde, campId:self.campId /*self.globalStore.roomName*/)
+                    self.questionServices.fetchQuestion(forRound: self.ronde, campId:self.globalStore.roomName)
             }
         }
     }
     
     func submitAllVotedQuestion() {
-        questionServices.fetchQuestion(forRound: 3, campId: self.campId /*globalStore.roomName*/)
+        questionServices.fetchQuestion(forRound: 3, campId: self.globalStore.roomName)
         for question in selectedQuestion {
-            questionServices.submitQuestionForVote(campId: self.campId /*globalStore.roomName*/, questionVoteText: question, numberOfVote: 1)
+            questionServices.submitQuestionForVote(campId: self.globalStore.roomName, questionVoteText: question, numberOfVote: 1)
         }
     }
 }

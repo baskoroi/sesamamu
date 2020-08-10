@@ -37,6 +37,7 @@ class GlobalStore: ObservableObject {
     @Published var round: Int = 1
     @Published var questionNumber: Int = 0
     @Published var questionText = ""
+    @Published var generateNewRound = true
     
     @Published var players:[PlayersAvailable] = [
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),

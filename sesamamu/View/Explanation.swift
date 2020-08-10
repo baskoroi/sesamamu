@@ -3,7 +3,7 @@
 //  sesamamu
 //
 //  Created by Yohanes Markus Heksan on 27/07/20.
-//  Copyright © 2020 Baskoro Indrayana. All rights reserved.
+//  Copyright ©️ 2020 Baskoro Indrayana. All rights reserved.
 //
 import SwiftUI
 import Firebase
@@ -17,9 +17,9 @@ struct Explanation: View {
                 ExplanationView()
                     .environmentObject(self.globalStore)
             }
-//            .navigationBarHidden(true)
-//                .navigationBarTitle("")
-//                .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
+                .navigationBarTitle("")
+                .navigationBarBackButtonHidden(true)
                 .edgesIgnoringSafeArea(.all)
         }
     }
@@ -54,6 +54,8 @@ struct ExplanationView: View {
     //NavigationLink
     @State private var readyToMove = false
         
+    @ObservedObject var questionService = QuestionServices()
+    
     var body: some View {
         ZStack{
             Image("backgroundRonde1")
@@ -110,20 +112,28 @@ struct ExplanationView: View {
             self.appEnterForeground = false
         }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             self.appEnterForeground = true
-        }.onAppear(){
+        }.onAppear {
             self.ronde = self.globalStore.round
             self.subRonde = self.globalStore.questionNumber
             
             print("sekarang ronde \(self.ronde) and subRonde \(self.subRonde)")
+        
+            self.counter = 0
             
-            if self.ronde < 3 {
-                if self.subRonde == 3 {
-                    self.globalStore.round = self.ronde + 1
-                    self.globalStore.questionNumber = 1
-                } else if self.subRonde < 3 {
-                    self.globalStore.questionNumber += 1
-                }
-            }
+            self.globalStore.generateNewRound = true
+            
+//            if self.ronde < 3 {
+//                if self.subRonde == 3 {
+//                    self.globalStore.round = self.ronde + 1
+//                    self.globalStore.questionNumber = 1
+//                    self.globalStore.generateNewRound = true
+//                } else if self.subRonde < 3 {
+//                    self.globalStore.questionNumber += 1
+//                    self.globalStore.generateNewRound = false
+//                }
+//            }
+            
+            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.globalStore.isHost, generateNewRound: self.globalStore.generateNewRound)
             
             print("Setelah ini ronde \(self.globalStore.round) and subRonde \(self.globalStore.questionNumber)")
         }
