@@ -35,7 +35,7 @@ class GlobalStore: ObservableObject {
     @Published var playerAnswerName : [playerAnswer] = [] //ini tiap buttonnya masuk
     
     @Published var round: Int = 1
-    @Published var questionNumber: Int = 1
+    @Published var questionNumber: Int = 0
     @Published var questionText = ""
     
     @Published var players:[PlayersAvailable] = [
