@@ -220,7 +220,7 @@ struct AvatarView: View {
                     }
                     
                     NavigationLink(
-                        destination: RoomPlayer(isHost: self.host,
+                        destination: RoomPlayerParent(isHost: self.host,
                                                 roomName: self.campCodeToEnter,
                                                 currentPlayer: self.currentPlayer)
                             .environmentObject(self.globalStore),
@@ -286,7 +286,7 @@ struct AvatarView: View {
                 } else {
                     
                     NavigationLink(
-                        destination: RoomPlayer(isHost: self.host,
+                        destination: RoomPlayerParent(isHost: self.host,
                                                 roomName: self.campCodeToEnter,
                                                 currentPlayer: self.currentPlayer)
                             .environmentObject(self.globalStore),

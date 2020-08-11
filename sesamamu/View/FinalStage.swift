@@ -111,7 +111,10 @@ struct FinalStage: View {
                     }
                     
                 }
-            }
+            } .navigationBarHidden(true)
+                           .navigationBarTitle("")
+                           .navigationBarBackButtonHidden(true)
+                           .edgesIgnoringSafeArea(.all)
         }
     }
     

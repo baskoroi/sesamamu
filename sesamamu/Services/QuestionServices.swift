@@ -119,7 +119,7 @@ class QuestionServices: ObservableObject, Identifiable {
                     }) { (error) in
                         print(error.localizedDescription)
                     }
-                }
+                } 
             }
         } else {
             fetchQuestionFromCurrentQuestionWithSpecificCampId(id: campId, for: forRound, no: questionNumber)

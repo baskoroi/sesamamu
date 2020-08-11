@@ -53,6 +53,8 @@
 		ADC6347424CE838900B1D624 /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC6346124CE838900B1D624 /* Montserrat-ThinItalic.ttf */; };
 		ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC6347624CE850B00B1D624 /* RoomPlayer.swift */; };
 		ADC6347924CE851D00B1D624 /* FinalStage-1.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC6347824CE851D00B1D624 /* FinalStage-1.swift */; };
+		ADFAC62424E186B000247C05 /* StartGameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFAC62324E186B000247C05 /* StartGameService.swift */; };
+		ADFAC62624E1912100247C05 /* RoomPlayerParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFAC62524E1912100247C05 /* RoomPlayerParent.swift */; };
 		CC025B9624D3B0C800576998 /* FinalStage-2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC025B9524D3B0C800576998 /* FinalStage-2.swift */; };
 		CC025B9824D3B0D000576998 /* GlobalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC025B9724D3B0D000576998 /* GlobalStore.swift */; };
 		CC025B9A24D3B29D00576998 /* FinalStage-0.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC025B9924D3B29D00576998 /* FinalStage-0.swift */; };
@@ -141,6 +143,8 @@
 		ADC6346124CE838900B1D624 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
 		ADC6347624CE850B00B1D624 /* RoomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPlayer.swift; sourceTree = "<group>"; };
 		ADC6347824CE851D00B1D624 /* FinalStage-1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FinalStage-1.swift"; sourceTree = "<group>"; };
+		ADFAC62324E186B000247C05 /* StartGameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameService.swift; sourceTree = "<group>"; };
+		ADFAC62524E1912100247C05 /* RoomPlayerParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlayerParent.swift; sourceTree = "<group>"; };
 		B8C61F71647A660EF9CEE624 /* Pods-sesamamuTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamuTests.release.xcconfig"; path = "Target Support Files/Pods-sesamamuTests/Pods-sesamamuTests.release.xcconfig"; sourceTree = "<group>"; };
 		BEC609C15445E64F69ABD1B3 /* Pods-sesamamu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu.release.xcconfig"; path = "Target Support Files/Pods-sesamamu/Pods-sesamamu.release.xcconfig"; sourceTree = "<group>"; };
 		C1BF819BEBD40C24560C3CC5 /* Pods_sesamamu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sesamamu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +224,7 @@
 				5384FF8E24CE747400091F70 /* AvatarView.swift */,
 				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
 				28C7D64324E102A000615703 /* QuestionParent.swift */,
+				ADFAC62524E1912100247C05 /* RoomPlayerParent.swift */,
 				28C4789724CE89680026FE0E /* Explanation.swift */,
 				28C4789524CE89200026FE0E /* Question.swift */,
 				28C4789924CE89810026FE0E /* QuestionFinal.swift */,
@@ -291,6 +296,7 @@
 				53A2B7DD24D82A8A0045997E /* CampService.swift */,
 				53A2B7DF24D82CB90045997E /* PlayerService.swift */,
 				ADB5A94924D9649E008AE6C7 /* InRoomService.swift */,
+				ADFAC62324E186B000247C05 /* StartGameService.swift */,
 				ADB5A94B24DA631A008AE6C7 /* PlayerScoreService.swift */,
 			);
 			path = Services;
@@ -675,6 +681,7 @@
 				CC025B9A24D3B29D00576998 /* FinalStage-0.swift in Sources */,
 				ADB5A94C24DA631A008AE6C7 /* PlayerScoreService.swift in Sources */,
 				28C4789824CE89680026FE0E /* Explanation.swift in Sources */,
+				ADFAC62424E186B000247C05 /* StartGameService.swift in Sources */,
 				CC81105224D12C4000682336 /* AnswerCell.swift in Sources */,
 				CCA00F5C24C6DD3C00FCD3C9 /* SceneDelegate.swift in Sources */,
 				CC025B9C24D3B33800576998 /* FinalStage.swift in Sources */,
@@ -688,6 +695,7 @@
 				ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */,
 				5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */,
 				CC81105724D12CE000682336 /* AllAnswersView.swift in Sources */,
+				ADFAC62624E1912100247C05 /* RoomPlayerParent.swift in Sources */,
 				CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */,
 				28C7D63424DA6A6700615703 /* MemberViewModel.swift in Sources */,
 			);

@@ -120,7 +120,8 @@ class CampService: ObservableObject {
         campReference.child(campID).setValue([
             "host": hostName,
             "maxPlayers": maxPlayers,
-            "playerCount": 1 // start from the host first
+            "playerCount": 1, // start from the host first
+            "isStarted": false
         ])
         
         let campViewModel = CampViewModel(maxPlayers: maxPlayers, playerCount: 1, campCode: campID)

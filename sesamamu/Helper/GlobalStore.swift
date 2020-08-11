@@ -27,7 +27,7 @@ class GlobalStore: ObservableObject {
     // TODO rename to `campCode`
     @Published var roomName:String = "room1"
     //@Published var playerName:String = "Markus"
-    //@Published var isHost:Bool = true
+    @Published var isStarted:Bool = false
 
     @Published var currentPlayer: PlayersAvailable = PlayersAvailable(avatarURL: "", isHost: false, realName: "", stageName: "")
     var isHost: Bool { self.currentPlayer.isHost }
@@ -39,6 +39,7 @@ class GlobalStore: ObservableObject {
     @Published var questionNumber: Int = 1
     @Published var questionText = ""
     @Published var generateNewRound = true
+    
     
     @Published var players:[PlayersAvailable] = [
          PlayersAvailable(avatarURL: "", isHost:false, realName :"",stageName: ""),

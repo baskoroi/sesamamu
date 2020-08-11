@@ -30,6 +30,7 @@ struct RoomPlayer: View {
     @EnvironmentObject var globalStore: GlobalStore
     
     @ObservedObject var inRoomService = InRoomService()
+    @ObservedObject var startGameService = StartGameService()
     
     var body: some View {
 
@@ -78,7 +79,7 @@ struct RoomPlayer: View {
                                     }
                                 }
                                 
-                            }.frame(width:UIScreen.main.bounds.size.width)
+                            }.frame(width:UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.65,alignment: .top)
                         }
                         .onAppear {
 
@@ -117,7 +118,8 @@ struct RoomPlayer: View {
                         //                        .edgesIgnoringSafeArea(.all)
                         
                         if(self.isHost){
-                            NavigationLink(destination: QuestionParent()){
+                            NavigationLink(destination: QuestionParent().onAppear{ self.startGameService.updateIsStarted(campID: self.globalStore.roomName) }){
+//                                self.startGameService.updateIsStarted(campID: self.globalStore.roomName)
                                 
                                 Image("buatcamp")
                                     .renderingMode(.original)
@@ -127,16 +129,42 @@ struct RoomPlayer: View {
                                     .padding()
                             }
                         } else {
+                            if self.globalStore.isStarted {
+                                NavigationLink(destination: QuestionParent()){
+                                Image("buatcamp")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 250, alignment: .center)
+                                    .padding()
+                            }
+                        } else {
                             Text("Menunggu Tuan Rumah Untuk Memulai Permainan...")
-                                .italic()
-                                .lineLimit(3)
-                                .frame(width:UIScreen.main.bounds.size.width * 0.6)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .font(.system(size:18, weight: .bold, design: .default))
-                                .padding()
+                                                           .italic()
+                                                           .lineLimit(3)
+                                                           .frame(width:UIScreen.main.bounds.size.width * 0.6)
+                                                           .multilineTextAlignment(.center)
+                                                           .foregroundColor(.white)
+                                                           .font(.system(size:18, weight: .bold, design: .default))
+                                                           .padding()
+                        }
+                           
                         }
                     }
+                }
+            }
+        }.onAppear{
+            
+            
+            self.startGameService.watchHost(withCode: self.globalStore.roomName)
+            {
+                roomStatus in
+                guard let roomStatus = roomStatus else {return}
+                
+                DispatchQueue.main.async {
+                    print(self.globalStore.isStarted)
+                    self.globalStore.isStarted = roomStatus
+                    print(self.globalStore.isStarted)
                 }
             }
         }
