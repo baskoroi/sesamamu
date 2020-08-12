@@ -23,7 +23,7 @@ class CampService: ObservableObject {
     func findCamp(withCode campCode: String,
                   completion: @escaping(CampViewModel?) -> Void) {
         
-        campHandle = campReference.child(campCode).observe(.value) { (snapshot) in
+        campReference.child(campCode).observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? [String: Any],
                 let maxPlayers = value["maxPlayers"] as? Int,
