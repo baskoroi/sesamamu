@@ -61,17 +61,22 @@ class QuestionServices: ObservableObject, Identifiable {
     }
     
     //MARK: - Get question from DB and add it to questionArray
-    func fetchQuestion(forRound: Int, campId: String) {
+    func fetchQuestion(forRound: Int, campId: String, completion: @escaping ([QuestionViewModel]?) -> Void) {
+        
         if forRound == 3 {
-            questionRef.child("round\(forRound)/\(campId)/submitted").observeSingleEvent(of: .value, with: { (snapshot) in
+            questionRef.child("round\(forRound)/\(campId)/submitted").observe(.value, with: { (snapshot) in
                 let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
                 for questionSubmitted in questionArrayChildren {
                     let question = questionSubmitted.value as? [String: String]
                     if let textQuestion = question?["text"] {
                         let questionFetch = QuestionViewModel(round: forRound, text: textQuestion)
+                        
                         self.questionArrayForRound.append(questionFetch)
                     }
                 }
+                completion(self.questionArrayForRound)
+                self.questionArrayForRound = []
+//                print(self.questionArrayForRound)
             }) { (error) in
                 print(error.localizedDescription)
             }
@@ -150,7 +155,8 @@ class QuestionServices: ObservableObject, Identifiable {
                         self.questionArrayForVote.append(textQuestion)
                     }
                 }
-                print(self.questionArrayForVote)
+//                completion(self.questionArrayForVote)
+                print("hasil -> \(self.questionArrayForVote)")
                 
                 for _ in 1...3 {
                     let mappedQuestion = self.questionArrayForVote.map{($0, 1)}

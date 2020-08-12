@@ -57,10 +57,11 @@ struct AllAnswersView: View {
                     // TODO work on this part to navigate to next question
                     if self.subRonde == 3 {
                         if self.ronde == 2 && self.subRonde == 3 {
-                            self.toNextRound = true
-                            self.isEndOfGame = true
-                            self.globalStore.page = "QuestionFinal"
-                            print("INIH NIHHHHHHHH")
+                            self.goToFinal = true
+//                            self.toNextRound = true
+//                            self.isEndOfGame = true
+//                            self.globalStore.page = "QuestionFinal"
+//                            print("INIH NIHHHHHHHH")
 //                            self.destinationView = FinalStage().environmentObject(self.globalStore)
                         } else if self.ronde == 3 && self.subRonde == 3 {
                             self.goToFinal = true
