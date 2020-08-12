@@ -14,7 +14,7 @@ struct QuestionParent: View {
     @EnvironmentObject var globalStore: GlobalStore
     var isHost = true
 
-    @State var page = String()
+//    @State var page = String()
     var body: some View {
         NavigationView{
             GeometryReader { geometry in
@@ -33,13 +33,13 @@ struct QuestionParent: View {
                 else if self.globalStore.page == "QuestionFinalVote" {
                     QuestionFinalVoteView()
                 }
-                
             }
             .edgesIgnoringSafeArea(.all)
             .onTapGesture {self.hideKeyboard()}
-        }.navigationBarHidden(true)
-            .navigationBarTitle("")
-            .navigationBarBackButtonHidden(true)
+        }
+//        .navigationBarHidden(true)
+//        .navigationBarTitle("")
+//        .navigationBarBackButtonHidden(true)
     }
 }
 

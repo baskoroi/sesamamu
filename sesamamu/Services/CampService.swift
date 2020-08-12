@@ -16,7 +16,6 @@ enum CampServiceError: Error {
 }
 
 class CampService: ObservableObject {
-
     var campReference = Database.database().reference().child("camps")
     let playerService = PlayerService()
     var campHandle: UInt?
@@ -35,9 +34,10 @@ class CampService: ObservableObject {
                 return
             }
             
-            let campViewModel = CampViewModel(maxPlayers: maxPlayers,
-                                              playerCount: playerCount,
-                                              campCode: campCode)
+            let campViewModel = CampViewModel(
+                maxPlayers: maxPlayers,
+                playerCount: playerCount,
+                campCode: campCode)
             print("Camp is found:", campViewModel)
             completion(campViewModel)
         }

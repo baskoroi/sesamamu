@@ -18,6 +18,7 @@ struct MultilineTextField: View {
     //Char Limit
     var charTextViewLimit:Int
     
+    //Getter & setter
     private var internalText: Binding<String> {
         Binding<String>(get: { self.text } ) {
             self.text = $0
@@ -109,9 +110,7 @@ private struct UITextViewWrapper: UIViewRepresentable {
         var calculatedHeight: Binding<CGFloat>
         var onDone: (() -> Void)?
         var charLimit: Int
-        
-//        @ObservedObject var textCount = TextCount()
-  
+          
         init(text: Binding<String>, height: Binding<CGFloat>, charLimit: Int, onDone: (() -> Void)? = nil) {
             self.text = text
             self.calculatedHeight = height
@@ -121,7 +120,6 @@ private struct UITextViewWrapper: UIViewRepresentable {
         
         func textViewDidChange(_ uiView: UITextView) {
             uiView.text = String(uiView.text.prefix(charLimit))
-//            textCount.userTextInput = uiView.text
             text.wrappedValue = uiView.text
             UITextViewWrapper.recalculateHeight(view: uiView, result: calculatedHeight)
         }
@@ -133,17 +131,6 @@ private struct UITextViewWrapper: UIViewRepresentable {
                 return false
             }
             return true
-        }
-    }
-}
-
-class TextCount: ObservableObject {
-    var charCount:Int = 0
-
-    @Published var userTextInput:String = ""{
-        didSet{
-            charCount = userTextInput.count
-            print(charCount)
         }
     }
 }

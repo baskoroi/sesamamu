@@ -12,11 +12,7 @@ import Firebase
 struct QuestionFinalVote: View {
     var body: some View {
         GeometryReader { geometry in
-            NavigationView{
-                QuestionFinalVoteView()
-            }.navigationBarHidden(true)
-                .navigationBarTitle("")
-                .edgesIgnoringSafeArea(.all)
+            QuestionFinalVoteView()
         }
     }
 }
@@ -129,7 +125,7 @@ struct QuestionFinalVoteView: View {
 //                    EmptyView()
 //                }
             }.frame(height: UIScreen.main.bounds.height*0.9)
-                .offset(y: -UIScreen.main.bounds.height*0.05)
+//                .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
                     self.questionServices.fetchQuestion(forRound: self.ronde, campId:self.globalStore.roomName)
             }

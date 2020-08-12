@@ -13,15 +13,8 @@ struct Explanation: View {
 
     var body: some View {
         GeometryReader { geometry in
-            NavigationView{
-                ExplanationView()
-                    .environmentObject(self.globalStore)
-            }
-            .navigationBarHidden(true)
-                .navigationBarTitle("")
-                .navigationBarBackButtonHidden(true)
-                .edgesIgnoringSafeArea(.all)
-        }
+            ExplanationView()
+        }.edgesIgnoringSafeArea(.all)
     }
 }
 

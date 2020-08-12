@@ -12,11 +12,7 @@ import Firebase
 struct QuestionFinal: View {
     var body: some View {
         GeometryReader { geometry in
-            NavigationView{
-                QuestionFinalView()
-            }.navigationBarHidden(true)
-                .navigationBarTitle("")
-                .edgesIgnoringSafeArea(.all)
+            QuestionFinalView()
         }.onTapGesture {self.hideKeyboard()}
     }
 }
@@ -42,7 +38,7 @@ struct QuestionFinalView: View {
     
     //User Input
     @State var userInput:String = ""
-    @ObservedObject var textCount = TextCount()
+//    @ObservedObject var textCount = TextCount()
     
     //Alert
     @State private var textFieldEmpty = false
@@ -85,22 +81,22 @@ struct QuestionFinalView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                     
-                    MultilineTextField("Tanya di sini ya", text: self.$textCount.userTextInput, charLimit: 150)
+                    MultilineTextField("Tanya di sini ya", text: self.$userInput, charLimit: 150)
                         .frame(width: UIScreen.main.bounds.width*0.85)
                         .font(.system(size: 18))
                     
-                    if self.textCount.charCount < 120 {
-                        Text ("\(self.textCount.charCount)/150")
+                    if self.userInput.count < 120 {
+                        Text ("\(self.userInput.count)/150")
                             .frame(width: UIScreen.main.bounds.width*0.85, height: UIScreen.main.bounds.height*0.13, alignment: .bottomTrailing)
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
-                    } else if self.textCount.charCount < 145{
-                        Text ("\(self.textCount.charCount)/150")
+                    } else if self.userInput.count < 145{
+                        Text ("\(self.userInput.count)/150")
                             .frame(width: UIScreen.main.bounds.width*0.85, height: UIScreen.main.bounds.height*0.13, alignment: .bottomTrailing)
                             .font(.system(size: 15))
                             .foregroundColor(.yellow)
                     } else {
-                        Text ("\(self.textCount.charCount)/150")
+                        Text ("\(self.userInput.count)/150")
                             .frame(width: UIScreen.main.bounds.width*0.80, height: UIScreen.main.bounds.height*0.13, alignment: .bottomTrailing)
                             .font(.system(size: 15))
                             .foregroundColor(.red)
@@ -112,8 +108,8 @@ struct QuestionFinalView: View {
                     print("Kirim tapped")
                     print("Kamarnya ini nih \(self.globalStore.roomName)")
                     //MARK: - Save data to DB for vote
-                    let answerText = self.textCount.userTextInput
-                    if !self.textCount.userTextInput.isEmpty {
+                    let answerText = self.userInput
+                    if !self.userInput.isEmpty {
                         self.questionServices.submitFinalQuestion(campId: self.globalStore.roomName, userQuestion: answerText)
                         self.readyToMove = true
                         self.globalStore.page = "QuestionFinalVote"

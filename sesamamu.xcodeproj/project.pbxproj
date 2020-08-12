@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		092C9D68C75494E63D435A93 /* Pods_sesamamuTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A09DAD3BDCF890B63D5CD4 /* Pods_sesamamuTests.framework */; };
 		1524A8B883CC7E5CA1E1029E /* Pods_sesamamu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1BF819BEBD40C24560C3CC5 /* Pods_sesamamu.framework */; };
+		280CFC1024E3912600D0B926 /* MulaiMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280CFC0F24E3912600D0B926 /* MulaiMain.swift */; };
+		28A032D524E28EEA003C56E3 /* WaitingRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A032D424E28EEA003C56E3 /* WaitingRoom.swift */; };
 		28C4789624CE89200026FE0E /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789524CE89200026FE0E /* Question.swift */; };
 		28C4789824CE89680026FE0E /* Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789724CE89680026FE0E /* Explanation.swift */; };
 		28C4789A24CE89810026FE0E /* QuestionFinal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C4789924CE89810026FE0E /* QuestionFinal.swift */; };
@@ -21,6 +23,8 @@
 		28C7D63E24DCF82400615703 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63D24DCF82400615703 /* CountDownTimer.swift */; };
 		28C7D64024DD9E2C00615703 /* ExplanationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D63F24DD9E2C00615703 /* ExplanationService.swift */; };
 		28C7D64424E102A000615703 /* QuestionParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D64324E102A000615703 /* QuestionParent.swift */; };
+		28D9358C24E2767900EAF92E /* HomeParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9358B24E2767900EAF92E /* HomeParent.swift */; };
+		28D9358E24E2777F00EAF92E /* SelectAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9358D24E2777F00EAF92E /* SelectAvatar.swift */; };
 		5384FF8D24CE745400091F70 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8C24CE745400091F70 /* HomeView.swift */; };
 		5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8E24CE747400091F70 /* AvatarView.swift */; };
 		5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF9024CE751200091F70 /* CustomTextField.swift */; };
@@ -96,6 +100,8 @@
 /* Begin PBXFileReference section */
 		0C5B116BA65952FCEF616F72 /* Pods-sesamamu-sesamamuUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu-sesamamuUITests.release.xcconfig"; path = "Target Support Files/Pods-sesamamu-sesamamuUITests/Pods-sesamamu-sesamamuUITests.release.xcconfig"; sourceTree = "<group>"; };
 		21C9C27FBDBD1CA1B7974565 /* Pods_sesamamu_sesamamuUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sesamamu_sesamamuUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		280CFC0F24E3912600D0B926 /* MulaiMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulaiMain.swift; sourceTree = "<group>"; };
+		28A032D424E28EEA003C56E3 /* WaitingRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingRoom.swift; sourceTree = "<group>"; };
 		28C4789524CE89200026FE0E /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		28C4789724CE89680026FE0E /* Explanation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explanation.swift; sourceTree = "<group>"; };
 		28C4789924CE89810026FE0E /* QuestionFinal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFinal.swift; sourceTree = "<group>"; };
@@ -108,6 +114,8 @@
 		28C7D63D24DCF82400615703 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		28C7D63F24DD9E2C00615703 /* ExplanationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationService.swift; sourceTree = "<group>"; };
 		28C7D64324E102A000615703 /* QuestionParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionParent.swift; sourceTree = "<group>"; };
+		28D9358B24E2767900EAF92E /* HomeParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeParent.swift; sourceTree = "<group>"; };
+		28D9358D24E2777F00EAF92E /* SelectAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAvatar.swift; sourceTree = "<group>"; };
 		3C1724AFE7648578BB742177 /* Pods-sesamamu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu.debug.xcconfig"; path = "Target Support Files/Pods-sesamamu/Pods-sesamamu.debug.xcconfig"; sourceTree = "<group>"; };
 		5384FF8C24CE745400091F70 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5384FF8E24CE747400091F70 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -223,8 +231,12 @@
 				5384FF8C24CE745400091F70 /* HomeView.swift */,
 				5384FF8E24CE747400091F70 /* AvatarView.swift */,
 				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
-				28C7D64324E102A000615703 /* QuestionParent.swift */,
 				ADFAC62524E1912100247C05 /* RoomPlayerParent.swift */,
+				28D9358B24E2767900EAF92E /* HomeParent.swift */,
+				280CFC0F24E3912600D0B926 /* MulaiMain.swift */,
+				28D9358D24E2777F00EAF92E /* SelectAvatar.swift */,
+				28A032D424E28EEA003C56E3 /* WaitingRoom.swift */,
+				28C7D64324E102A000615703 /* QuestionParent.swift */,
 				28C4789724CE89680026FE0E /* Explanation.swift */,
 				28C4789524CE89200026FE0E /* Question.swift */,
 				28C4789924CE89810026FE0E /* QuestionFinal.swift */,
@@ -667,6 +679,7 @@
 				28C4789C24CE89900026FE0E /* QuestionFinalVote.swift in Sources */,
 				28C7D63624DA6A8B00615703 /* MemberServices.swift in Sources */,
 				28C4789E24CE89B90026FE0E /* TextViewMultiLine.swift in Sources */,
+				280CFC1024E3912600D0B926 /* MulaiMain.swift in Sources */,
 				5384FF8D24CE745400091F70 /* HomeView.swift in Sources */,
 				28C7D63224D99D9000615703 /* QuestionServices.swift in Sources */,
 				5384FF9324CE754800091F70 /* KeyboardResponder.swift in Sources */,
@@ -695,6 +708,9 @@
 				ADC6347724CE850B00B1D624 /* RoomPlayer.swift in Sources */,
 				5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */,
 				CC81105724D12CE000682336 /* AllAnswersView.swift in Sources */,
+				28D9358C24E2767900EAF92E /* HomeParent.swift in Sources */,
+				28D9358E24E2777F00EAF92E /* SelectAvatar.swift in Sources */,
+				28A032D524E28EEA003C56E3 /* WaitingRoom.swift in Sources */,
 				ADFAC62624E1912100247C05 /* RoomPlayerParent.swift in Sources */,
 				CCA00F5E24C6DD3C00FCD3C9 /* ContentView.swift in Sources */,
 				28C7D63424DA6A6700615703 /* MemberViewModel.swift in Sources */,

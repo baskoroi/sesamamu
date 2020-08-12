@@ -31,8 +31,11 @@ class GlobalStore: ObservableObject {
 
     @Published var currentPlayer: PlayersAvailable = PlayersAvailable(avatarURL: "", isHost: false, realName: "", stageName: "")
     var isHost: Bool { self.currentPlayer.isHost }
+    @Published var hostStart: Bool = false
 
     @Published var playerAnswerName : [playerAnswer] = [] //ini tiap buttonnya masuk
+    
+    @Published var startPage: String = "StartGame"
     
     @Published var page: String = "Explanation"
     @Published var round: Int = 1
