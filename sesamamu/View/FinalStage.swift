@@ -27,10 +27,19 @@ struct FinalStage: View {
                     
                     if self.page == "opening" {
                         FinalStage_0()
+                            .navigationBarBackButtonHidden(true)
+                            .navigationBarHidden(true)
+                            .navigationBarTitle("openingFinal")
                     }else if self.page == "guessingPage" {
                         FinalStage1()
+                            .navigationBarBackButtonHidden(true)
+                            .navigationBarHidden(true)
+                            .navigationBarTitle("guessingpage")
                     }else{
                         FinalStage_2()
+                            .navigationBarBackButtonHidden(true)
+                            .navigationBarHidden(true)
+                            .navigationBarTitle("bondingmeter")
                     }
                     
                     
@@ -63,19 +72,19 @@ struct FinalStage: View {
                         }
                         else if self.page == "guessingPage" {
                             Button(action: {
-//                                self.globalStore.bondingMeterScore = 0
+                                //                                self.globalStore.bondingMeterScore = 0
                                 if self.globalStore.inGamePlayer.count > 0 {
                                     let sortedAnswer = self.globalStore.inGamePlayer.sorted { $0.number < $1.number }
-                                                                   print("this is the sorted answer")
-                                                                   print(sortedAnswer)
-                                                                   
-                                                                   for i in 0..<sortedAnswer.count-1 {
-                                                                       if sortedAnswer[i].name == sortedAnswer[i+1].correctAnswer && sortedAnswer[i].correctAnswer == sortedAnswer[i+1].name && sortedAnswer[i].number == sortedAnswer[i+1].number {
-                                                                           self.correctAnswer += 1
-                                                                       }
-                                                                   }
+                                    print("this is the sorted answer")
+                                    print(sortedAnswer)
+                                    
+                                    for i in 0..<sortedAnswer.count-1 {
+                                        if sortedAnswer[i].name == sortedAnswer[i+1].correctAnswer && sortedAnswer[i].correctAnswer == sortedAnswer[i+1].name && sortedAnswer[i].number == sortedAnswer[i+1].number {
+                                            self.correctAnswer += 1
+                                        }
+                                    }
                                 }
-                               
+                                
                                 
                                 self.globalStore.bondingMeterScore = Int(Double(self.correctAnswer)/Double(self.globalStore.inGamePlayer.count/2) * 100)
                                 
@@ -89,7 +98,7 @@ struct FinalStage: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 250, alignment: .center)
-
+                                
                             }.offset(y:-(UIScreen.main.bounds.size.height*0.1))
                         }
                         
@@ -111,11 +120,11 @@ struct FinalStage: View {
                     }
                     
                 }
-            } .navigationBarHidden(true)
-                           .navigationBarTitle("")
-                           .navigationBarBackButtonHidden(true)
-                           .edgesIgnoringSafeArea(.all)
-        }
+            }
+        }.navigationBarHidden(true)
+            .navigationBarTitle("")
+            .navigationBarBackButtonHidden(true)
+            .edgesIgnoringSafeArea(.all)
     }
     
     struct FinalStage_Previews: PreviewProvider {

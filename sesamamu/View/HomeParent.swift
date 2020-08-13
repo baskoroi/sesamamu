@@ -20,23 +20,35 @@ struct HomeParent: View {
             GeometryReader { geometry in
                 if self.globalStore.startPage == "StartGame" {
                     MulaiMain()
+                  
+                    
+                 
                 }
                 else if self.globalStore.startPage == "SelectAvatar" {
                     SelectAvatar(host: self.globalStore.hostStart)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarHidden(true)
+                    .navigationBarTitle("back")
+                   
                 }
                 else if self.globalStore.startPage == "WaitingRoom" {
                     WaitingRoom()
+                    .navigationBarBackButtonHidden(true)
+                        .navigationBarHidden(true)
+                    .navigationBarTitle("waiting room")
                 }
                 else if self.globalStore.startPage == "Question" {
                     QuestionParent()
+                   .navigationBarBackButtonHidden(true)
+                                           .navigationBarHidden(true)
+                                       .navigationBarTitle("question")
                 }
             }
+                
             .edgesIgnoringSafeArea(.all)
             .onTapGesture {self.hideKeyboard()}
         }
-//        .navigationBarHidden(true)
-//        .navigationBarTitle("")
-//        .navigationBarBackButtonHidden(true)
+      
     }
 }
 

@@ -68,7 +68,7 @@ struct RoomPlayer: View {
                         }
                         .frame(width: UIScreen.main.bounds.size.width * 0.7, height: UIScreen.main.bounds.size.height * 0.1)
                             
-                        .padding(.init(top: -100, leading: 8, bottom: 8, trailing: 8))
+                        .padding(.init(top: 0, leading: 8, bottom: 8, trailing: 8))
                         
                         
                         ScrollView{
@@ -79,7 +79,7 @@ struct RoomPlayer: View {
                                     }
                                 }
                                 
-                            }.frame(width:UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.65,alignment: .top)
+                            }.frame(width:UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.45,alignment: .top)
                         }
                         .onAppear {
 

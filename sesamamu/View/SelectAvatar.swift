@@ -111,24 +111,24 @@ struct SelectAvatar: View {
                         .padding(.top, 20)
                     
                     TextField("Nama Panggung", text: self.$namaPanggung, onEditingChanged: { isTyping in
-//                        if !self.host { return }
-//
-//                        if self.namaPanggung.isEmpty { return }
+                        //                        if !self.host { return }
+                        //
+                        //                        if self.namaPanggung.isEmpty { return }
                         
                         if !isTyping {
                             self.campService.checkStageNameAvailability(
                                 stageName: self.namaPanggung,
                                 campCode: self.campCodeToEnter) { (isAvailable, error) in
-                                if let err = error {
-                                    self.roomStatus = "Nama panggung nya udah keambil, cari yang laen..."
-                                    self.disableJoin = true
-                                    return
-                                }
+                                    if let err = error {
+                                        self.roomStatus = "Nama panggung nya udah keambil, cari yang laen..."
+                                        self.disableJoin = true
+                                        return
+                                    }
                                     
-                                self.disableJoin = !isAvailable
-                                if isAvailable {
-                                    self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
-                                }
+                                    self.disableJoin = !isAvailable
+                                    if isAvailable {
+                                        self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
+                                    }
                             }
                         }
                     })
@@ -213,7 +213,7 @@ struct SelectAvatar: View {
                                 
                                 self.campCodeToEnter = camp.campCode
                                 print("new generated camp code \(self.campCodeToEnter)")
-                                
+                                print("testttttt + \(player)")
                                 // MARK: - store avatar yg kepilih ke database, store jumlah pemain, store nama panggung dan nama asli
                                 self.playerService.createPlayer(viewModel: player) { (fetchedPlayer) in
                                     
@@ -223,8 +223,8 @@ struct SelectAvatar: View {
                                         self.showAlert = true
                                         return
                                     }
-                                    
-                                    self.currentPlayer = fetchedPlayer
+                                    print("from servuce -< fetched players \(fetchedPlayer)")
+                                    self.globalStore.currentPlayer = PlayersAvailable(avatarURL: fetchedPlayer.avatarURL!, isHost: fetchedPlayer.isHost, realName: fetchedPlayer.realName!, stageName: fetchedPlayer.stageName!)
                                     self.globalStore.roomName = self.campCodeToEnter
                                     self.globalStore.startPage = "WaitingRoom"
                                 }
@@ -246,7 +246,7 @@ struct SelectAvatar: View {
                 } else {
                     Button(action: {
                         if !self.namaPanggung.isEmpty && !self.namaAsli.isEmpty {
-
+                            
                             let playerData = PlayerViewModel(
                                 stageName: self.namaPanggung,
                                 realName: self.namaAsli,
@@ -254,10 +254,10 @@ struct SelectAvatar: View {
                                 isHost: false,
                                 campID: self.campCodeToEnter)
                             self.currentPlayer = playerData
-
+                            
                             // MARK: join camp here (alr includes player creation)
                             print("masuk nih saya\(self.currentPlayer.realName)")
-                            
+                            print("testttttt")
                             self.campService.joinCamp(withCode: self.campCodeToEnter, playerCount: self.playersJoining, playerViewModel: playerData) { (canJoin, campCode, error) in
                                 if error != nil || !canJoin {
                                     self.alertTitle = "Gagal masuk camp"
@@ -294,31 +294,31 @@ struct SelectAvatar: View {
                         .disabled(self.disableJoin)
                         .onAppear {
                             self.campCodeToEnter = self.globalStore.roomName
-//                            print("Select Avatar View appear with campId: \(self.campCodeToEnter)")
-//                            self.campService.countPlayersInCamp(campCode: self.campCodeToEnter) { (numPlayers, maxPlayers) in
-//
-//                                guard let numP = numPlayers, let maxP = maxPlayers else {
-//                                    return
-//                                }
-//                                self.playersJoining = numP
-//
-//                                // only checked if room is not joined yet
-//                                if numP > maxP {
-//                                    self.alertTitle = "Camp nya full!"
-//                                    self.alertMessage = "Coba pencet Back dan panggil temenmu yang ngadain camp nya..."
-//                                    self.roomStatus = "Camp penuh. Boleh tunggu atau ke camp berikutnya..."
-//                                    self.disableJoin = true
-//                                    self.showAlert = true
-//                                    return
-//                                } else if numP == maxP {
-//                                    self.roomStatus = "Camp sudah penuh, mencapai jumlah maksimum player..."
-//                                    self.disableJoin = true
-//                                    return
-//                                }
-//
-//                                self.disableJoin = false
-//                                self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
-//                            }
+                            //                            print("Select Avatar View appear with campId: \(self.campCodeToEnter)")
+                            //                            self.campService.countPlayersInCamp(campCode: self.campCodeToEnter) { (numPlayers, maxPlayers) in
+                            //
+                            //                                guard let numP = numPlayers, let maxP = maxPlayers else {
+                            //                                    return
+                            //                                }
+                            //                                self.playersJoining = numP
+                            //
+                            //                                // only checked if room is not joined yet
+                            //                                if numP > maxP {
+                            //                                    self.alertTitle = "Camp nya full!"
+                            //                                    self.alertMessage = "Coba pencet Back dan panggil temenmu yang ngadain camp nya..."
+                            //                                    self.roomStatus = "Camp penuh. Boleh tunggu atau ke camp berikutnya..."
+                            //                                    self.disableJoin = true
+                            //                                    self.showAlert = true
+                            //                                    return
+                            //                                } else if numP == maxP {
+                            //                                    self.roomStatus = "Camp sudah penuh, mencapai jumlah maksimum player..."
+                            //                                    self.disableJoin = true
+                            //                                    return
+                            //                                }
+                            //
+                            //                                self.disableJoin = false
+                            //                                self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
+                            //                            }
                     }
                 }
                 Text(roomStatus)
@@ -326,7 +326,9 @@ struct SelectAvatar: View {
                     .font(.system(size: 12))
                     .padding(.bottom, 0)
             }
-        }
+        }  .navigationBarBackButtonHidden(false)
+            .navigationBarHidden(false)
+            .navigationBarTitle("")
     }
 }
 

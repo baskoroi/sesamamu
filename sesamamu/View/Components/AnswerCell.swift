@@ -50,7 +50,7 @@ struct AnswerCell: View {
                 VStack(alignment: .leading) {
                     Text(viewModel.stageName!).font(nicknameFont).bold()
                         .foregroundColor(.white)
-                    Text(viewModel.answerText!)
+                    Text("\(viewModel.answerText!)")
                         .font(messageFont)
                         .padding(.all, 12)
                         .background(viewModel.backgroundColor)

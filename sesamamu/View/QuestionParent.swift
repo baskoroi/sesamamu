@@ -13,33 +13,48 @@ struct QuestionParent: View {
     
     @EnvironmentObject var globalStore: GlobalStore
     var isHost = true
-
-//    @State var page = String()
+    
+    //    @State var page = String()
     var body: some View {
         NavigationView{
             GeometryReader { geometry in
                 if self.globalStore.page == "Explanation" {
                     ExplanationView()
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarHidden(true)
+                        .navigationBarTitle("explanation")
                 }
                 else if self.globalStore.page == "Question" {
                     QuestionView()
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarHidden(true)
+                        .navigationBarTitle("questionview")
                 }
                 else if self.globalStore.page == "AllAnswer" {
                     AllAnswersView(isHost: self.isHost)
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarHidden(true)
+                        .navigationBarTitle("allanswer")
                 }
                 else if self.globalStore.page == "QuestionFinal" {
                     QuestionFinalView()
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarHidden(true)
+                        .navigationBarTitle("questionFinal")
                 }
                 else if self.globalStore.page == "QuestionFinalVote" {
                     QuestionFinalVoteView()
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarHidden(true)
+                        .navigationBarTitle("QuestionFinalVote")
                 }
             }
             .edgesIgnoringSafeArea(.all)
             .onTapGesture {self.hideKeyboard()}
         }
-//        .navigationBarHidden(true)
-//        .navigationBarTitle("")
-//        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden(true)
+                                                  .navigationBarHidden(true)
+                                              .navigationBarTitle("QuestionParent")
     }
 }
 

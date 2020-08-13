@@ -28,6 +28,7 @@ class GlobalStore: ObservableObject {
     @Published var roomName:String = "635137"
     //@Published var playerName:String = "Markus"
     @Published var isStarted:Bool = false
+    
     @Published var finalQuestions: [QuestionViewModel] = [QuestionViewModel(round: 0, index: 0, text: "")]
     @Published var currentPlayer: PlayersAvailable = PlayersAvailable(avatarURL: "", isHost: false, realName: "", stageName: "")
     var isHost: Bool { self.currentPlayer.isHost }

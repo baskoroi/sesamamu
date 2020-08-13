@@ -32,28 +32,28 @@ struct Question_Previews: PreviewProvider {
 struct QuestionView: View {
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
-//    @State private var ronde = GlobalStore().round
-//    @State private var subRonde = GlobalStore().questionNumber
+    //    @State private var ronde = GlobalStore().round
+    //    @State private var subRonde = GlobalStore().questionNumber
     @State private var isHost = true
     var generateNewRound: Bool {
         self.globalStore.generateNewRound
     }
-
+    
     //DB
     @ObservedObject var questionServices = QuestionServices()
     @ObservedObject var answerService = AnswerService()
     
     //User Input
     @State var userInput:String = ""
-//    @ObservedObject var textCount = TextCount()
+    //    @ObservedObject var textCount = TextCount()
     
     //Alert
     @State var textFieldEmpty = false
     
     //NavigationLink
     @State private var readyToMove = false
-
-
+    
+    
     var body: some View {
         ZStack{
             Image("backgroundRonde1")
@@ -64,7 +64,7 @@ struct QuestionView: View {
                 Text("Ronde \(globalStore.round)")
                     .font(Font.custom("Montserrat-Bold", size: 17))
                     .foregroundColor(.white)
-                    .padding(.top, 10)
+                    .padding(.top, UIScreen.main.bounds.height * 0.1)
                 Text("Pertanyaan \(globalStore.questionNumber)/3")
                     .font(Font.custom("Montserrat-Bold", size: 20))
                     .foregroundColor(.white)
@@ -107,7 +107,7 @@ struct QuestionView: View {
                     }
                 }.keyboardAdaptive()
                     .animation(.spring(response: 0.7, dampingFraction: 0.5, blendDuration: 1))
-
+                
                 Button(action: {
                     print("Kirim tapped")
                     //MARK: - Save answer to DB for chat room
@@ -127,7 +127,7 @@ struct QuestionView: View {
                                 isMyOwn: false,
                                 avatarURL: currentPlayer.avatarURL,
                                 timestamp: Date().timeIntervalSince1970))
-                        print("Final text: \(answerText)")
+                        print("Final text: \(answerText), \(currentPlayer)")
                         self.readyToMove = true
                         self.globalStore.page = "AllAnswer"
                     } else {
@@ -142,17 +142,17 @@ struct QuestionView: View {
                         .padding(.top, 15)
                 }.alert(isPresented: self.$textFieldEmpty) {
                     Alert(title: Text("Masih kosong nih"), message: Text("Hati aja perlu di isi, isiannya jangan lupa diisi juga ya kak"), dismissButton: .default(Text("Tjakep!")))}
-//                NavigationLink(destination: AllAnswersView(isHost: self.isHost).environmentObject(self.globalStore),
-//                               isActive: $readyToMove) {
-//                    EmptyView()
-//                }
+                //                NavigationLink(destination: AllAnswersView(isHost: self.isHost).environmentObject(self.globalStore),
+                //                               isActive: $readyToMove) {
+                //                    EmptyView()
+                //                }
             }.frame(height: UIScreen.main.bounds.height*0.9)
-//                .offset(y: -UIScreen.main.bounds.height*0.05)
+                //                .offset(y: -UIScreen.main.bounds.height*0.05)
                 .onAppear {
                     print("sekarang ronde \(self.globalStore.round) and subRonde \(self.globalStore.questionNumber)")
-//                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: "987654"/self.globalStore.roomName/)
+                    //                    self.questionServices.fetchQuestion(forRound: self.ronde, campId: "987654"/self.globalStore.roomName/)
                     self.questionServices.fetchQuestionFromCurrentQuestionWithSpecificCampId(id: self.globalStore.roomName, for: self.globalStore.round, no: self.globalStore.questionNumber)
-//                    self.questionServices.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.isHost, generateNewRound: self.globalStore.generateNewRound)
+                    //                    self.questionServices.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.isHost, generateNewRound: self.globalStore.generateNewRound)
             }
         }
     }
@@ -165,7 +165,7 @@ extension Publishers {
         
         let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
             .map { _ in CGFloat(0) }
-    
+        
         return MergeMany(willShow, willHide)
             .eraseToAnyPublisher()
     }
@@ -179,7 +179,7 @@ extension Notification {
 
 struct KeyboardAdaptive: ViewModifier {
     @State private var keyboardHeight: CGFloat = 0
-
+    
     func body(content: Content) -> some View {
         content
             .offset(y: -self.keyboardHeight*0.75)

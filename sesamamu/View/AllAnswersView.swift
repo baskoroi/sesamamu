@@ -30,7 +30,11 @@ struct AllAnswersView: View {
         VStack {
             // MARK: Question in quotes
             QuotedQuestionView()
-                .padding(.top, 60)
+                .padding(.top, UIScreen.main.bounds.height * 0.1)
+                .padding(.trailing, UIScreen.main.bounds.width * 0.1)
+                .padding(.leading, UIScreen.main.bounds.width * 0.1)
+                
+                
             
             // MARK: List of answers (chat-like UI)
             ScrollView {
@@ -57,11 +61,11 @@ struct AllAnswersView: View {
                     // TODO work on this part to navigate to next question
                     if self.subRonde == 3 {
                         if self.ronde == 2 && self.subRonde == 3 {
-                            self.goToFinal = true
-//                            self.toNextRound = true
-//                            self.isEndOfGame = true
-//                            self.globalStore.page = "QuestionFinal"
-//                            print("INIH NIHHHHHHHH")
+//                            self.goToFinal = true
+                            self.toNextRound = true
+                            self.isEndOfGame = true
+                            self.globalStore.page = "QuestionFinal"
+                            print("INIH NIHHHHHHHH")
 //                            self.destinationView = FinalStage().environmentObject(self.globalStore)
                         } else if self.ronde == 3 && self.subRonde == 3 {
                             self.goToFinal = true

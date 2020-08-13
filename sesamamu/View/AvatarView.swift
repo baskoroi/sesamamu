@@ -220,7 +220,7 @@ struct AvatarView: View {
                     }
                     
                     NavigationLink(
-                        destination: RoomPlayerParent(isHost: self.host,
+                        destination: RoomPlayer(isHost: self.host,
                                                 roomName: self.campCodeToEnter,
                                                 currentPlayer: self.currentPlayer)
                             .environmentObject(self.globalStore),
@@ -268,6 +268,7 @@ struct AvatarView: View {
                                     
                                     self.currentPlayer = fetchedPlayer
                                     self.isRoomCreated = true
+                                    print("from current player \(self.currentPlayer)")
                                 }
                             }
                             
@@ -286,7 +287,7 @@ struct AvatarView: View {
                 } else {
                     
                     NavigationLink(
-                        destination: RoomPlayerParent(isHost: self.host,
+                        destination: RoomPlayer(isHost: self.host,
                                                 roomName: self.campCodeToEnter,
                                                 currentPlayer: self.currentPlayer)
                             .environmentObject(self.globalStore),
@@ -364,6 +365,9 @@ struct AvatarView: View {
                             self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
                         }
                     }
+                    .navigationBarBackButtonHidden(false)
+                        .navigationBarHidden(false)
+                    .navigationBarTitle("")
                 }
                 Text(roomStatus)
                     .foregroundColor(.white)

@@ -32,6 +32,7 @@ class PlayerService: ObservableObject{
             "avatarURL": avatarURL,
             "isHost": isHost
         ])
+        print("from create player -> \(viewModel)")
         completion(viewModel)
     }
     

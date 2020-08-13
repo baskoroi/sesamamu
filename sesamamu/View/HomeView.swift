@@ -117,6 +117,7 @@ struct HomeView: View {
                                     }
                                 }.navigationBarBackButtonHidden(false)
                                     .navigationBarHidden(false)
+                                .navigationBarTitle("")
                                 
                             }.offset(y: self.isRoomIDFieldActive ? -200:0)
                             
@@ -146,7 +147,9 @@ struct HomeView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 250, alignment: .center)
                                     .padding(.bottom, UIScreen.main.bounds.height - (UIScreen.main.bounds.height-175))
-                            }
+                            }.navigationBarBackButtonHidden(false)
+                                .navigationBarHidden(true)
+                            .navigationBarTitle("kembali")
                         }
                     }.KeyboardAwarePadding()
                         .animation(.spring())
