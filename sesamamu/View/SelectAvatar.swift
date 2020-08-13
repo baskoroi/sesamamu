@@ -294,31 +294,31 @@ struct SelectAvatar: View {
                         .disabled(self.disableJoin)
                         .onAppear {
                             self.campCodeToEnter = self.globalStore.roomName
-                            //                            print("Select Avatar View appear with campId: \(self.campCodeToEnter)")
-                            //                            self.campService.countPlayersInCamp(campCode: self.campCodeToEnter) { (numPlayers, maxPlayers) in
-                            //
-                            //                                guard let numP = numPlayers, let maxP = maxPlayers else {
-                            //                                    return
-                            //                                }
-                            //                                self.playersJoining = numP
-                            //
-                            //                                // only checked if room is not joined yet
-                            //                                if numP > maxP {
-                            //                                    self.alertTitle = "Camp nya full!"
-                            //                                    self.alertMessage = "Coba pencet Back dan panggil temenmu yang ngadain camp nya..."
-                            //                                    self.roomStatus = "Camp penuh. Boleh tunggu atau ke camp berikutnya..."
-                            //                                    self.disableJoin = true
-                            //                                    self.showAlert = true
-                            //                                    return
-                            //                                } else if numP == maxP {
-                            //                                    self.roomStatus = "Camp sudah penuh, mencapai jumlah maksimum player..."
-                            //                                    self.disableJoin = true
-                            //                                    return
-                            //                                }
-                            //
-                            //                                self.disableJoin = false
-                            //                                self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
-                            //                            }
+                            print("Select Avatar View appear with campId: \(self.campCodeToEnter)")
+                            self.campService.countPlayersInCamp(campCode: self.campCodeToEnter) { (numPlayers, maxPlayers) in
+                                
+                                guard let numP = numPlayers, let maxP = maxPlayers else {
+                                    return
+                                }
+                                self.playersJoining = numP
+                                
+                                // only checked if room is not joined yet
+                                if numP > maxP {
+                                    self.alertTitle = "Camp nya full!"
+                                    self.alertMessage = "Coba pencet Back dan panggil temenmu yang ngadain camp nya..."
+                                    self.roomStatus = "Camp penuh. Boleh tunggu atau ke camp berikutnya..."
+                                    self.disableJoin = true
+                                    self.showAlert = true
+                                    return
+                                } else if numP == maxP {
+                                    self.roomStatus = "Camp sudah penuh, mencapai jumlah maksimum player..."
+                                    self.disableJoin = true
+                                    return
+                                }
+                                
+                                self.disableJoin = false
+                                self.roomStatus = "Okey, isi semuanya diatas abis itu join! :)"
+                            }
                     }
                 }
                 Text(roomStatus)
