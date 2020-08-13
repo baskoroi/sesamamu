@@ -55,6 +55,8 @@ struct FinalStage_2: View {
                             .font(.custom("Montserrat-bold", size: 35))
                             .shadow(color: Color(red: 0.91, green: 0.42, blue: 0.21, opacity: 1.00), radius: 0, x: 2, y: 2)
                             .foregroundColor(Color(red: 1.00, green: 0.87, blue: 0.35, opacity: 1.00))
+                    }.onAppear {
+                        playSound(sound: "clapping.mp3")
                     }
                     if self.globalStore.bondingMeterScore < 40 {
                         Text("Just Friend~")

@@ -163,6 +163,7 @@ struct HomeView: View {
                 self.hideKeyboard()
             }.onAppear {
                 print("MUNCUL LAGI")
+                
             }
             
         }

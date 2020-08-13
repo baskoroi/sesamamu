@@ -122,6 +122,9 @@ struct MulaiMain: View {
                         .padding(.top, 15)
                 }
             }.frame(height: UIScreen.main.bounds.height*0.9)
+        }.onAppear{
+            playSound(sound: "sesamamuBGM2.mp3")
+            audioPlayer.numberOfLoops = -1
         }
     }
     

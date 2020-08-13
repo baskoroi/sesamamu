@@ -46,7 +46,9 @@ struct HomeParent: View {
             }
                 
             .edgesIgnoringSafeArea(.all)
-            .onTapGesture {self.hideKeyboard()}
+            .onTapGesture {self.hideKeyboard()
+//                playSound(sound: "sesamamuBGM2", type: "mp3")
+            }
         }
       
     }

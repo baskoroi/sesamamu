@@ -25,6 +25,9 @@
 		28C7D64424E102A000615703 /* QuestionParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C7D64324E102A000615703 /* QuestionParent.swift */; };
 		28D9358C24E2767900EAF92E /* HomeParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9358B24E2767900EAF92E /* HomeParent.swift */; };
 		28D9358E24E2777F00EAF92E /* SelectAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9358D24E2777F00EAF92E /* SelectAvatar.swift */; };
+		530ACCC824E4ED9D00B16E4A /* bondingmetersound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 530ACCC724E4ED9D00B16E4A /* bondingmetersound.mp3 */; };
+		530ACCCA24E4EDAF00B16E4A /* sesamamuBGM2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 530ACCC924E4EDAF00B16E4A /* sesamamuBGM2.mp3 */; };
+		530ACCCC24E4F20300B16E4A /* clapping.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 530ACCCB24E4F20300B16E4A /* clapping.mp3 */; };
 		5384FF8D24CE745400091F70 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8C24CE745400091F70 /* HomeView.swift */; };
 		5384FF8F24CE747400091F70 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF8E24CE747400091F70 /* AvatarView.swift */; };
 		5384FF9124CE751200091F70 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5384FF9024CE751200091F70 /* CustomTextField.swift */; };
@@ -33,6 +36,7 @@
 		53A2B7E024D82CB90045997E /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2B7DF24D82CB90045997E /* PlayerService.swift */; };
 		53A2B7E224D82D890045997E /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2B7E124D82D890045997E /* PlayerViewModel.swift */; };
 		53A2B7E424D833830045997E /* CampViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2B7E324D833830045997E /* CampViewModel.swift */; };
+		53CC9C2F24E4DCE200E7BEF5 /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC9C2E24E4DCE200E7BEF5 /* AudioService.swift */; };
 		668F28DF90831DBD9CF8574E /* Pods_sesamamu_sesamamuUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21C9C27FBDBD1CA1B7974565 /* Pods_sesamamu_sesamamuUITests.framework */; };
 		ADB5A94A24D9649E008AE6C7 /* InRoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB5A94924D9649E008AE6C7 /* InRoomService.swift */; };
 		ADB5A94C24DA631A008AE6C7 /* PlayerScoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB5A94B24DA631A008AE6C7 /* PlayerScoreService.swift */; };
@@ -117,6 +121,9 @@
 		28D9358B24E2767900EAF92E /* HomeParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeParent.swift; sourceTree = "<group>"; };
 		28D9358D24E2777F00EAF92E /* SelectAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAvatar.swift; sourceTree = "<group>"; };
 		3C1724AFE7648578BB742177 /* Pods-sesamamu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu.debug.xcconfig"; path = "Target Support Files/Pods-sesamamu/Pods-sesamamu.debug.xcconfig"; sourceTree = "<group>"; };
+		530ACCC724E4ED9D00B16E4A /* bondingmetersound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bondingmetersound.mp3; sourceTree = "<group>"; };
+		530ACCC924E4EDAF00B16E4A /* sesamamuBGM2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sesamamuBGM2.mp3; sourceTree = "<group>"; };
+		530ACCCB24E4F20300B16E4A /* clapping.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clapping.mp3; sourceTree = "<group>"; };
 		5384FF8C24CE745400091F70 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5384FF8E24CE747400091F70 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		5384FF9024CE751200091F70 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -125,6 +132,7 @@
 		53A2B7DF24D82CB90045997E /* PlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
 		53A2B7E124D82D890045997E /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		53A2B7E324D833830045997E /* CampViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampViewModel.swift; sourceTree = "<group>"; };
+		53CC9C2E24E4DCE200E7BEF5 /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
 		65A09DAD3BDCF890B63D5CD4 /* Pods_sesamamuTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sesamamuTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		810C76673C152635319DD5E7 /* Pods-sesamamu-sesamamuUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamu-sesamamuUITests.debug.xcconfig"; path = "Target Support Files/Pods-sesamamu-sesamamuUITests/Pods-sesamamu-sesamamuUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8C989A66027AE7B7E6741AC4 /* Pods-sesamamuTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sesamamuTests.debug.xcconfig"; path = "Target Support Files/Pods-sesamamuTests/Pods-sesamamuTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -228,10 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				CC81105024D12BCA00682336 /* Components */,
-				5384FF8C24CE745400091F70 /* HomeView.swift */,
-				5384FF8E24CE747400091F70 /* AvatarView.swift */,
-				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
-				ADFAC62524E1912100247C05 /* RoomPlayerParent.swift */,
+				530ACCC624E4E3DC00B16E4A /* Kata Markus Ga Guna */,
 				28D9358B24E2767900EAF92E /* HomeParent.swift */,
 				280CFC0F24E3912600D0B926 /* MulaiMain.swift */,
 				28D9358D24E2777F00EAF92E /* SelectAvatar.swift */,
@@ -260,6 +265,17 @@
 				5384FF9224CE754800091F70 /* KeyboardResponder.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		530ACCC624E4E3DC00B16E4A /* Kata Markus Ga Guna */ = {
+			isa = PBXGroup;
+			children = (
+				5384FF8C24CE745400091F70 /* HomeView.swift */,
+				5384FF8E24CE747400091F70 /* AvatarView.swift */,
+				ADC6347624CE850B00B1D624 /* RoomPlayer.swift */,
+				ADFAC62524E1912100247C05 /* RoomPlayerParent.swift */,
+			);
+			path = "Kata Markus Ga Guna";
 			sourceTree = "<group>";
 		};
 		A4A69836C0FD20C26CD6574D /* Frameworks */ = {
@@ -310,6 +326,7 @@
 				ADB5A94924D9649E008AE6C7 /* InRoomService.swift */,
 				ADFAC62324E186B000247C05 /* StartGameService.swift */,
 				ADB5A94B24DA631A008AE6C7 /* PlayerScoreService.swift */,
+				53CC9C2E24E4DCE200E7BEF5 /* AudioService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -370,6 +387,9 @@
 			children = (
 				CCA00F5924C6DD3C00FCD3C9 /* AppDelegate.swift */,
 				CCA00F5B24C6DD3C00FCD3C9 /* SceneDelegate.swift */,
+				530ACCC724E4ED9D00B16E4A /* bondingmetersound.mp3 */,
+				530ACCC924E4EDAF00B16E4A /* sesamamuBGM2.mp3 */,
+				530ACCCB24E4F20300B16E4A /* clapping.mp3 */,
 				CCA00F5D24C6DD3C00FCD3C9 /* ContentView.swift */,
 				CCA00F6424C6DD3D00FCD3C9 /* LaunchScreen.storyboard */,
 				CCA00F5F24C6DD3D00FCD3C9 /* Assets.xcassets */,
@@ -521,7 +541,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				530ACCC824E4ED9D00B16E4A /* bondingmetersound.mp3 in Resources */,
 				ADC6347124CE838900B1D624 /* Montserrat-SemiBoldItalic.ttf in Resources */,
+				530ACCCC24E4F20300B16E4A /* clapping.mp3 in Resources */,
+				530ACCCA24E4EDAF00B16E4A /* sesamamuBGM2.mp3 in Resources */,
 				ADC6346424CE838900B1D624 /* Montserrat-Regular.ttf in Resources */,
 				ADC6346F24CE838900B1D624 /* Montserrat-Black.ttf in Resources */,
 				ADC6346224CE838900B1D624 /* Montserrat-Light.ttf in Resources */,
@@ -675,6 +698,7 @@
 				ADB5A94A24D9649E008AE6C7 /* InRoomService.swift in Sources */,
 				ADC6347924CE851D00B1D624 /* FinalStage-1.swift in Sources */,
 				CCA00F5A24C6DD3C00FCD3C9 /* AppDelegate.swift in Sources */,
+				53CC9C2F24E4DCE200E7BEF5 /* AudioService.swift in Sources */,
 				28C7D63E24DCF82400615703 /* CountDownTimer.swift in Sources */,
 				28C4789C24CE89900026FE0E /* QuestionFinalVote.swift in Sources */,
 				28C7D63624DA6A8B00615703 /* MemberServices.swift in Sources */,
@@ -881,7 +905,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"sesamamu/Preview Content\"";
-				DEVELOPMENT_TEAM = 8F28SDPW6X;
+				DEVELOPMENT_TEAM = X8L86958MP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = sesamamu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -903,7 +927,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"sesamamu/Preview Content\"";
-				DEVELOPMENT_TEAM = 8F28SDPW6X;
+				DEVELOPMENT_TEAM = X8L86958MP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = sesamamu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
