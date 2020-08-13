@@ -266,6 +266,7 @@ struct SelectAvatar: View {
                                     return
                                 }
                                 if canJoin {
+                                    self.globalStore.currentPlayer = PlayersAvailable(avatarURL: playerData.avatarURL!, isHost: playerData.isHost, realName: playerData.realName!, stageName: playerData.stageName!)
                                     self.disableJoin = false
                                     self.globalStore.hostStart = false
                                     self.globalStore.startPage = "WaitingRoom"

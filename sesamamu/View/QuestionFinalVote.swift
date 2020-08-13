@@ -108,9 +108,9 @@ struct QuestionFinalVoteView: View {
                     
                     self.submitAllVotedQuestion()
 //                    Func ini lebih baik cuma dipanggil sekali jadi kefilter cuma sekali, better host nya aja yang punya func ini tapi baru ke trigger kalau semua udah ngevote. Fungsi ngecek semua udah jawab atau belum, belum ada nih
-                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.globalStore.roomName, isHost: self.isHost, generateNewRound: self.generateNewRound)
+                    self.questionServices.findTopThreeQuestion(forRound: 3, campId: self.globalStore.roomName, isHost: self.globalStore.isHost, generateNewRound: self.generateNewRound)
                     self.readyToMove = true
-                    //                    self.globalStore.page = "Explanation"
+                    
                     if self.globalStore.round == 2 && self.globalStore.questionNumber == 3 {
                         self.globalStore.round = self.globalStore.round + 1
                         self.globalStore.questionNumber = 1

@@ -82,12 +82,13 @@ struct FinalStage_2: View {
                     
                     
                 }
-                //                .offset(y:+(UIScreen.main.bounds.size.height*0.2))
+                .offset(y:+(UIScreen.main.bounds.size.height*0.2))
                 
                 Spacer()
                 
                 VStack{
                     Button(action: {
+                        self.globalStore.startPage = "StartGame"
                         //                        print(self.globalStore.correctPairs)
                     }) {
                         
@@ -98,7 +99,10 @@ struct FinalStage_2: View {
                             .frame(width: 310, alignment: .center)
                     }
                     
-                    NavigationLink(destination: HomeView()){
+                    Button(action: {
+                        self.globalStore.page = "Question"
+                        //                        print(self.globalStore.correctPairs)
+                    }) {
                         
                         Image("ulangi-button")
                             .renderingMode(.original)
@@ -108,7 +112,9 @@ struct FinalStage_2: View {
                     }
                     
                     HStack{
-                        NavigationLink(destination: HomeView()){
+                        Button(action: {
+                            
+                        }) {
                             
                             Image("bagikanButton")
                                 .renderingMode(.original)
@@ -116,7 +122,9 @@ struct FinalStage_2: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 150, alignment: .center)
                         }
-                        NavigationLink(destination: HomeView()){
+                        Button(action: {
+                            //                        print(self.globalStore.correctPairs)
+                        }) {
                             
                             Image("rating-button")
                                 .renderingMode(.original)
@@ -140,7 +148,7 @@ struct FinalStage_2: View {
                     self.playerIndex += 1
                     self.globalStore.bondingMeterScore = self.totalScore/self.playerIndex
                 }
-               
+                
             }
         }
     }

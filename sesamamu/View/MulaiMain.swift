@@ -17,7 +17,7 @@ struct MulaiMain: View {
     
     //Global Store
     @EnvironmentObject var globalStore: GlobalStore
-    @State var roomId = "423250"
+    @State var roomId = ""
     
     //DB
     @ObservedObject var campService = CampService()

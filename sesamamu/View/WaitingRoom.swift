@@ -61,7 +61,7 @@ struct WaitingRoom: View {
                     
                 }
                 .frame(width: UIScreen.main.bounds.size.width * 0.7, height: UIScreen.main.bounds.size.height * 0.1)
-                .padding(.init(top: -100, leading: 8, bottom: 8, trailing: 8))
+                .padding(.init(top: 0, leading: 8, bottom: 8, trailing: 8))
                 
                 ScrollView{
                     ForEach(0..<self.playerColumn){ i in
@@ -85,10 +85,7 @@ struct WaitingRoom: View {
                             realName: realName,
                             stageName: stageName)
                     }
-
-//                    self.globalStore.roomName = self.roomName
                     print("ini roomId nya \(self.globalStore.roomName)")
-                    print(self.globalStore.currentPlayer)
                     
                     self.inRoomService.observeInRoomPlayers(campID: self.globalStore.roomName) {
                         roomValue in
@@ -125,7 +122,6 @@ struct WaitingRoom: View {
                         NavigationLink(destination: QuestionParent(), isActive: self.$globalStore.isStarted) {
                             EmptyView()
                         }
-//                        NavigationLink(destination: QuestionParent())
                     } else {
                         Text("Menunggu Tuan Rumah Untuk Memulai Permainan...")
                             .italic()
