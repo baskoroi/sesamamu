@@ -136,7 +136,7 @@ class QuestionServices: ObservableObject, Identifiable {
             let questionArrayChildren = snapshot.children.allObjects as! [DataSnapshot]
             for number in 0...questionNumber-1{
                 if let questionDict = questionArrayChildren[number].value as? [String: Any] {
-                    print(questionDict)
+                    print("here is the question -> \(questionDict) ")
                     self.questionForRound = QuestionViewModel(round: forRound, text: questionDict["text"] as? String ?? "")
                 }
             }
