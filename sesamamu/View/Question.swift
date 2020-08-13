@@ -110,6 +110,8 @@ struct QuestionView: View {
 
                 Button(action: {
                     print("Kirim tapped")
+                    print("User Status = \(self.globalStore.currentPlayer)")
+                    print("User Status = \(self.globalStore.isHost)")
                     //MARK: - Save answer to DB for chat room
                     let answerText = self.userInput
                     if !self.userInput.isEmpty {
@@ -123,7 +125,7 @@ struct QuestionView: View {
                             at: self.globalStore.roomName,
                             from: AnswerViewModel(
                                 stageName: currentPlayer.stageName,
-                                answerText: answerText,
+                                answerText: self.userInput,
                                 isMyOwn: false,
                                 avatarURL: currentPlayer.avatarURL,
                                 timestamp: Date().timeIntervalSince1970))

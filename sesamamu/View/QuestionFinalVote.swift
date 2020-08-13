@@ -38,9 +38,7 @@ struct QuestionFinalVoteView: View {
     
     //DB
     @State var ronde = 3
-    
-    @State var counter = 0
-    
+        
     var rondeIntro: String = "Pilih 3 pertanyaan yang paling menarik hati"
     
     //User Input
@@ -138,7 +136,6 @@ struct QuestionFinalVoteView: View {
                    guard let questionsFromFireBase = questionsFromFireBase else {return}
                    
                    DispatchQueue.main.async {
-                       
                        self.globalStore.finalQuestions = questionsFromFireBase
                        //                            print("here is the question -> \(questionsFromFireBase[0].text)")
                        print("change self.question = \(self.globalStore.finalQuestions)")

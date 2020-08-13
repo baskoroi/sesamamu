@@ -53,8 +53,8 @@ struct QuestionParent: View {
             .onTapGesture {self.hideKeyboard()}
         }
         .navigationBarBackButtonHidden(true)
-                                                  .navigationBarHidden(true)
-                                              .navigationBarTitle("QuestionParent")
+        .navigationBarHidden(true)
+        .navigationBarTitle("QuestionParent")
     }
 }
 

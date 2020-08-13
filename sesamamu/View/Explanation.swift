@@ -110,11 +110,9 @@ struct ExplanationView: View {
             self.ronde = self.globalStore.round
             self.subRonde = self.globalStore.questionNumber
             
-            print("sekarang ronde \(self.ronde) and subRonde \(self.subRonde)")
             
             self.counter = 0
             print(self.globalStore.isHost, self.globalStore.generateNewRound)
-            var isHost = true
             self.globalStore.generateNewRound = true
             
             //            if self.ronde < 3 {
@@ -127,14 +125,22 @@ struct ExplanationView: View {
             //                    self.globalStore.generateNewRound = false
             //                }
             //            }
-            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: isHost, generateNewRound: self.globalStore.generateNewRound)
+            //MARK: - CHANGE ISHOST FROM TRUE TO WHAT STORE IN GLOBAL STORE
+            print("Status user adalah \(self.globalStore.isHost)")
+            print("sekarang ronde \(self.ronde) and subRonde \(self.subRonde)")
+            if self.globalStore.isHost {
+                self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.globalStore.isHost, generateNewRound: self.globalStore.generateNewRound)
+            } else {
+                print("Skip")
+            }
+    
             
             //            self.questionService.fecthRandomQuestionAndSaveItToCampCurrentQuestion(campId: self.globalStore.roomName, forRound: self.globalStore.round, no: self.globalStore.questionNumber, isHost: self.globalStore.isHost, generateNewRound: self.globalStore.generateNewRound)
             
             print("Setelah ini ronde \(self.globalStore.round) and subRonde \(self.globalStore.questionNumber)")
         }
         .navigationBarBackButtonHidden(false)
-            .navigationBarHidden(false)
+        .navigationBarHidden(false)
         .navigationBarTitle("")
     }
 }

@@ -111,9 +111,9 @@ struct SelectAvatar: View {
                         .padding(.top, 20)
                     
                     TextField("Nama Panggung", text: self.$namaPanggung, onEditingChanged: { isTyping in
-                        //                        if !self.host { return }
+                        // if !self.host { return }
                         //
-                        //                        if self.namaPanggung.isEmpty { return }
+                        // if self.namaPanggung.isEmpty { return }
                         
                         if !isTyping {
                             self.campService.checkStageNameAvailability(
@@ -213,7 +213,6 @@ struct SelectAvatar: View {
                                 
                                 self.campCodeToEnter = camp.campCode
                                 print("new generated camp code \(self.campCodeToEnter)")
-                                print("testttttt + \(player)")
                                 // MARK: - store avatar yg kepilih ke database, store jumlah pemain, store nama panggung dan nama asli
                                 self.playerService.createPlayer(viewModel: player) { (fetchedPlayer) in
                                     
@@ -223,7 +222,11 @@ struct SelectAvatar: View {
                                         self.showAlert = true
                                         return
                                     }
-                                    print("from servuce -< fetched players \(fetchedPlayer)")
+                                    
+                                    //MARK: - BENERIN INI
+                                    self.currentPlayer = fetchedPlayer
+                                    //
+                                    
                                     self.globalStore.currentPlayer = PlayersAvailable(avatarURL: fetchedPlayer.avatarURL!, isHost: fetchedPlayer.isHost, realName: fetchedPlayer.realName!, stageName: fetchedPlayer.stageName!)
                                     self.globalStore.roomName = self.campCodeToEnter
                                     self.globalStore.startPage = "WaitingRoom"
@@ -253,11 +256,10 @@ struct SelectAvatar: View {
                                 avatarURL: "binatang-\(self.counter)",
                                 isHost: false,
                                 campID: self.campCodeToEnter)
-                            self.currentPlayer = playerData
                             
                             // MARK: join camp here (alr includes player creation)
                             print("masuk nih saya\(self.currentPlayer.realName)")
-                            print("testttttt")
+                            
                             self.campService.joinCamp(withCode: self.campCodeToEnter, playerCount: self.playersJoining, playerViewModel: playerData) { (canJoin, campCode, error) in
                                 if error != nil || !canJoin {
                                     self.alertTitle = "Gagal masuk camp"
@@ -266,6 +268,9 @@ struct SelectAvatar: View {
                                     return
                                 }
                                 if canJoin {
+                                    //MARK: - Pindahin ini
+                                    self.currentPlayer = playerData
+                                    
                                     self.globalStore.currentPlayer = PlayersAvailable(avatarURL: playerData.avatarURL!, isHost: playerData.isHost, realName: playerData.realName!, stageName: playerData.stageName!)
                                     self.disableJoin = false
                                     self.globalStore.hostStart = false
@@ -327,9 +332,10 @@ struct SelectAvatar: View {
                     .font(.system(size: 12))
                     .padding(.bottom, 0)
             }
-        }  .navigationBarBackButtonHidden(false)
-            .navigationBarHidden(false)
-            .navigationBarTitle("")
+        }
+        .navigationBarBackButtonHidden(false)
+        .navigationBarHidden(false)
+        .navigationBarTitle("")
     }
 }
 
